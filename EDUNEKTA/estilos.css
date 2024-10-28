@@ -1,71 +1,71 @@
-body{
-    background-image: linear-gradient(#36A1CB, white
-    );
+body {
+    background-image: linear-gradient(#36A1CB, white);
 }
 
-a{
+a {
     text-decoration: none;
 }
 
-.b{
+.b {
     font-size: 18px;
 }
 
 /*BARRA PRICIPAL:D.i. */
 
-.caja1{
+.caja1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
-    
-    }
+
+
+}
 
 .caja1 .links {
     display: flex;
     list-style: none;
 }
 
-.caja1 .links li{
+.caja1 .links li {
     display: inline-block;
     padding: 0 5px;
 }
 
-.caja1 .links li:hover{
+.caja1 .links li:hover {
     transform: scale(1.1);
 }
 
-button{
+button {
     width: 80px;
     height: 30px;
     background-color: lightskyblue;
     border-radius: 10px;
     border: 3px solid;
-    
+
 }
 
-button:hover{
+button:hover {
     transform: scale(1.1);
 }
 
 
 /*CUERPO DE PAGINA:D.i.*/
 
-.fraseinicial{
+.fraseinicial {
     text-align: center;
 
 }
 
-.p1{
-    display: flex;      
-    justify-content: space-between;
-}
-
-.p2{
+.p1 {
     display: flex;
     justify-content: space-between;
 }
-.margen{
+
+.p2 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.margen {
     margin: 40px;
 }
 
@@ -73,28 +73,28 @@ button:hover{
     margin: 40px;
 }
 
-.testimonios{
+.testimonios {
     margin-left: 40px;
 }
 
-.container{
+.container {
     display: flex;
     justify-content: space-between;
     margin: 10px;
 }
-.cajausuario{
+
+.cajausuario {
     border: 2px;
     border-radius: 8px;
     margin: 10px;
     box-shadow: 5px 5px 5px gray;
 }
 
-.imgtestimonios{
+.imgtestimonios {
     border-radius: 50px;
 }
 
-.info{
+.info {
     display: flex;
-    margin-left:0px;
+    margin-left: 0px;
 }
-
