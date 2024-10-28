@@ -1,57 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edunekta</title>
+    <title>Edunekta - Inicio</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 
-
 <body>
-    <header>
-        <div class="caja1">
-            <img src="imagenes/Logotipo.png" alt="Logo Edunekta" width="50px" ; height="50px">
-            <h1>Edunekta</h1>
-            <ul class="links">
-                <li><a href="inicio.html" class="b">Inicio</a></li>
-                <li><a href="acerca.html" class="b">Acerca</a></li>
-                <li><a href="contactenos.html" class="b">Contactanos</a></li>
-                <li><a href="FAQ.html" class="b">FAQ</a></li>
-            </ul>
-            <button><a href="login.html">LOGIN</a></button>
-        </div>
-    </header>
-    <h1>Login</h1>
-    <ul>
-        <button><a href="inicio.html"> Regresar</a></button>
-    </ul>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <footer>
-        <section class="contenedorfooter">
-            <h2>Edunekta</h2>
-            <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="15px" height="15px">
-            <img src="imagenes/iconoLinkedin.png" alt="Icono de Linkedin" width="15px" height="15px">
-            <img src="imagenes/iconoYoutube.png" alt="Icono de Youtube" width="15px" height="15px">
-            <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="15px" height="15px">
-    </footer>
-</body>
+    <main>
+        <div class="caja2">
+            <form action="" method="post" class="form-box">
+                <a href="./inicio.html"><img src="./imagenes/Logotipo.png" alt="logo" class="logologin"></a>
+                <h1>Iniciar Sesión</h1>
+                <label for="usuario"></label>
+                <input type="text" id="usuario" class="espacio" name="usuario" required placeholder="Usuario">
 
+                <label for="contrasena"></label>
+                <input type="password" id="contrasena" class="espacio" name="contrasena" required
+                    placeholder="Contraseña">
+
+                <input type="submit" value="Iniciar Sesión">
+                <button class="back-button" onclick="window.location.href='inicio.html'">Regresar</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="left-footer">
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook">
+                        <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="20" height="20">
+                    </a>
+                    <a href="#" aria-label="LinkedIn">
+                        <img src="imagenes/iconoLinkedin.png" alt="Icono de LinkedIn" width="20" height="20">
+                    </a>
+                    <a href="#" aria-label="YouTube">
+                        <img src="imagenes/iconoYoutube.png" alt="Icono de YouTube" width="20" height="20">
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="20" height="20">
+                    </a>
+                </div>
+                <h2>Edunekta</h2>
+            </div>
+            <div class="right-footer">
+                <p>&copy; 2024 Edunekta. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>    
+</body>
 
 </html>

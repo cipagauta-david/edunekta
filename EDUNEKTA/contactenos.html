@@ -1,45 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edunekta</title>
+    <title>Edunekta - Acerca</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
     <header>
         <div class="caja1">
-            <img src="imagenes/Logotipo.png" alt="Logo Edunekta" width="50px" ; height="50px">
-            <h1>Edunekta</h1>
-            <ul class="links">
-                <li><a href="inicio.html" class="b">Inicio</a></li>
-                <li><a href="acerca.html" class="b">Acerca</a></li>
-                <li><a href="contactenos.html" class="b">Contactanos</a></li>
-                <li><a href="FAQ.html" class="b">FAQ</a></li>
-            </ul>
-            <button><a href="login.html">LOGIN</a></button>
+            <div class="logo">
+                <a href="inicio.html">
+                    <img src="imagenes/Logotipo.png" alt="Logo Edunekta" width="50" height="50">
+                </a>
+                <h1>Edunekta</h1>
+            </div>
+            <nav>
+                <ul class="links">
+                    <li><a href="inicio.html">Inicio</a></li>
+                    <li><a href="acerca.html">Acerca</a></li>
+                    <li><a href="contactenos.html" class="active">Contáctanos</a></li>
+                    <li><a href="FAQ.html">FAQ</a></li>
+                </ul>
+            </nav>
+            <button class="login-button" onclick="window.location.href='login.html'">LOGIN</button>
         </div>
     </header>
 
-    <h1>Bienvenido a recursos humanos</h1>
-    <p>lista de contenido</p>
-    <li><a href="inicio.html">Pagina de inicio</a></li>
-    <li><a href="#">Recursos Humanos</a></li>
-    <li><a href="RRHH-Registro.html">Registro de recursos humanos (RRHH)</a></li>
-    <li><a href="RRHH-Modificacion.html">Modificacion de personal de recursos humanos (RRHH)</a></li>
-    <li><a href="RRHH-Consulta.html">Consulta de recursos humanos (RRHH)</a></li>
-    <li><a href="RRHH-Inhabilitacion.html">Inhabilitacion de recursos humanos (RRHH)</a></li>
-    
-    <footer>
-        <section class="contenedorfooter">
-            <h2>Edunekta</h2>
-            <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="15px" height="15px">
-            <img src="imagenes/iconoLinkedin.png" alt="Icono de Linkedin" width="15px" height="15px">
-            <img src="imagenes/iconoYoutube.png" alt="Icono de Youtube" width="15px" height="15px">
-            <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="15px" height="15px">
+    <main>
+        <section class="fraseinicial">
+            <h2>Conoce Más Sobre Nosotros</h2>
+        </section>
 
+        <section class="contenido">
+            <div class="p1">
+                <p class="margen">
+                    En Edunekta, nuestra misión es transformar la educación a través de soluciones innovadoras y
+                    accesibles.
+                    Creemos en el poder del conocimiento y trabajamos para proporcionar herramientas que faciliten el
+                    aprendizaje y el desarrollo académico de estudiantes y educadores por igual.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="contenedorfooter">
+            <h2>Edunekta</h2>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook">
+                    <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="20" height="20">
+                </a>
+                <a href="#" aria-label="LinkedIn">
+                    <img src="imagenes/iconoLinkedin.png" alt="Icono de LinkedIn" width="20" height="20">
+                </a>
+                <a href="#" aria-label="YouTube">
+                    <img src="imagenes/iconoYoutube.png" alt="Icono de YouTube" width="20" height="20">
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="20" height="20">
+                </a>
+            </div>
+            <p>&copy; 2024 Edunekta. Todos los derechos reservados.</p>
+        </div>
     </footer>
 </body>
 

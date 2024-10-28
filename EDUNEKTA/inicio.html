@@ -1,52 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edunekta</title>
+    <title>Edunekta - Inicio</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
     <header>
         <div class="caja1">
-            <img src="imagenes/Logotipo.png" alt="Logo Edunekta" width="50px" ; height="50px">
-            <h1>Edunekta</h1>
-            <ul class="links">
-                <li><a href="inicio.html" class="b">Inicio</a></li>
-                <li><a href="acerca.html" class="b">Acerca</a></li>
-                <li><a href="contactenos.html" class="b">Contactanos</a></li>
-                <li><a href="FAQ.html" class="b">FAQ</a></li>
-            </ul>
-            <button><a href="login.html">LOGIN</a></button>
+            <div class="logo">
+                <a href="inicio.html">
+                    <img src="imagenes/Logotipo.png" alt="Logo Edunekta" width="50" height="50">
+                </a>
+                <h1>Edunekta</h1>
+            </div>
+            <nav>
+                <ul class="links">
+                    <li><a href="inicio.html" class="active">Inicio</a></li>
+                    <li><a href="acerca.html">Acerca</a></li>
+                    <li><a href="contactenos.html">Contáctanos</a></li>
+                    <li><a href="FAQ.html">FAQ</a></li>
+                </ul>
+            </nav>
+            <button class="login-button" onclick="window.location.href='login.html'">LOGIN</button>
         </div>
     </header>
-    <hr>
-    <h2 class="fraseinicial"> Unete a nuestra revolución educativa</h2>
-    <hr>
-    <div class="p1">
-        <img src="imagenes/imgcolegio.jpg" alt="Imagen de un colegio" width="250px" height="250px">
-        <p class="margen">Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis dolor aperiam, atque
-            voluptatum
-            facere culpa maiores nostrum consequuntur libero tempora rem neque deleniti maxime reiciendis temporibus
-            nulla fuga minima quo!</p>
-    </div>
-    <hr>
-    <div class="p2">
-        <p class="margen2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, nam cum iste tenetur, tempora
-            excepturi,
-            adipisci non voluptatum nihil at facere voluptate saepe corrupti sint quod a iusto cumque recusandae!</p>
-        <img src="imagenes/imgcolegio.jpg" alt="Imagen de un colegio" width="250px" height="250px">
-    </div>
+
+    <main>
+        <section class="fraseinicial">
+            <h2>Únete a nuestra revolución educativa</h2>
+        </section>
+
+        <section class="contenido">
+            <div class="p1">
+                <img src="imagenes/imgcolegio.jpg" alt="Imagen de un colegio" class="responsive-img">
+                <p class="margen">
+                    En <b>Edunekta</b>, creemos en transformar la educación a través de tecnologías innovadoras y
+                    metodologías centradas en el estudiante. Nuestro objetivo es proporcionar herramientas accesibles y
+                    efectivas que empoderen a docentes y alumnos, fomentando un ambiente de aprendizaje dinámico y
+                    colaborativo.
+                </p>
+            </div>
+
+            <div class="p2">
+                <p class="margen2">
+                    Nuestra visión es crear una comunidad educativa inclusiva y sostenible donde cada individuo tenga la
+                    oportunidad de alcanzar su máximo potencial. Nos comprometemos a impulsar el desarrollo continuo,
+                    promoviendo valores de respeto, creatividad y excelencia en todos nuestros programas y actividades.
+                </p>
+                <img src="imagenes/imgcolegio.jpg" alt="Imagen de un colegio" class="responsive-img">
+            </div>
+        </section>
+
+
+        <section class="testimonios margen2">
+            <h2>Testimonios</h2>
+            <div class="container">
+                <div class="cajausuario">
+                    <img src="imagenes/avatarHombre1.png" alt="Usuario 1" class="imgtestimonios">
+                    <div class="info">
+                        <p><strong>Juan Pérez</strong></p>
+                        <p>Edunekta transformó mi experiencia educativa. ¡Altamente recomendado!</p>
+                    </div>
+                </div>
+                <div class="cajausuario">
+                    <img src="imagenes/avatarMujer2.png" alt="Usuario 2" class="imgtestimonios">
+                    <div class="info">
+                        <p><strong>María López</strong></p>
+                        <p>La plataforma es intuitiva y muy útil para el aprendizaje diario.</p>
+                    </div>
+                </div>
+                <!-- Añade más testimonios según sea necesario -->
+            </div>
+        </section>
+    </main>
 
     <footer>
-        <section class="contenedorfooter">
+        <div class="contenedorfooter">
             <h2>Edunekta</h2>
-            <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="15px" height="15px">
-            <img src="imagenes/iconoLinkedin.png" alt="Icono de Linkedin" width="15px" height="15px">
-            <img src="imagenes/iconoYoutube.png" alt="Icono de Youtube" width="15px" height="15px">
-            <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="15px" height="15px">
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook">
+                    <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="20" height="20">
+                </a>
+                <a href="#" aria-label="LinkedIn">
+                    <img src="imagenes/iconoLinkedin.png" alt="Icono de LinkedIn" width="20" height="20">
+                </a>
+                <a href="#" aria-label="YouTube">
+                    <img src="imagenes/iconoYoutube.png" alt="Icono de YouTube" width="20" height="20">
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="20" height="20">
+                </a>
+            </div>
+            <p>&copy; 2024 Edunekta. Todos los derechos reservados.</p>
+        </div>
     </footer>
 </body>
 
