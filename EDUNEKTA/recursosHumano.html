@@ -8,18 +8,39 @@
 </head>
 <body>
     <header>
-        <h1>Registro de Recursos Humanos</h1>
+        <div class="caja1">
+            <div class="logo">
+                <a href="inicio.html">
+                    <img src="imagenes/Logotipo.png" alt="Logo Edunekta" width="50" height="50">
+                </a>
+                <h1>Edunekta</h1>
+            </div>
+            <nav>
+                <ul class="links">
+                    <li><a href="inicio.html" class="active">Inicio</a></li>
+                    <li><a href="acerca.html">Acerca</a></li>
+                    <li><a href="contactenos.html">Contáctanos</a></li>
+                    <li><a href="FAQ.html">FAQ</a></li>
+                </ul>
+            </nav>
+            <button class="login-button" onclick="window.location.href='login.html'">LOGIN</button>
+        </div>
     </header>
-    <nav>
+
+
+    <section class="fraseinicial">
+        <h2>Registro de Recursos Humanos</h2>
+
+    <div>
         <ul>
             <li><a href="inicio.html">Página de inicio</a></li>
             <li><a href="#">Recursos Humanos</a></li>
-            <li><a href="RRHH-Registro.html">Registro de recursos humanos (RRHH)</a></li>
-            <li><a href="RRHH-Modificacion.html">Modificación de personal de recursos humanos (RRHH)</a></li>
-            <li><a href="RRHH-Consulta.html">Consulta de recursos humanos (RRHH)</a></li>
+            <li><a href="formRegistroRRHH.html">Registro de recursos humanos (RRHH)</a></li>
+            <li><a href="formModificarRRHH.html">Modificación de personal de recursos humanos (RRHH)</a></li>
+            <li><a href="formConsultarRRHH.html">Consulta de recursos humanos (RRHH)</a></li>
             <li><a href="RRHH-Inhabilitacion.html">Inhabilitación de recursos humanos (RRHH)</a></li>
         </ul>
-    </nav>
+    </div>
     <main>
         <section>
             <h2>Formulario de Registro</h2>
@@ -60,7 +81,24 @@
         </section>
     </main>
     <footer>
-        <p>Edunekta</p>
+        <div class="contenedorfooter">
+            <h2>Edunekta</h2>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook">
+                    <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="20" height="20">
+                </a>
+                <a href="#" aria-label="LinkedIn">
+                    <img src="imagenes/iconoLinkedin.png" alt="Icono de LinkedIn" width="20" height="20">
+                </a>
+                <a href="#" aria-label="YouTube">
+                    <img src="imagenes/iconoYoutube.png" alt="Icono de YouTube" width="20" height="20">
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="20" height="20">
+                </a>
+            </div>
+            <p>&copy; 2024 Edunekta. Todos los derechos reservados.</p>
+        </div>
     </footer>
 </body>
 </html>

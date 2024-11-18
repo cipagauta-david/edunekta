@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edunekta - Consulta de Usuarios</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <main>
+        <div class="caja2">
+            <form action="procesar_consulta.php" method="get" class="form-box">
+                <a href="./inicio.html"><img src="./imagenes/Logotipo.png" alt="logo" class="logologin"></a>
+                <h1>Consulta de Usuarios</h1>
+
+                <label for="criterio-busqueda">Criterio de búsqueda:</label>
+                <select id="criterio-busqueda" name="criterio" required>
+                    <option value="">Seleccionar</option>
+                    <option value="nombre">Nombre</option>
+                    <option value="cedula">Número Doc Identidad</option>
+                    <option value="correo">Correo</option>
+                    <option value="rol">Rol</option>
+                </select>
+
+                <label for="valor-busqueda"></label>
+                <input type="text" id="valor-busqueda" name="valor" required placeholder="Ingresa tu búsqueda aquí">
+
+                <button type="submit">Buscar</button>
+                <button type="reset">Limpiar</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="left-footer">
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook">
+                        <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="20" height="20">
+                    </a>
+                    <a href="#" aria-label="LinkedIn">
+                        <img src="imagenes/iconoLinkedin.png" alt="Icono de LinkedIn" width="20" height="20">
+                    </a>
+                    <a href="#" aria-label="YouTube">
+                        <img src="imagenes/iconoYoutube.png" alt="Icono de YouTube" width="20" height="20">
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="20" height="20">
+                    </a>
+                </div>
+                <h2>Edunekta</h2>
+            </div>
+            <div class="right-footer">
+                <p>&copy; 2024 Edunekta. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>    
+</body>
+
+</html>

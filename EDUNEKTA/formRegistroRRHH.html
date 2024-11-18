@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edunekta - Inicio</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <main>
+        <div class="caja2">
+            <form action="procesar_registro.php" method="post" class="form-box">
+                <a href="./inicio.html"><img src="./imagenes/Logotipo.png" alt="logo" class="logologin"></a>
+                <h1>Registro de Personal RR.HH.</h1>
+                <label for="nombre-completo"></label>
+                <input type="text" id="nombre-completo" name="nombre_completo" required placeholder="Nombre Completo">
+
+                <label for="cedula"></label>
+                <input type="text" id="cedula" name="cedula" required placeholder="Número Doc Identidad">
+
+                <label for="correo"></label>
+                <input type="email" id="correo" name="correo" required placeholder="edunekta@correo.com">
+
+                <label for="telefono"></label>
+                <input type="tel" id="telefono" name="telefono" required placeholder="Teléfono">
+                <br>
+                <label for="rol">Rol en el colegio</label>
+                <br>
+                <select id="rol" name="rol" required>
+                    <option value="">Seleccione un rol</option>
+                    <option value="docente">Docente</option>
+                    <option value="administrativo">Administrativo</option>
+                    <option value="psicologo">Psicólogo</option>
+                    <option value="otro">Otro</option>
+                </select>
+
+                <br>
+                <label for="fecha-nacimiento">Fecha de nacimiento:</label>
+                <input type="date" id="fecha-nacimiento" name="fecha_nacimiento" required>
+                <br>
+                <label for="direccion"></label>
+                <input type="text" id="direccion" name="direccion" placeholder="Ingrese la dirección">
+
+                <label for="observaciones">Observaciones:</label>
+                <br>
+                <textarea id="observaciones" name="observaciones" rows="4" placeholder="Ingrese observaciones adicionales"></textarea>
+
+                <button type="submit">Registrar</button>
+                <button type="reset">Limpiar</button>
+
+
+            </form>
+
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="left-footer">
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook">
+                        <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="20" height="20">
+                    </a>
+                    <a href="#" aria-label="LinkedIn">
+                        <img src="imagenes/iconoLinkedin.png" alt="Icono de LinkedIn" width="20" height="20">
+                    </a>
+                    <a href="#" aria-label="YouTube">
+                        <img src="imagenes/iconoYoutube.png" alt="Icono de YouTube" width="20" height="20">
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="20" height="20">
+                    </a>
+                </div>
+                <h2>Edunekta</h2>
+            </div>
+            <div class="right-footer">
+                <p>&copy; 2024 Edunekta. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>    
+</body>
+
+</html>
