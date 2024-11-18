@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Recursos Humanos</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <header>
+        <h1>Registro de Recursos Humanos</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="inicio.html">Página de inicio</a></li>
+            <li><a href="#">Recursos Humanos</a></li>
+            <li><a href="RRHH-Registro.html">Registro de recursos humanos (RRHH)</a></li>
+            <li><a href="RRHH-Modificacion.html">Modificación de personal de recursos humanos (RRHH)</a></li>
+            <li><a href="RRHH-Consulta.html">Consulta de recursos humanos (RRHH)</a></li>
+            <li><a href="RRHH-Inhabilitacion.html">Inhabilitación de recursos humanos (RRHH)</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section>
+            <h2>Formulario de Registro</h2>
+            <form action="procesar_registro.php" method="post" id="form-registro">
+                <label for="nombre-completo">Nombre completo:</label>
+                <input type="text" id="nombre-completo" name="nombre_completo" required placeholder="Ingrese el nombre completo">
+
+                <label for="cedula">Cédula:</label>
+                <input type="text" id="cedula" name="cedula" required placeholder="Ingrese la cédula">
+
+                <label for="correo">Correo electrónico:</label>
+                <input type="email" id="correo" name="correo" required placeholder="edunekta@correo.com">
+
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" required placeholder="Ingrese el teléfono">
+
+                <label for="rol">Rol en el colegio:</label>
+                <select id="rol" name="rol" required>
+                    <option value="">Seleccione un rol</option>
+                    <option value="docente">Docente</option>
+                    <option value="administrativo">Administrativo</option>
+                    <option value="psicologo">Psicólogo</option>
+                    <option value="otro">Otro</option>
+                </select>
+
+                <label for="fecha-nacimiento">Fecha de nacimiento:</label>
+                <input type="date" id="fecha-nacimiento" name="fecha_nacimiento" required>
+
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" name="direccion" placeholder="Ingrese la dirección">
+
+                <label for="observaciones">Observaciones:</label>
+                <textarea id="observaciones" name="observaciones" rows="4" placeholder="Ingrese observaciones adicionales"></textarea>
+
+                <button type="submit">Registrar</button>
+                <button type="reset">Limpiar</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>Edunekta</p>
+    </footer>
+</body>
+</html>
