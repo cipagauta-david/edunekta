@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edunekta - Inhabilitación de Usuarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <main class="container mt-5">
+        <div class="card shadow p-4">
+            <form action="procesar_inhabilitacion.php" method="post" class="needs-validation" novalidate>
+                <div class="text-center mb-4">
+                    <a href="./inicio.html"><img src="./imagenes/Logotipo.png" alt="logo" class="logologin mb-3"></a>
+                    <h1 class="h4">Inhabilitación de Usuarios</h1>
+                </div>
+
+                <div class="mb-3">
+                    <label for="criterio-busqueda" class="form-label">Criterio para identificar al usuario</label>
+                    <select id="criterio-busqueda" name="criterio" class="form-select" required>
+                        <option value="">Seleccionar</option>
+                        <option value="nombre">Nombre</option>
+                        <option value="cedula">Número Doc Identidad</option>
+                        <option value="correo">Correo</option>
+                        <option value="rol">Rol</option>
+                    </select>
+                    <div class="invalid-feedback">Por favor, selecciona un criterio de búsqueda.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="valor-busqueda" class="form-label">Valor de búsqueda</label>
+                    <input type="text" id="valor-busqueda" name="valor" class="form-control" required placeholder="Ingrese el dato del usuario">
+                    <div class="invalid-feedback">Por favor, ingresa el dato correspondiente.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="motivo" class="form-label">Motivo de inhabilitación (opcional)</label>
+                    <textarea id="motivo" name="motivo" class="form-control" rows="4" placeholder="Escriba el motivo de la inhabilitación"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-danger">Inhabilitar</button>
+                    <button type="reset" class="btn btn-secondary">Cancelar</button>
+                </div>
+
+                <p class="mt-3 text-muted">*Al inhabilitar un usuario, este no podrá acceder al sistema. Verifique la información antes de proceder.</p>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="contenedorfooter">
+            <h2>Edunekta</h2>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook">
+                    <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="20" height="20">
+                </a>
+                <a href="#" aria-label="LinkedIn">
+                    <img src="imagenes/iconoLinkedin.png" alt="Icono de LinkedIn" width="20" height="20">
+                </a>
+                <a href="#" aria-label="YouTube">
+                    <img src="imagenes/iconoYoutube.png" alt="Icono de YouTube" width="20" height="20">
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="20" height="20">
+                </a>
+                <a href="mapa.html" id="mapaS">Conoce el mapa del sitio</a>
+            </div>
+            <p>&copy; 2024 Edunekta. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

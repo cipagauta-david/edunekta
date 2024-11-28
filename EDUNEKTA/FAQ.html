@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edunekta - Acerca</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <header>
+        <div class="caja1">
+            <div class="logo">
+                <a href="inicio.html">
+                    <img src="imagenes/Logotipo.png" alt="Logo Edunekta" width="50" height="50">
+                </a>
+                <h1>Edunekta</h1>
+            </div>
+            <nav>
+                <ul class="links">
+                    <li><a href="inicio.html">Inicio</a></li>
+                    <li><a href="acerca.html">Acerca</a></li>
+                    <li><a href="contactenos.html">Contáctanos</a></li>
+                    <li><a href="FAQ.html" class="active">FAQ</a></li>
+                </ul>
+            </nav>
+            <button class="login-button" onclick="window.location.href='login.html'">LOGIN</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="faq">
+            <h2>Preguntas Frecuentes</h2>
+    
+            <div class="faq-item">
+                <h3 class="faq-question">¿Cómo puedo registrarme?</h3>
+                <div class="faq-answer">
+                    <p>El registro se realiza directamente a través de la institución. Una vez que se haya validado tu información, recibirás un correo electrónico con los detalles de acceso a tu cuenta.
+                         Si tienes alguna duda o problema con el registro, por favor contacta al departamento encargado.</p>
+                </div>
+            </div>
+    
+            <div class="faq-item">
+                <h3 class="faq-question">¿Cómo puedo modificar mis datos personales?</h3>
+                <div class="faq-answer">
+                    <p>Para actualizar tu información personal, ingresa a tu cuenta y ve a la sección "Mi Perfil". Allí podrás editar tus datos, como tu nombre, dirección de correo electrónico y otros detalles.</p>
+                </div>
+            </div>
+    
+            <div class="faq-item">
+                <h3 class="faq-question">¿Dónde puedo ver mi progreso?</h3>
+                <div class="faq-answer">
+                    <p>Puedes ver tu progreso académico en la sección de "Notas" de tu cuenta. Allí encontrarás un desglose detallado de tus calificaciones. Además, los boletines trimestrales con tu rendimiento general se publicarán al final de cada trimestre,
+                         donde podrás consultar todas las evaluaciones y avances alcanzados durante ese período.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+            <h3 class="faq-question">¿Olvidaste tu contraseña?</h3>
+            <div class="faq-answer">
+                <p>Si olvidaste tu contraseña, haz clic en "¿Olvidaste tu contraseña?" en la página de inicio de sesión. 
+                Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+        <h3 class="faq-question">¿Qué debo hacer si encuentro un error en mis calificaciones?</h3>
+        <div class="faq-answer">
+            <p>Si notas algún error en tus calificaciones, por favor contacta a tu docente o al área administrativa para que puedan 
+                revisar y corregir la información.</p>
+        </div>
+        
+
+        </div>  
+        </section>
+    </main>
+    
+    
+    <footer>
+        <div class="contenedorfooter">
+            <h2>Edunekta</h2>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook">
+                    <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="20" height="20">
+                </a>
+                <a href="#" aria-label="LinkedIn">
+                    <img src="imagenes/iconoLinkedin.png" alt="Icono de LinkedIn" width="20" height="20">
+                </a>
+                <a href="#" aria-label="YouTube">
+                    <img src="imagenes/iconoYoutube.png" alt="Icono de YouTube" width="20" height="20">
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="20" height="20">
+                </a>
+                <a href="mapa.html" id="mapaS">Conoce el mapa del sitio</a>
+            </div>
+            <p>&copy; 2024 Edunekta. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script>
+      
+        const questions = document.querySelectorAll('.faq-question');
+    
+       
+        questions.forEach(question => {
+            question.addEventListener('click', () => {
+                
+                const answer = question.nextElementSibling;
+                
+                
+                answer.style.display = (answer.style.display === 'block') ? 'none' : 'block';
+            });
+        });
+    </script>
+    
+</body>
+
+</html>
