@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Recursos Humanos</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <header>
+        <div class="caja1">
+            <div class="logo">
+                <a href="inicio.html">
+                    <img src="imagenes/Logotipo.png" alt="Logo Edunekta" width="50" height="50">
+                </a>
+                <h1>Edunekta</h1>
+            </div>
+            <nav>
+                <ul class="links">
+                    <li><a href="inicio.html" class="active">Inicio</a></li>
+                    <li><a href="acerca.html">Acerca</a></li>
+                    <li><a href="contactenos.html">Contáctanos</a></li>
+                    <li><a href="FAQ.html">FAQ</a></li>
+                </ul>
+            </nav>
+            <button class="login-button" onclick="window.location.href='login.html'">LOGIN</button>
+        </div>
+    </header>
+
+
+    <section class="fraseinicial">
+        <h2>Registro de Recursos Humanos</h2>
+
+    <div>
+        <ul>
+            <li><a href="inicio.html">Página de inicio</a></li>
+            <li><a href="#">Recursos Humanos</a></li>
+            <li><a href="formRegistroRRHH.html">Registro de recursos humanos (RRHH)</a></li>
+            <li><a href="formModificarRRHH.html">Modificación de personal de recursos humanos (RRHH)</a></li>
+            <li><a href="formConsultarRRHH.html">Consulta de recursos humanos (RRHH)</a></li>
+            <li><a href="RRHH-Inhabilitacion.html">Inhabilitación de recursos humanos (RRHH)</a></li>
+        </ul>
+    </div>
+    <main>
+        <section>
+            <h2>Formulario de Registro</h2>
+            <form action="procesar_registro.php" method="post" id="form-registro">
+                <label for="nombre-completo">Nombre completo:</label>
+                <input type="text" id="nombre-completo" name="nombre_completo" required placeholder="Ingrese el nombre completo">
+
+                <label for="cedula">Cédula:</label>
+                <input type="text" id="cedula" name="cedula" required placeholder="Ingrese la cédula">
+
+                <label for="correo">Correo electrónico:</label>
+                <input type="email" id="correo" name="correo" required placeholder="edunekta@correo.com">
+
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" required placeholder="Ingrese el teléfono">
+
+                <label for="rol">Rol en el colegio:</label>
+                <select id="rol" name="rol" required>
+                    <option value="">Seleccione un rol</option>
+                    <option value="docente">Docente</option>
+                    <option value="administrativo">Administrativo</option>
+                    <option value="psicologo">Psicólogo</option>
+                    <option value="otro">Otro</option>
+                </select>
+
+                <label for="fecha-nacimiento">Fecha de nacimiento:</label>
+                <input type="date" id="fecha-nacimiento" name="fecha_nacimiento" required>
+
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" name="direccion" placeholder="Ingrese la dirección">
+
+                <label for="observaciones">Observaciones:</label>
+                <textarea id="observaciones" name="observaciones" rows="4" placeholder="Ingrese observaciones adicionales"></textarea>
+
+                <button type="submit">Registrar</button>
+                <button type="reset">Limpiar</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <div class="contenedorfooter">
+            <h2>Edunekta</h2>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook">
+                    <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="20" height="20">
+                </a>
+                <a href="#" aria-label="LinkedIn">
+                    <img src="imagenes/iconoLinkedin.png" alt="Icono de LinkedIn" width="20" height="20">
+                </a>
+                <a href="#" aria-label="YouTube">
+                    <img src="imagenes/iconoYoutube.png" alt="Icono de YouTube" width="20" height="20">
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="20" height="20">
+                </a>
+            </div>
+            <p>&copy; 2024 Edunekta. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

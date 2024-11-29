@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edunekta - Consulta de Usuarios</title>
+<<<<<<< HEAD
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+=======
+>>>>>>> origin/david
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
+<<<<<<< HEAD
     <main class="container mt-5">
         <div class="card shadow p-4">
             <form action="procesar_consulta.php" method="get" class="needs-validation" novalidate>
@@ -40,11 +44,34 @@
                     <button type="submit" class="btn btn-primary">Buscar</button>
                     <button type="reset" class="btn btn-secondary">Limpiar</button>
                 </div>
+=======
+    <main>
+        <div class="caja2">
+            <form action="procesar_consulta.php" method="get" class="form-box">
+                <a href="./inicio.html"><img src="./imagenes/Logotipo.png" alt="logo" class="logologin"></a>
+                <h1>Consulta de Usuarios</h1>
+
+                <label for="criterio-busqueda">Criterio de búsqueda:</label>
+                <select id="criterio-busqueda" name="criterio" required>
+                    <option value="">Seleccionar</option>
+                    <option value="nombre">Nombre</option>
+                    <option value="cedula">Número Doc Identidad</option>
+                    <option value="correo">Correo</option>
+                    <option value="rol">Rol</option>
+                </select>
+
+                <label for="valor-busqueda"></label>
+                <input type="text" id="valor-busqueda" name="valor" required placeholder="Ingresa tu búsqueda aquí">
+
+                <button type="submit">Buscar</button>
+                <button type="reset">Limpiar</button>
+>>>>>>> origin/david
             </form>
         </div>
     </main>
 
     <footer>
+<<<<<<< HEAD
         <div class="contenedorfooter">
             <h2>Edunekta</h2>
             <div class="social-icons">
@@ -84,6 +111,31 @@
         })()
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+=======
+        <div class="footer-container">
+            <div class="left-footer">
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook">
+                        <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="20" height="20">
+                    </a>
+                    <a href="#" aria-label="LinkedIn">
+                        <img src="imagenes/iconoLinkedin.png" alt="Icono de LinkedIn" width="20" height="20">
+                    </a>
+                    <a href="#" aria-label="YouTube">
+                        <img src="imagenes/iconoYoutube.png" alt="Icono de YouTube" width="20" height="20">
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="20" height="20">
+                    </a>
+                </div>
+                <h2>Edunekta</h2>
+            </div>
+            <div class="right-footer">
+                <p>&copy; 2024 Edunekta. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>    
+>>>>>>> origin/david
 </body>
 
 </html>
