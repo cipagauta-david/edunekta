@@ -16,6 +16,7 @@
     "build": "vite build",
     "lint": "eslint \"src/**/*.js\"",
     "serve": "vite preview",
+    "watch": "vite watch",
     "start": "vite"
   },
   "dependencies": {

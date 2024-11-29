@@ -60,14 +60,14 @@ const AppHeaderDropdown = () => {
             42
           </CBadge>
         </CDropdownItem>
-        <CDropdownHeader className="bg-body-secondary fw-semibold my-2">Settings</CDropdownHeader>
+        <CDropdownHeader className="bg-body-secondary fw-semibold my-2">Configuraciones</CDropdownHeader>
         <CDropdownItem href="#">
           <CIcon icon={cilUser} className="me-2" />
           Profile
         </CDropdownItem>
         <CDropdownItem href="#">
           <CIcon icon={cilSettings} className="me-2" />
-          Settings
+          Configuraciones
         </CDropdownItem>
         <CDropdownItem href="#">
           <CIcon icon={cilCreditCard} className="me-2" />
