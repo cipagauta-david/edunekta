@@ -1,9 +1,6 @@
 
-<<<<<<< HEAD
 
   
-=======
->>>>>>> 8bc5044fb5cf0f507db3bca0866c8fbc804a4814
 :root {
     --color-primario: #333;
     --color-secundario: #36A1CB;
@@ -407,7 +404,6 @@ footer {
     .right-footer p {
         font-size: 12px;
     }
-<<<<<<< HEAD
 }
 /* Estilos para las cards de la sección Valores */
 .valores-container {
@@ -589,6 +585,3 @@ main {
     color: #333;
 }
 
-=======
-}
->>>>>>> 8bc5044fb5cf0f507db3bca0866c8fbc804a4814
