@@ -34,10 +34,10 @@ const MainChart = () => {
         ref={chartRef}
         style={{ height: '300px', marginTop: '40px' }}
         data={{
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
           datasets: [
             {
-              label: 'My First dataset',
+              label: 'Mis primeros datos',
               backgroundColor: `rgba(${getStyle('--cui-info-rgb')}, .1)`,
               borderColor: getStyle('--cui-info'),
               pointHoverBackgroundColor: getStyle('--cui-info'),

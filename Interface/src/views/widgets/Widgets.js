@@ -583,7 +583,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilSettings} size="xl" />}
-                title="income"
+                title="Ingresos"
                 value="$1.999,50"
                 color="primary"
               />
@@ -591,7 +591,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilUser} size="xl" />}
-                title="income"
+                title="Ingresos"
                 value="$1.999,50"
                 color="info"
               />
@@ -599,7 +599,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilMoon} size="xl" />}
-                title="income"
+                title="Ingresos"
                 value="$1.999,50"
                 color="warning"
               />
@@ -607,7 +607,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilBell} size="xl" />}
-                title="income"
+                title="Ingresos"
                 value="$1.999,50"
                 color="danger"
               />
@@ -619,7 +619,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilSettings} size="xl" />}
-                title="income"
+                title="Ingresos"
                 value="$1.999,50"
                 color="primary"
                 footer={
@@ -638,7 +638,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilLaptop} size="xl" />}
-                title="income"
+                title="Ingresos"
                 value="$1.999,50"
                 color="info"
                 footer={
@@ -657,7 +657,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilMoon} size="xl" />}
-                title="income"
+                title="Ingresos"
                 value="$1.999,50"
                 color="warning"
                 footer={
@@ -676,7 +676,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilBell} size="xl" />}
-                title="income"
+                title="Ingresos"
                 value="$1.999,50"
                 color="danger"
                 footer={
@@ -700,7 +700,7 @@ const Widgets = () => {
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilSettings} size="xl" />}
                 padding={false}
-                title="income"
+                title="Ingresos"
                 value="$1.999,50"
                 color="primary"
               />
@@ -709,7 +709,7 @@ const Widgets = () => {
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilUser} size="xl" />}
                 padding={false}
-                title="income"
+                title="Ingresos"
                 value="$1.999,50"
                 color="info"
               />
@@ -718,7 +718,7 @@ const Widgets = () => {
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilMoon} size="xl" />}
                 padding={false}
-                title="income"
+                title="Ingresos"
                 value="$1.999,50"
                 color="warning"
               />
@@ -727,7 +727,7 @@ const Widgets = () => {
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilBell} size="xl" />}
                 padding={false}
-                title="income"
+                title="Ingresos"
                 value="$1.999,50"
                 color="danger"
               />

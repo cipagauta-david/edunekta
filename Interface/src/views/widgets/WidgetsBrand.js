@@ -44,7 +44,7 @@ const WidgetsBrand = (props) => {
                 className="position-absolute w-100 h-100"
                 type="line"
                 data={{
-                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                  labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
                   datasets: [
                     {
                       backgroundColor: 'rgba(255,255,255,.1)',
@@ -62,8 +62,8 @@ const WidgetsBrand = (props) => {
           })}
           icon={<CIcon icon={cibFacebook} height={52} className="my-4 text-white" />}
           values={[
-            { title: 'friends', value: '89K' },
-            { title: 'feeds', value: '459' },
+            { title: 'amigos', value: '89K' },
+            { title: 'publicaciones', value: '459' },
           ]}
           style={{
             '--cui-card-cap-bg': '#3b5998',
@@ -78,7 +78,7 @@ const WidgetsBrand = (props) => {
                 className="position-absolute w-100 h-100"
                 type="line"
                 data={{
-                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                  labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
                   datasets: [
                     {
                       backgroundColor: 'rgba(255,255,255,.1)',
@@ -96,7 +96,7 @@ const WidgetsBrand = (props) => {
           })}
           icon={<CIcon icon={cibTwitter} height={52} className="my-4 text-white" />}
           values={[
-            { title: 'followers', value: '973k' },
+            { title: 'seguidores', value: '973k' },
             { title: 'tweets', value: '1.792' },
           ]}
           style={{
@@ -112,7 +112,7 @@ const WidgetsBrand = (props) => {
                 className="position-absolute w-100 h-100"
                 type="line"
                 data={{
-                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                  labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
                   datasets: [
                     {
                       backgroundColor: 'rgba(255,255,255,.1)',
@@ -130,8 +130,8 @@ const WidgetsBrand = (props) => {
           })}
           icon={<CIcon icon={cibLinkedin} height={52} className="my-4 text-white" />}
           values={[
-            { title: 'contacts', value: '500' },
-            { title: 'feeds', value: '1.292' },
+            { title: 'contactos', value: '500' },
+            { title: 'publicaciones', value: '1.292' },
           ]}
           style={{
             '--cui-card-cap-bg': '#4875b4',
@@ -147,7 +147,7 @@ const WidgetsBrand = (props) => {
                 className="position-absolute w-100 h-100"
                 type="line"
                 data={{
-                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                  labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
                   datasets: [
                     {
                       backgroundColor: 'rgba(255,255,255,.1)',

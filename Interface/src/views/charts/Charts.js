@@ -24,7 +24,7 @@ const Charts = () => {
           <CCardBody>
             <CChartBar
               data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
                 datasets: [
                   {
                     label: 'GitHub Commits',
@@ -46,10 +46,10 @@ const Charts = () => {
           <CCardBody>
             <CChartLine
               data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Mis primeros datos',
                     backgroundColor: 'rgba(220, 220, 220, 0.2)',
                     borderColor: 'rgba(220, 220, 220, 1)',
                     pointBackgroundColor: 'rgba(220, 220, 220, 1)',
@@ -151,7 +151,7 @@ const Charts = () => {
                 ],
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Mis primeros datos',
                     backgroundColor: 'rgba(220, 220, 220, 0.2)',
                     borderColor: 'rgba(220, 220, 220, 1)',
                     pointBackgroundColor: 'rgba(220, 220, 220, 1)',

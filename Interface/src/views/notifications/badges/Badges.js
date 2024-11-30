@@ -47,7 +47,7 @@ const Badges = () => {
               </CButton>
             </DocsExample>
             <p className="text-body-secondary small">
-              Remark that depending on how you use them, badges may be complicated for users of
+              Remark that depending on how you use them, badges may be complicated for usuarios of
               screen readers and related assistive technologies.
             </p>
             <p className="text-body-secondary small">
