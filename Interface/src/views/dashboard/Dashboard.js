@@ -53,34 +53,33 @@ import avatar6 from 'src/assets/images/avatars/6.jpg'
 import WidgetsBrand from '../widgets/WidgetsBrand'
 import WidgetsDropdown from '../widgets/WidgetsDropdown'
 import MainChart from './MainChart'
-import UserTable from './UserTable'
 
 const Dashboard = () => {
   const progressExample = [
-    { title: 'Visitas', value: '29.703 Usuarios', percent: 40, color: 'success' },
-    { title: 'Unicos', value: '24.093 Usuarios', percent: 20, color: 'info' },
-    { title: 'Vistas', value: '78.706 Vistas', percent: 60, color: 'warning' },
-    { title: 'Nuevos Usuarios', value: '22.123 Usuarios', percent: 80, color: 'danger' },
-    { title: 'Rebote', value: 'Promedio', percent: 40.15, color: 'primary' },
+    { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
+    { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
+    { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
+    { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
+    { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
   ]
 
   const progressGroupExample1 = [
-    { title: 'Lunes', value1: 34, value2: 78 },
-    { title: 'Martes', value1: 56, value2: 94 },
-    { title: 'Miércoles', value1: 12, value2: 67 },
-    { title: 'Jueves', value1: 43, value2: 91 },
-    { title: 'Viernes', value1: 22, value2: 73 },
-    { title: 'Sabado', value1: 53, value2: 82 },
-    { title: 'Domingo', value1: 9, value2: 69 },
+    { title: 'Monday', value1: 34, value2: 78 },
+    { title: 'Tuesday', value1: 56, value2: 94 },
+    { title: 'Wednesday', value1: 12, value2: 67 },
+    { title: 'Thursday', value1: 43, value2: 91 },
+    { title: 'Friday', value1: 22, value2: 73 },
+    { title: 'Saturday', value1: 53, value2: 82 },
+    { title: 'Sunday', value1: 9, value2: 69 },
   ]
 
   const progressGroupExample2 = [
-    { title: 'Hombre', icon: cilUser, value: 53 },
-    { title: 'Mujer', icon: cilUserFemale, value: 43 },
+    { title: 'Male', icon: cilUser, value: 53 },
+    { title: 'Female', icon: cilUserFemale, value: 43 },
   ]
 
   const progressGroupExample3 = [
-    { title: 'Búsqueda Orgánica', icon: cibGoogle, percent: 56, value: '191,235' },
+    { title: 'Organic Search', icon: cibGoogle, percent: 56, value: '191,235' },
     { title: 'Facebook', icon: cibFacebook, percent: 15, value: '51,223' },
     { title: 'Twitter', icon: cibTwitter, percent: 11, value: '37,564' },
     { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
@@ -185,9 +184,9 @@ const Dashboard = () => {
           <CRow>
             <CCol sm={5}>
               <h4 id="traffic" className="card-title mb-0">
-                Tráfico
+                Traffic
               </h4>
-              <div className="small text-body-secondary">Enero - Julio 2023</div>
+              <div className="small text-body-secondary">January - July 2023</div>
             </CCol>
             <CCol sm={7} className="d-none d-md-block">
               <CButton color="primary" className="float-end">
@@ -324,7 +323,59 @@ const Dashboard = () => {
 
               <br />
 
-              {/* <UserTable tableData={tableExample} /> */}
+              <CTable align="middle" className="mb-0 border" hover responsive>
+                <CTableHead className="text-nowrap">
+                  <CTableRow>
+                    <CTableHeaderCell className="bg-body-tertiary text-center">
+                      <CIcon icon={cilPeople} />
+                    </CTableHeaderCell>
+                    <CTableHeaderCell className="bg-body-tertiary">User</CTableHeaderCell>
+                    <CTableHeaderCell className="bg-body-tertiary text-center">
+                      Country
+                    </CTableHeaderCell>
+                    <CTableHeaderCell className="bg-body-tertiary">Usage</CTableHeaderCell>
+                    <CTableHeaderCell className="bg-body-tertiary text-center">
+                      Payment Method
+                    </CTableHeaderCell>
+                    <CTableHeaderCell className="bg-body-tertiary">Activity</CTableHeaderCell>
+                  </CTableRow>
+                </CTableHead>
+                <CTableBody>
+                  {tableExample.map((item, index) => (
+                    <CTableRow v-for="item in tableItems" key={index}>
+                      <CTableDataCell className="text-center">
+                        <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} />
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        <div>{item.user.name}</div>
+                        <div className="small text-body-secondary text-nowrap">
+                          <span>{item.user.new ? 'New' : 'Recurring'}</span> | Registered:{' '}
+                          {item.user.registered}
+                        </div>
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        <CIcon size="xl" icon={item.country.flag} title={item.country.name} />
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        <div className="d-flex justify-content-between text-nowrap">
+                          <div className="fw-semibold">{item.usage.value}%</div>
+                          <div className="ms-3">
+                            <small className="text-body-secondary">{item.usage.period}</small>
+                          </div>
+                        </div>
+                        <CProgress thin color={item.usage.color} value={item.usage.value} />
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        <CIcon size="xl" icon={item.payment.icon} />
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        <div className="small text-body-secondary text-nowrap">Last login</div>
+                        <div className="fw-semibold text-nowrap">{item.activity}</div>
+                      </CTableDataCell>
+                    </CTableRow>
+                  ))}
+                </CTableBody>
+              </CTable>
             </CCardBody>
           </CCard>
         </CCol>

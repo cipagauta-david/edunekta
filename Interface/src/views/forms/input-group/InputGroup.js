@@ -55,7 +55,7 @@ const InputGroup = () => {
               </CInputGroup>
               <CFormLabel htmlFor="basic-url">Your vanity URL</CFormLabel>
               <CInputGroup className="mb-3">
-                <CInputGroupText id="basic-addon3">https://example.com/usuarios/</CInputGroupText>
+                <CInputGroupText id="basic-addon3">https://example.com/users/</CInputGroupText>
                 <CFormInput id="basic-url" aria-describedby="basic-addon3" />
               </CInputGroup>
               <CInputGroup className="mb-3">

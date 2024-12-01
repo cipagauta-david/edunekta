@@ -1,24 +1,24 @@
 module.exports = {
   // parser: '@typescript-eslint/parser', // Specifies the ESLint parser
   parserOptions: {
-    ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
+    ecmaVersion: 2020, // Allows parsing of modern ECMAScript features
     sourceType: 'module', // Allows for the use of imports
     ecmaFeatures: {
-      jsx: true, // Allows for the parsing of JSX
+      jsx: true, // Permite el análisis de JSX
     },
   },
   settings: {
     react: {
-      version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
+      version: 'detect', // Indica a eslint-plugin-react que detecte automáticamente la versión de React a usar
     },
   },
   extends: [
-    'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
-    'plugin:prettier/recommended', // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
+    'plugin:react/recommended', // Utiliza las reglas recomendadas de @eslint-plugin-react
+    'plugin:prettier/recommended', // Habilita eslint-plugin-prettier y eslint-config-prettier. Esto mostrará errores de prettier como errores de ESLint. Asegúrate de que esta sea siempre la última configuración en el array de extends.
   ],
   plugins: ['react', 'react-hooks'],
   rules: {
-    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
+    // Lugar para especificar reglas de ESLint. Se puede usar para sobrescribir reglas especificadas desde las configuraciones extendidas
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
   },
 }

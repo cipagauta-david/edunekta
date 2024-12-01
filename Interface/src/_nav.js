@@ -29,23 +29,23 @@ const _nav = [
   },
   {
     component: CNavTitle,
-    name: 'Temas',
+    name: 'Theme',
   },
   {
     component: CNavItem,
-    name: 'Colores',
+    name: 'Colors',
     to: '/theme/colors',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
-    name: 'Tipografía',
+    name: 'Typography',
     to: '/theme/typography',
     icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
-    name: 'Componentes',
+    name: 'Components',
   },
   {
     component: CNavGroup,
