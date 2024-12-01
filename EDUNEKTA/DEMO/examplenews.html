@@ -1,0 +1,123 @@
+<section class="container mt-5">
+    <h3 class="mb-4">Historial de Notificaciones</h3>
+
+    <!-- Tabla para mostrar las notificaciones -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Remitente</th>
+                <th scope="col">Destinatario</th>
+                <th scope="col">Tipo (Proviene de)</th>
+                <th scope="col">Fecha Enviado</th>
+                <th scope="col">Fecha Recibido</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Ejemplo de una fila de notificación -->
+            <tr>
+                <td>001</td>
+                <td><span class="badge bg-warning">Pendiente</span></td>
+                <td>Juan Pérez</td>
+                <td>Ana Gómez</td>
+                <td>Notificación Interna</td>
+                <td>2024-11-30 10:00</td>
+                <td>2024-11-30 11:00</td>
+                <td>
+                    <button class="btn btn-info btn-sm" onclick="verDetalle('001')">Ver</button>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarNotificacion('001')">Eliminar</button>
+                </td>
+            </tr>
+            <tr>
+                <td>002</td>
+                <td><span class="badge bg-success">Enviado</span></td>
+                <td>María Ramírez</td>
+                <td>Pedro González</td>
+                <td>Notificación Automática</td>
+                <td>2024-11-29 09:15</td>
+                <td>2024-11-29 09:30</td>
+                <td>
+                    <button class="btn btn-info btn-sm" onclick="verDetalle('002')">Ver</button>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarNotificacion('002')">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- Modal para ver detalles de la notificación -->
+<div class="modal fade" id="modalDetalle" tabindex="-1" aria-labelledby="modalDetalleLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalDetalleLabel">Detalles de la Notificación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>ID:</strong> <span id="detalleId"></span></p>
+                <p><strong>Estado:</strong> <span id="detalleEstado"></span></p>
+                <p><strong>Remitente:</strong> <span id="detalleRemitente"></span></p>
+                <p><strong>Destinatario:</strong> <span id="detalleDestinatario"></span></p>
+                <p><strong>Tipo (Proviene de):</strong> <span id="detalleTipo"></span></p>
+                <p><strong>Fecha Enviado:</strong> <span id="detalleFechaEnviado"></span></p>
+                <p><strong>Fecha Recibido:</strong> <span id="detalleFechaRecibido"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Función para ver detalles de la notificación en el modal
+    function verDetalle(id) {
+        // Simulación de datos, normalmente estos vendrían de la base de datos
+        const notificaciones = [
+            {
+                id: '001',
+                estado: 'Pendiente',
+                remitente: 'Juan Pérez',
+                destinatario: 'Ana Gómez',
+                tipo: 'Notificación Interna',
+                fechaEnviado: '2024-11-30 10:00',
+                fechaRecibido: '2024-11-30 11:00'
+            },
+            {
+                id: '002',
+                estado: 'Enviado',
+                remitente: 'María Ramírez',
+                destinatario: 'Pedro González',
+                tipo: 'Notificación Automática',
+                fechaEnviado: '2024-11-29 09:15',
+                fechaRecibido: '2024-11-29 09:30'
+            }
+        ];
+
+        // Buscar notificación por ID
+        const notificacion = notificaciones.find(n => n.id === id);
+
+        // Asignar los valores al modal
+        document.getElementById('detalleId').textContent = notificacion.id;
+        document.getElementById('detalleEstado').textContent = notificacion.estado;
+        document.getElementById('detalleRemitente').textContent = notificacion.remitente;
+        document.getElementById('detalleDestinatario').textContent = notificacion.destinatario;
+        document.getElementById('detalleTipo').textContent = notificacion.tipo;
+        document.getElementById('detalleFechaEnviado').textContent = notificacion.fechaEnviado;
+        document.getElementById('detalleFechaRecibido').textContent = notificacion.fechaRecibido;
+
+        // Mostrar el modal
+        new bootstrap.Modal(document.getElementById('modalDetalle')).show();
+    }
+
+    // Función para eliminar una notificación (esto podría incluir una llamada a la base de datos)
+    function eliminarNotificacion(id) {
+        if (confirm('¿Estás seguro de que deseas eliminar esta notificación?')) {
+            // Simulación de eliminación (en una implementación real se eliminaría de la base de datos)
+            alert(`Notificación ID ${id} eliminada`);
+            // Aquí se debería recargar la tabla o hacer una petición AJAX para actualizar los datos.
+        }
+    }
+</script>
