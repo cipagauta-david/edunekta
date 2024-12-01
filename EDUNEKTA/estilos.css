@@ -7,7 +7,7 @@
     --color-blanco: #fff;
     --color-hover: #0056b3;
     --color-link: black;
-    --color-link-hover: var(--color-secundario);
+    --color-link-hover: var(--color-primario);
     --color-boton: rgb(135, 206, 250);
     --color-boton-hover: #007bff;
     --color-formulario-fondo: rgba(255, 255, 255, 0.6);
@@ -208,7 +208,7 @@ a.active {
     border-bottom: 2px solid var(--color-secundario);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    background-color: rgba(54, 161, 203, 0.1);
+    background-color: rgb(235 245 248);
     border-radius: 4px;
 }
 

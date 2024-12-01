@@ -12,7 +12,7 @@
 
 <body>
     <main>
-        <div class="caja2">
+        <div class="caja2 align-items-center">
             <form action="" method="post" class="form-box needs-validation" novalidate>
                 <a href="./inicio.html"><img src="./imagenes/Logotipo.png" alt="logo" class="logologin"></a>
                 <h1>Iniciar Sesión</h1>
@@ -22,7 +22,8 @@
                 <label for="contrasena" class="form-label"></label>
                 <input type="password" id="contrasena" class="form-control espacio" name="contrasena" required placeholder="Contraseña">
                 <div class="invalid-feedback">La contraseña es obligatoria.</div>
-                <input type="submit" class="btn btn-primary mt-3" value="Iniciar Sesión">
+                <input type="submit" class="btn btn-primary " style="align-self: center;" value="Iniciar Sesión">
+                <input type="button" class="btn btn-primary mt-3" onclick="window.location.href='DEMO/dashboard.html'" value="DEMO">
                 <button type="button" class="btn btn-secondary mt-3" onclick="window.location.href='inicio.html'">Regresar</button>
             </form>
         </div>
