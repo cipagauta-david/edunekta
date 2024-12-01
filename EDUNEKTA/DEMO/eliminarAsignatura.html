@@ -156,7 +156,7 @@
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>
-                    Edunekta Demo --------------KEVIN
+                    Edunekta Demo 
                 </div>
             </nav>
 
@@ -171,56 +171,38 @@
                             <a href="./inicio.html">
                                 <img src="../imagenes/Logotipo.png" alt="logo" class="logologin mb-4">
                             </a>
-                            <h1 class="h4">Crear asignatura</h1>
+                            <h1 class="h4">Eliminar grupo</h1>
                         </div>
 
-            
                         <div class="row g-2">
-                            <div class="col-md-4">
-                                <label for="nombre-completo" class="form-label">Nombre Asignatura</label>
-                                <input type="text" id="nombre-completo" name="nombre_completo" class="form-control" required=""
-                                    placeholder="Nombre de la asignatura">
-                                <div class="invalid-feedback">Por favor, ingresa una asignatura .</div>
+                            <div class="col-md-6">
+                                <label for="nombre-completo" class="form-label">Nombre de grupo</label>
+                                <input type="text" id="nombre-completo" name="nombre_completo" class="form-control" disabled value="Grupo test"
+                                    required="" placeholder="Nombre de grupo">
+                                <div class="invalid-feedback">Por favor, ingresa tu grupo.</div>
                             </div>
-        
-                            <div class="col-md-4">
-                                <label for="rol" class="form-label">Grado</label>
+
+
+                            <div class="col-md-6">
+                                <label for="rol" class="form-label">Aula</label>
                                 <select id="rol" name="rol" class="form-select" required="">
-                                    <option value="">Seleccione un grado</option>
-                                    <option value="Primaria">Primaria</option>
-                                    <option value="Secundaria">Secundaria</option>
-                                    <option value="Bachillerato">Bachillerato</option>
+                                    <option value="">Seleccione un aula</option>
+                                    <option value="101">101</option>
+                                    <option value="102">102</option>
+                                    <option value="103">103</option>
+                                    <option value="104">104</option>
                                 </select>
-                                <div class="invalid-feedback">Por favor, selecciona un grado.</div>
+                                <div class="invalid-feedback">Por favor, seleccione un aula.</div>
                             </div>
-        
-                          
-                            <div class="col-md-4">
-                                <label for="rol" class="form-label">Material de estudio</label>
-                                <select id="rol" name="rol" class="form-select" required="">
-                                    <option value="">Seleccione Material</option>
-                                    <option value="Primaria">Teoria de conjunto</option>
-                                    <option value="Secundaria">Celulas animales</option>
-                                    <option value="Bachillerato">Historia de colombia</option>
-                                </select>
-                                <div class="invalid-feedback">Por favor, selecciona una competencia.</div>
-                            </div>
-        
-                            <div class="col-md-4">
-                                <label for="descripcion" class="form-label">Descripción</label>
-                                <textarea id="descripcion" name="descripcion" class="form-control" rows="4"
-                                    placeholder="Ingrese una descripción"></textarea>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="competencia" class="form-label">Competencia</label>
-                                <textarea id="competencia" name="competencia" class="form-control" rows="4"
-                                    placeholder="Ingrese una competencia"></textarea>
+                            <div class="col-md-12">
+                                <label for="observaciones" class="form-label">Observaciones</label>
+                                <textarea id="observaciones" name="observaciones" class="form-control" rows="4"
+                                    placeholder="Ingrese observaciones adicionales"></textarea>
                             </div>
                         </div>
-            
 
                         <div class="d-flex justify-content-between mt-3">
-                            <button type="submit" class="btn btn-primary">Crear</button>
+                            <button type="submit" class="btn btn-primary">Eliminar </button>
                             <button type="reset" class="btn btn-secondary">Limpiar</button>
                         </div>
                     </form>
