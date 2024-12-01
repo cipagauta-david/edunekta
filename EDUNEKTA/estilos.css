@@ -39,7 +39,7 @@
 
 html,
 body {
-    height: 100%;
+    height: auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-image: linear-gradient(to bottom, var(--color-secundario), var(--color-blanco));
     background-repeat: no-repeat;
