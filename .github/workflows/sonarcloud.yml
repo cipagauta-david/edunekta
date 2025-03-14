@@ -1,32 +1,31 @@
 name: SonarCloud Analysis
+
 on:
   push:
     branches:
-      - main # Rama principal
-      - development # Agregamos la rama development
+      - main
+      - development
   pull_request:
     branches:
-      - main 
-      - development # También para pull requests hacia development
+      - main
+      - development
+
 jobs:
   sonarcloud:
-    name: Analyze on SonarCloud
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Set up JDK 11
+        
+      - name: Set up Java
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-      - name: Cache SonarCloud dependencies
+          
+      - name: Cache
         uses: actions/cache@v2
         with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar-${{ hashFiles('**/*.gradle*', '**/*.java', '**/pom.xml') }}
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-sonar-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v1
-        with:
-          sonar-token: ${{ secrets.SONAR_TOKEN }}
+            ${{ runner.os }}-maven-
