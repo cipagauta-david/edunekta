@@ -3,9 +3,11 @@ on:
  push:
  branches:
  - main # Reemplaza con tu rama principal si es diferente de "main"
+ - development
  pull_request:
  branches:
  - main # Reemplaza con tu rama principal si es diferente de "main"
+ - development
 jobs:
  sonarcloud:
  name: Analyze on SonarCloud
