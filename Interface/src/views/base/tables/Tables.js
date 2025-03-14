@@ -904,12 +904,12 @@ const Tables = () => {
           <CCardBody>
             <p className="text-body-secondary small">
               A <code>&lt;CTableCaption&gt;</code> functions like a heading for a table. It helps
-              usuarios with screen readers to find a table and understand what it&#39;s about and
+              users with screen readers to find a table and understand what it&#39;s about and
               decide if they want to read it.
             </p>
             <DocsExample href="components/table#captions">
               <CTable>
-                <CTableCaption>Lista de Usuarios</CTableCaption>
+                <CTableCaption>List of users</CTableCaption>
                 <CTableHead>
                   <CTableRow>
                     <CTableHeaderCell scope="col">#</CTableHeaderCell>
@@ -946,7 +946,7 @@ const Tables = () => {
             </p>
             <DocsExample href="components/table#captions">
               <CTable caption="top">
-                <CTableCaption>Lista de Usuarios</CTableCaption>
+                <CTableCaption>List of users</CTableCaption>
                 <CTableHead>
                   <CTableRow>
                     <CTableHeaderCell scope="col">#</CTableHeaderCell>
