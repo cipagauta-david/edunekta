@@ -25,7 +25,12 @@ jobs:
       - name: Cache
         uses: actions/cache@v2
         with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonarcloud-${{ hashFiles('**/*.java') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            ${{ runner.os }}-sonarcloud-
+ 
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@v1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
