@@ -402,7 +402,7 @@
 
             <div class="container d-flex justify-content-center align-items-center min-vh-100">
                 <div class="card shadow p-4 form-card">
-                    <form action="#" method="post" class="needs-validation" novalidate="">
+                    <form action="pActividad.php" method="post" class="needs-validation" novalidate="">
                         <div class="text-center mb-4">
                             <a href="./index.html">
                                 <img src="../../imagenes/Logotipo.png" alt="logo" class="logologin mb-4">
@@ -412,22 +412,31 @@
 
                         <div class="row g-2">
                             <div class="col-md-6">
-                                <label for="nombre-completo" class="form-label">Actividad a crear</label>
-                                <input type="text" id="nombre-completo" name="nombre_completo" class="form-control"
-                                    required="" placeholder="Nombre de actividad">
-                                <div class="invalid-feedback">Por favor, ingresa actividad.</div>
+                                <label for="titulo" class="form-label">Título de la actividad</label>
+                                <input type="text" id="titulo" name="titulo" class="form-control"
+                                    required="" placeholder="Título de la actividad">
+                                <div class="invalid-feedback">Por favor, ingresa el título de la actividad.</div>
                             </div>
-
 
                             <div class="col-md-6">
-                                <label for="rol" class="form-label">Fecha</label>
-                                <input type="date" class="form-control" id="fecha" name="fecha">
+                                <label for="fecha" class="form-label">Fecha</label>
+                                <input type="date" class="form-control" id="fecha" name="fecha" aria-label="Fecha de la actividad">
                                 <div class="invalid-feedback">Por favor, seleccione una fecha.</div>
                             </div>
+                            
                             <div class="col-md-12">
-                                <label for="observaciones" class="form-label">Descripción</label>
-                                <textarea class="form-control" placeholder="Descripción" id="descripcion"
-                                    rows="4"></textarea>
+                                <label for="clase" class="form-label">Clase</label>
+                                <select class="form-select" id="clase" name="clase" required>
+                                    <option value="" selected disabled>Seleccione una clase</option>
+                                    <option value="1">2922209-PHP</option>
+                                </select>
+                                <div class="invalid-feedback">Por favor, seleccione una clase.</div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea class="form-control" placeholder="Descripción" id="descripcion" 
+                                    name="descripcion" rows="4"></textarea>
                             </div>
                         </div>
 
