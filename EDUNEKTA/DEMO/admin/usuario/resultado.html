@@ -17,7 +17,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-light">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="../dashboard.html">Edunekta Demo</a>
+            <a class="navbar-brand ps-3" href="../../dashboard.html">Edunekta Demo</a>
             <!-- Sidebar Toggle-->
             
             <!-- Navbar Search-->
@@ -64,7 +64,7 @@
               <hr class="dropdown-divider" />
             </li>
             <li>
-              <a class="dropdown-item" href="../dashboard.html#!">
+              <a class="dropdown-item" href="../../../login.html">
                 Cerrar sesión</a
               >
             </li>
@@ -133,9 +133,9 @@
                       data-bs-parent="#sidenavAccordion"
                     >
                       <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="../academic/crearActividad.html">Crear</a>
-                        <a class="nav-link" href="../academic/editarActividad.html">Editar</a>
-                        <a class="nav-link" href="../academic/actividad/eliminarActividad.html">Eliminar</a>
+                        <a class="nav-link" href="../../academic/crearActividad.html">Crear</a>
+                        <a class="nav-link" href="../../academic/editarActividad.html">Editar</a>
+                        
                       </nav>
                     </div>
                     <a
@@ -258,8 +258,7 @@
                       <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" href="Registrar.html">Registrar</a>
                         <a class="nav-link" href="Consultar.html">Consultar</a>
-                        <a class="nav-link" href="Habilitar.html">Habilitar</a>
-                        <a class="nav-link" href="Modificar.html">Modificar</a>
+                      
                       </nav>
                     </div>
                     <a
@@ -321,7 +320,7 @@
                         id="sidenavAccordionPages"
                       >
                         <nav class="sb-sidenav-menu-nested nav">
-                          <a class="nav-link" href="Certificado.html"
+                          <a class="nav-link" href="../Certificado.html"
                             >Descargar Certificado</a
                           >
                         </nav>
@@ -529,7 +528,7 @@ document.getElementById('formEditar').addEventListener('submit', function (e) {
     .then(resp => {
       if (resp === 'ok') {
         alert('Actualizado correctamente');
-        location.reload();
+        location.reload(true);
       } else {
         alert('Error al actualizar');
       }
