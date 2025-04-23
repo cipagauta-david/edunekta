@@ -1,5 +1,5 @@
 <?php
-require_once './DEMO/Conexion.php'; 
+require_once './DEMO/Conexion.php" '; 
 
 $conexionBD = new Conexion();
 $conn = $conexionBD->getConexion();
@@ -20,11 +20,11 @@ $resultado = $conn->query($sql);
 if ($resultado->num_rows > 0) {
     session_start();
     $_SESSION['correo'] = $correo;
-    header("Location: DEMO/dashboard.html"); 
+    header("Location: DEMO/dashboard.php" ); 
     exit();
 } else {
     // Redirige con un parámetro de error
-    header("Location: login.html?error=1");
+    header("Location: login.php?error=1");
     exit();
 }
 

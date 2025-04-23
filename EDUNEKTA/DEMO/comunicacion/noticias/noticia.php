@@ -1,8 +1,8 @@
 <?php
-include "../../conexion.php";
+include "../../conexion.php" ;
 
 class Noticia {
-    private $inameof//
+    private $inameof;
     private $titulo;
     private $fecha;
     private $descripcion;

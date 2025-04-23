@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)dashboard.php" / -->
+<html lang="en" class="fontawesome-i2svg-active fontawesome-i2svg-complete">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content=">
+    <meta name="author" content=">
+    <title>Dashboard - SB Admin</title>
+    <link href="../../../dashboard_files/styles.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="../../../estilos.css" rel="stylesheet">
+
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-light">
+        <!-- Navbar Brand -->
+        <a class="navbar-brand ps-3" href="#">Edunekta Demo</a>
+
+        <!-- Navbar -->
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><svg class="svg-inline--fa fa-user fa-fw" aria-hidden="true" focusable="false"
+                        data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 448 512" data-fa-i2svg=">
+                        <path fill="currentColor"
+                            d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z">
+                        </path>
+                    </svg>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="Ajuste.php" >Ajustes</a></li>
+                    <li>
+                        <a class="dropdown-item" href="#!">Registro de actividad</a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#!">
+                            Cerrar sesión</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Académico</div>
+                        <!-- Inicio de sección Actividades -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseActivity" aria-expanded="false" aria-controls="collapseActivity">
+                            <div class="sb-nav-link-icon">
+                                <svg class="svg-inline--fa fa-table-columns" aria-hidden="true" focusable="false"
+                                    data-prefix="fas" data-icon="table-columns" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=">
+                                    <path fill="currentColor"
+                                        d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zm64 64V416H224V160H64zm384 0H288V416H448V160z">
+                                    </path>
+                                </svg>
+                                <!-- <i class="fas fa-columns"></i> Font Awesome fontawesome.com -->
+                            </div>
+                            Actividades
+                            <div class="sb-sidenav-collapse-arrow">
+                                <svg class="svg-inline--fa fa-angle-down" aria-hidden="true" focusable="false"
+                                    data-prefix="fas" data-icon="angle-down" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=">
+                                    <path fill="currentColor"
+                                        d="M169.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 274.7 54.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z">
+                                    </path>
+                                </svg>
+                                <!-- <i class="fas fa-angle-down"></i> Font Awesome fontawesome.com -->
+                            </div>
+                        </a>
+                        <div class="collapse" id="collapseActivity" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="academic/actividad/crearActividad.php" >Crear Actividad</a>
+                                <a class="nav-link" href="academic/actividad/editarActividad.php" >Editar Actividad</a>
+                                <a class="nav-link" href="academic/actividad/eliminarActividad.php" >Eliminar
+                                    Actividad</a>
+                            </nav>
+                        </div>
+                        <!-- Fin de sección Actividades -->
+                        <!-- Inicio de sección Asignaturas -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseAsigna" aria-expanded="false" aria-controls="collapseAsigna">
+                            <div class="sb-nav-link-icon">
+                                <svg class="svg-inline--fa fa-table-columns" aria-hidden="true" focusable="false"
+                                    data-prefix="fas" data-icon="table-columns" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=">
+                                    <path fill="currentColor"
+                                        d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zm64 64V416H224V160H64zm384 0H288V416H448V160z">
+                                    </path>
+                                </svg>
+                                <!-- <i class="fas fa-columns"></i> Font Awesome fontawesome.com -->
+                            </div>
+                            Asignaturas
+                            <div class="sb-sidenav-collapse-arrow">
+                                <svg class="svg-inline--fa fa-angle-down" aria-hidden="true" focusable="false"
+                                    data-prefix="fas" data-icon="angle-down" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=">
+                                    <path fill="currentColor"
+                                        d="M169.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 274.7 54.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z">
+                                    </path>
+                                </svg>
+                                <!-- <i class="fas fa-angle-down"></i> Font Awesome fontawesome.com -->
+                            </div>
+                        </a>
+                        <div class="collapse border-bottom" id="collapseAsigna" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="academic/actividad/crearAsignatura.php" >Crear</a>
+                                <a class="nav-link" href="academic/actividad/editarAsignatura.php" >Editar</a>
+                                <a class="nav-link" href="academic/actividad/eliminarActividad.php" >Eliminar</a>
+                            </nav>
+                        </div>
+                        <!-- Fin de sección Asignaturas -->
+                        <a class="sb-sidenav-menu-heading">Administracion</a>
+                        <!-- Inicio de sección Personal -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon">
+                                <svg class="svg-inline--fa fa-table-columns" aria-hidden="true" focusable="false"
+                                    data-prefix="fas" data-icon="table-columns" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=">
+                                    <path fill="currentColor"
+                                        d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zm64 64V416H224V160H64zm384 0H288V416H448V160z">
+                                    </path>
+                                </svg>
+                                <!-- <i class="fas fa-columns"></i> Font Awesome fontawesome.com -->
+                            </div>
+                            Personal
+                            <div class="sb-sidenav-collapse-arrow">
+                                <svg class="svg-inline--fa fa-angle-down" aria-hidden="true" focusable="false"
+                                    data-prefix="fas" data-icon="angle-down" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=">
+                                    <path fill="currentColor"
+                                        d="M169.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 274.7 54.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z">
+                                    </path>
+                                </svg>
+                                <!-- <i class="fas fa-angle-down"></i> Font Awesome fontawesome.com -->
+                            </div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="admin/usuario/registrar.php" >Registrar</a>
+                                <a class="nav-link" href="admin/usuario/consultar.php" >Consultar</a>
+                                <a class="nav-link" href="admin/usuario/habilitar.php" >Habilitar</a>
+                                <a class="nav-link" href="admin/usuario/Modificar.php" >Modificar</a>
+                            </nav>
+                        </div>
+                        <!-- Fin de sección Personal -->
+                        <!-- Inicio de sección Certificados -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                            aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon">
+                                <svg class="svg-inline--fa fa-book-open" aria-hidden="true" focusable="false"
+                                    data-prefix="fas" data-icon="book-open" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=">
+                                    <path fill="currentColor"
+                                        d="M249.6 471.5c10.8 3.8 22.4-4.1 22.4-15.5V78.6c0-4.2-1.6-8.4-5-11C247.4 52 202.4 32 144 32C93.5 32 46.3 45.3 18.1 56.1C6.8 60.5 0 71.7 0 83.8V454.1c0 11.9 12.8 20.2 24.1 16.5C55.6 460.1 105.5 448 144 448c33.9 0 79 14 105.6 23.5zm76.8 0C353 462 398.1 448 432 448c38.5 0 88.4 12.1 119.9 22.6c11.3 3.8 24.1-4.6 24.1-16.5V83.8c0-12.1-6.8-23.3-18.1-27.6C529.7 45.3 482.5 32 432 32c-58.4 0-103.4 20-123 35.6c-3.3 2.6-5 6.8-5 11V456c0 11.4 11.7 19.3 22.4 15.5z">
+                                    </path>
+                                </svg>
+                                <!-- <i class="fas fa-book-open"></i> Font Awesome fontawesome.com -->
+                            </div>
+                            Certificados
+                            <div class="sb-sidenav-collapse-arrow">
+                                <svg class="svg-inline--fa fa-angle-down" aria-hidden="true" focusable="false"
+                                    data-prefix="fas" data-icon="angle-down" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=">
+                                    <path fill="currentColor"
+                                        d="M169.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 274.7 54.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z">
+                                    </path>
+                                </svg>
+                                <!-- <i class="fas fa-angle-down"></i> Font Awesome fontawesome.com -->
+                            </div>
+                        </a>
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="admin/certificados/descargar.php" >Descargar
+                                        Certificado</a>
+                                </nav>
+                            </nav>
+                        </div>
+                        <!-- Fin de sección Certificados -->
+                        <div class="sb-sidenav-menu-heading">Comunicación</div>
+                        <!-- Inicio de sección del Foro -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseForo"
+                            aria-expanded="false" aria-controls="collapseForo">
+                            <div class="sb-nav-link-icon">
+                                <svg class="svg-inline--fa fa-table-columns" aria-hidden="true" focusable="false"
+                                    data-prefix="fas" data-icon="table-columns" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=">
+                                    <path fill="currentColor"
+                                        d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zm64 64V416H224V160H64zm384 0H288V416H448V160z">
+                                    </path>
+                                </svg>
+                            </div>
+                            Foro
+                            <div class="sb-sidenav-collapse-arrow">
+                                <svg class="svg-inline--fa fa-angle-down" aria-hidden="true" focusable="false"
+                                    data-prefix="fas" data-icon="angle-down" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=">
+                                    <path fill="currentColor"
+                                        d="M169.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 274.7 54.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </a>
+                        <div class="collapse" id="collapseForo" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="crearForo.php" >Crear Foro</a>
+                                <a class="nav-link" href="editarForo.php" >Editar Foro</a>
+                                <a class="nav-link" href="eliminarForo.php" >Eliminar Foro</a>
+                            </nav>
+                        </div>
+                        <!-- Fin de sección Foro -->
+                        <!-- Inicio de sección de Noticias -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseNoticias" aria-expanded="false" aria-controls="collapseNoticias">
+                            <div class="sb-nav-link-icon">
+                                <svg class="svg-inline--fa fa-table-columns" aria-hidden="true" focusable="false"
+                                    data-prefix="fas" data-icon="table-columns" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=">
+                                    <path fill="currentColor"
+                                        d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zm64 64V416H224V160H64zm384 0H288V416H448V160z">
+                                    </path>
+                                </svg>
+                            </div>
+                            Noticias
+                            <div class="sb-sidenav-collapse-arrow">
+                                <svg class="svg-inline--fa fa-angle-down" aria-hidden="true" focusable="false"
+                                    data-prefix="fas" data-icon="angle-down" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=">
+                                    <path fill="currentColor"
+                                        d="M169.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 274.7 54.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </a>
+                        <div class="collapse" id="collapseNoticias" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="comunicacion/noticias/crearNoticia.php" >Crear Noticia</a>
+                                <a class="nav-link" href="comunicacion/noticias/editarNoticia.php" >Editar Noticia</a>
+                                <a class="nav-link" href="comunicacion/noticias/eliminarNoticia.php" >Eliminar
+                                    Noticia</a>
+                            </nav>
+                        </div>
+                        <!-- Fin de sección Noticias -->
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Iniciado sesión como:</div>
+                    Edunekta Demo
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <div class="container d-flex justify-content-center align-items-center min-vh-100">
+                <div class="card shadow p-4 form-card">
+                    <form action="#" method="post" class="needs-validation" novalidate>
+                        <div class="text-center mb-4">
+                            <a href="./index.php" ><img src="../imagenes/Logotipo.png" alt="logo"
+                                    class="logologin mb-3"></a>
+                            <h1 class="h4">Bienvenidos a Nuestro Foro</h1>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="valor-busqueda" class="form-label">Asunto:</label>
+                            <input type="text" id="valor-busqueda" name="valor" class="form-control" required
+                                placeholder="Ingrese el título correspondiente al foro">
+                            <div class="invalid-feedback">Por favor, ingresa el dato correspondiente.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="motivo" class="form-label">Descripción:</label>
+                            <textarea id="motivo" name="motivo" class="form-control" rows="4"
+                                placeholder="Escriba la descripción del foro aquí"></textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <button type="reset" class="btn btn-secondary">Editar</button>
+                            <button type="submit" class="btn btn-primary">Crear</button>
+                        </div>
+
+                        <p class="mt-3 text-muted">*Al eliminar un foro este no se podrá volver a acceder al él desde el
+                            sistema. Verifique la información antes de proceder.</p>
+                    </form>
+                </div>
+            </div>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">© 2024 Edunekta. Todos los derechos reservados.
+                        </div>
+                        <div>
+                            <a href="dashboard.php" #">Políticas de Privacidad</a>
+                            ·
+                            <a href="dashboard.php" #">Términos &amp; Condiciones</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
+
+
+</body>
+
+</html>
