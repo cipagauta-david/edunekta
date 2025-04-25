@@ -19,14 +19,34 @@ $resultado = $conn->query($sql);
 
 if ($resultado->num_rows > 0) {
     session_start();
-    $_SESSION['correo'] = $correo;
-    header("Location: DEMO/dashboard.html"); 
+    $usuario = $resultado->fetch_assoc();
+    $_SESSION['correo'] = $usuario['correo'];
+    $_SESSION['rol'] = $usuario['rol'];  
+
+    switch ($usuario['rol']) {
+        case 'Docente':
+            header("Location: DEMO/dashboard_docente.php");
+            break;
+        case 'Administrativo':
+            header("Location: DEMO/dashboard_administrativo.php");
+            break;
+        case 'Psicologo':
+            header("Location: DEMO/dashboard_psicologo.php");
+            break;
+        case 'Acudiente':
+            header("Location: DEMO/dashboard_acudiente.php");
+            break;
+        case 'Estudiantes':
+            header("Location: ESTUDIANTE/dashboard_estu.php");
+            break;
+        default:
+           
+            header("Location: login.html?error=rol_invalido");
+            break;
+    }
     exit();
 } else {
-    // Redirige con un parámetro de error
     header("Location: login.html?error=1");
     exit();
 }
-
-$conn->close();
 ?>

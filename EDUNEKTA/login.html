@@ -34,7 +34,7 @@
                 <div class="invalid-feedback">La contraseña es obligatoria.</div>
                 
                 <input type="submit" class="btn btn-primary" style="align-self: center;" value="Iniciar Sesión">
-                <input type="button" class="btn btn-primary mt-3" onclick="window.location.href='DEMO/dashboard.html'" value="DEMO">
+                <input type="button" class="btn btn-primary mt-3" onclick="window.location.href='DEMO/dashboard.php'" value="DEMO">
                 <button type="button" class="btn btn-secondary mt-3" onclick="window.location.href='index.html'">Regresar</button>
             </form>
         </div>
@@ -69,7 +69,7 @@
     </footer>
 
     <script>
-        // Validación de Bootstrap
+   
         (() => {
             'use strict'
             const forms = document.querySelectorAll('.needs-validation')
@@ -84,7 +84,7 @@
             })
         })();
 
-        // Mostrar alerta si hay error en login
+    
         const params = new URLSearchParams(window.location.search);
         if (params.get("error") === "1") {
             document.getElementById("alertaError").classList.remove("d-none");

@@ -1,0 +1,280 @@
+<?php
+session_start();
+
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['correo'])) {
+    // Redirigir al login si no hay sesión activa
+    header("Location: ../index.html");
+    exit();
+}
+?>
+<!DOCTYPE html>
+
+<!-- saved from url=(0057)dashboard.php/ -->
+<html lang="en" class="fontawesome-i2svg-active fontawesome-i2svg-complete">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>Dashboard - SB Admin</title>
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard/" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+
+  <!-- Estilos personalizados -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  
+  <link href="dashboard.css" rel="stylesheet" />
+  <link href="../dashboard_files/styles.css" rel="stylesheet" />
+  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+  <link href="../estilos.css" rel="stylesheet" />
+</head>
+
+<body class="sb-nav-fixed">
+  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-light">
+    
+    <a class="navbar-brand ps-3" href="#">Edunekta Demo</a>
+
+
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+          data-bs-toggle="dropdown" aria-expanded="false"><svg class="svg-inline--fa fa-user fa-fw" aria-hidden="true"
+            focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512" data-fa-i2svg="">
+            <path fill="currentColor"
+              d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z">
+            </path>
+          </svg>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="Ajuste.html">Ajustes</a></li>
+          <li>
+            <a class="dropdown-item" href="#!">Registro de actividad</a>
+          </li>
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+          <li>
+            <a class="dropdown-item" href="logout.php">
+              Cerrar sesión</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+      <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+          <div class="nav">
+            <div class="sb-sidenav-menu-heading">Académico</div>
+            <a
+              class="nav-link collapsed"
+              href="#"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseActivity"
+              aria-expanded="false"
+              aria-controls="collapseActivity"
+            >
+              <div class="sb-nav-link-icon">
+                <svg
+                  class="svg-inline--fa fa-table-columns"
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="fas"
+                  data-icon="table-columns"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                  data-fa-i2svg=""
+                >
+                  <path
+                    fill="currentColor"
+                    d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zm64 64V416H224V160H64zm384 0H288V416H448V160z"
+                  ></path>
+                </svg>
+                <!-- <i class="fas fa-columns"></i> Font Awesome fontawesome.com -->
+              </div>
+              Actividades
+              <div class="sb-sidenav-collapse-arrow">
+                <svg
+                  class="svg-inline--fa fa-angle-down"
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="fas"
+                  data-icon="angle-down"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 384 512"
+                  data-fa-i2svg=""
+                >
+                  <path
+                    fill="currentColor"
+                    d="M169.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 274.7 54.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                  ></path>
+                </svg>
+                <!-- <i class="fas fa-angle-down"></i> Font Awesome fontawesome.com -->
+              </div>
+            </a>
+          
+            <a
+              class="nav-link collapsed"
+              href="#"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseAsigna"
+              aria-expanded="false"
+              aria-controls="collapseAsigna"
+            >
+              <div class="sb-nav-link-icon">
+                <svg
+                  class="svg-inline--fa fa-table-columns"
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="fas"
+                  data-icon="table-columns"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                  data-fa-i2svg=""
+                >
+                  <path
+                    fill="currentColor"
+                    d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zm64 64V416H224V160H64zm384 0H288V416H448V160z"
+                  ></path>
+                </svg>
+                <!-- <i class="fas fa-columns"></i> Font Awesome fontawesome.com -->
+              </div>
+              Asignaturas
+              <div class="sb-sidenav-collapse-arrow">
+                <svg
+                  class="svg-inline--fa fa-angle-down"
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="fas"
+                  data-icon="angle-down"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 384 512"
+                  data-fa-i2svg=""
+                >
+                  <path
+                    fill="currentColor"
+                    d="M169.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 274.7 54.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                  ></path>
+                </svg>
+                <!-- <i class="fas fa-angle-down"></i> Font Awesome fontawesome.com -->
+              </div>
+            </a>
+            
+        <div class="sb-sidenav-footer">
+          <div class="small">Iniciado sesión como:</div>
+          Edunekta Demo
+        </div>
+      </nav>
+    </div>
+    <div id="layoutSidenav_content">
+      <div class="container mt-5">
+        <div class="card shadow m-3">
+          <div class="row p-5">
+            <div
+              class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+              <h1 class="h2">Dashboard</h1>
+              <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group me-2">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    Compartir
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    Exportar
+                  </button>
+                </div>
+                <button type="button"
+                  class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1">
+                  <svg class="bi">
+                    <use xlink:href="#calendar3"></use>
+                  </svg>
+                  Esta Semana
+                </button>
+              </div>
+            </div>
+
+            <canvas class="my-4 w-100" id="myChart" width="875" height="369" style="
+                display: block;
+                box-sizing: border-box;
+                height: 369px;
+                width: 875px;
+              "></canvas>
+
+            <h2>Últimas Calificaciones</h2>
+            <div class="table-responsive small">
+              <table class="table table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Profesor</th>
+                    <th scope="col">Materia</th>
+                    <th scope="col">Tarea</th>
+                    <th scope="col">Calificación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Pedro Martinez</td>
+                    <td>Español</td>
+                    <td>Actividad #2</td>
+                    <td>3.8</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Pedro Martinez</td>
+                    <td>Español</td>
+                    <td>Actividad #1</td>
+                    <td>4.0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="py-4 bg-light mt-auto">
+        <div class="container-fluid px-4">
+          <div class="d-flex align-items-center justify-content-between small">
+            <div class="text-muted">Copyright © Edunekta 2024</div>
+            <div>
+              <a href="#">Política de Privacidad</a>
+              ·
+              <a href="#">Terminos y condiciones</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js"
+    integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp"
+    crossorigin="anonymous"></script>
+  <script src="dashboard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+  <script src="js/scripts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

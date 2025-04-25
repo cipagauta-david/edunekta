@@ -2,7 +2,6 @@
 session_start();
 include('../../conexion.php');
 
-
 if (isset($_GET['criterio']) && isset($_GET['valor'])) {
     $criterio = $_GET['criterio'];
     $valor = $_GET['valor'];
@@ -11,15 +10,15 @@ if (isset($_GET['criterio']) && isset($_GET['valor'])) {
     $conexionDB = $conexion->getConexion();
 
     $columnas = [
-        'nombre_completo' => 'nombre_completo',
-        'cedula' => 'cedula',
-        'correo' => 'correo',
-        'rol' => 'rol'
+        'titulo' => 'titulo',
+        'fecha' => 'fecha_entrega',
+        'descripcion' => 'descripcion',
+        'estado' => 'estado'
     ];
 
     if (array_key_exists($criterio, $columnas)) {
         $columna = $columnas[$criterio];
-        $sql = "SELECT * FROM personal WHERE $columna LIKE ?";
+        $sql = "SELECT * FROM actividad WHERE $columna LIKE ?";
         $stmt = $conexionDB->prepare($sql);
         $valor_busqueda = '%' . $valor . '%';
         $stmt->bind_param("s", $valor_busqueda);
