@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Login</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style type="text/css">
+            .login-container {
+                width: 300px;
+                margin: 100px auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            .form-group {
+                margin-bottom: 15px;
+            }
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+            }
+            .form-group input {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+            .btn-login {
+                width: 100%;
+                padding: 10px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            .btn-login:hover {
+                background-color: #45a049;
+            }
+            .error-message {
+                color: red;
+                font-size: 12px;
+                margin-top: 5px;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div class="login-container">
+            <h2>Iniciar Sesión</h2>
+            <h:form>
+                <div class="form-group">
+                    <h:outputLabel for="usuario" value="Usuario:" />
+                    <h:inputText id="usuario" value="#{login.usuario}" required="true" 
+                               requiredMessage="El usuario es obligatorio" />
+                    <h:message for="usuario" styleClass="error-message" />
+                </div>
+                
+                <div class="form-group">
+                    <h:outputLabel for="contrasenna" value="Contraseña:" />
+                    <h:inputSecret id="contrasenna" value="#{login.contrasenna}" required="true"
+                                 requiredMessage="La contraseña es obligatoria" />
+                    <h:message for="contrasenna" styleClass="error-message" />
+                </div>
+                
+                <h:commandButton value="Ingresar" action="#{login.iniciarSesion}" styleClass="btn-login" />
+                
+                <h:messages style="color: red; margin-top: 10px;" />
+            </h:form>
+        </div>
+    </h:body>
+</html>

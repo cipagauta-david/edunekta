@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Gestión de Niveles Académicos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <h:outputStylesheet library="css" name="nivel-academico.css" />
+    <style type="text/css">
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .actions {
+            margin-bottom: 20px;
+        }
+        
+        .form-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .form-container.show {
+            display: block;
+        }
+        
+        .form-row {
+            margin-bottom: 15px;
+        }
+        
+        .form-row label {
+            display: inline-block;
+            width: 120px;
+            font-weight: bold;
+        }
+        
+        .form-row input, .form-row textarea {
+            width: 300px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .action-buttons {
+            white-space: nowrap;
+        }
+        
+        .back-link {
+            margin-bottom: 20px;
+        }
+        
+        .back-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</h:head>
+<h:body>
+    <div class="container">
+        <div class="back-link">
+            <h:link outcome="welcome" value="← Volver al Inicio" />
+        </div>
+        
+        <div class="header">
+            <h1>Gestión de Niveles Académicos</h1>
+            <p>Administración completa de niveles académicos del sistema</p>
+        </div>
+        
+        <!-- Mensajes de feedback -->
+        <h:messages globalOnly="true" styleClass="success-message" infoClass="success-message" 
+                   errorClass="error-message" warnClass="error-message" fatalClass="error-message" />
+        
+        <div class="actions">
+            <h:commandButton value="Nuevo Nivel Académico" styleClass="btn btn-primary" 
+                           onclick="showForm()" type="button" />
+        </div>
+        
+        <!-- Formulario para agregar/editar -->
+        <div id="formContainer" class="form-container">
+            <h3 id="formTitle">Nuevo Nivel Académico</h3>
+            <h:form id="nivelAcademicoForm">
+                <div class="form-row">
+                    <label for="nombre">Nombre:</label>
+                    <h:inputText id="nombre" value="#{nivelAcademicoController.nA.nombre}" 
+                                required="true" requiredMessage="El nombre es obligatorio" />
+                    <h:message for="nombre" styleClass="error" />
+                </div>
+                
+                <div class="form-row">
+                    <label for="descripcion">Descripción:</label>
+                    <h:inputTextarea id="descripcion" value="#{nivelAcademicoController.nA.descripcion}" 
+                                    rows="3" cols="40" />
+                    <h:message for="descripcion" styleClass="error" />
+                </div>
+                
+                <div class="form-row">
+                    <h:commandButton value="Guardar" action="#{nivelAcademicoController.guardar()}" 
+                                   styleClass="btn btn-success" />
+                    <h:commandButton value="Cancelar" action="#{nivelAcademicoController.cancelar()}" 
+                                   styleClass="btn btn-secondary" />
+                </div>
+            </h:form>
+        </div>
+        
+        <!-- Tabla de niveles académicos -->
+        <div class="table-container">
+            <h:form id="tableForm">
+                <h:dataTable value="#{nivelAcademicoController.listarNivelesAcademicos()}" 
+                            var="nivel" styleClass="data-table">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="ID" />
+                        </f:facet>
+                        <h:outputText value="#{nivel.idNivelAcademico}" />
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nombre" />
+                        </f:facet>
+                        <h:outputText value="#{nivel.nombre}" />
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Descripción" />
+                        </f:facet>
+                        <h:outputText value="#{nivel.descripcion}" />
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Acciones" />
+                        </f:facet>
+                        <div class="action-buttons">
+                            <h:commandButton value="Editar" styleClass="btn btn-warning" 
+                                           action="#{nivelAcademicoController.editar(nivel)}" 
+                                           onclick="showEditForm()" type="button" />
+                            <h:commandButton value="Eliminar" styleClass="btn btn-danger" 
+                                           action="#{nivelAcademicoController.eliminar(nivel)}" 
+                                           onclick="return confirm('¿Está seguro de eliminar este nivel académico?')" />
+                        </div>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        function showForm() {
+            document.getElementById('formContainer').classList.add('show');
+            document.getElementById('formTitle').textContent = 'Nuevo Nivel Académico';
+            // Limpiar el formulario
+            document.getElementById('nivelAcademicoForm:nombre').value = '';
+            document.getElementById('nivelAcademicoForm:descripcion').value = '';
+        }
+        
+        function showEditForm() {
+            document.getElementById('formContainer').classList.add('show');
+            document.getElementById('formTitle').textContent = 'Editar Nivel Académico';
+        }
+        
+        function hideForm() {
+            document.getElementById('formContainer').classList.remove('show');
+        }
+    </script>
+</h:body>
+</html> 
