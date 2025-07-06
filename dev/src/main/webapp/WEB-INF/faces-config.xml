@@ -19,6 +19,65 @@
             <from-outcome>welcome</from-outcome>
             <to-view-id>/welcome.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>views/nivelAcademico/index</from-outcome>
+            <to-view-id>/views/nivelAcademico/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <!-- Navigation Rules for Usuarios -->
+    <navigation-rule>
+        <from-view-id>/welcome.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>views/usuarios/index</from-outcome>
+            <to-view-id>/views/usuarios/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/views/usuarios/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>welcome</from-outcome>
+            <to-view-id>/welcome.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>views/usuarios/index</from-outcome>
+            <to-view-id>/views/usuarios/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <!-- Navigation Rules for Admin -->
+    <navigation-rule>
+        <from-view-id>/welcome.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/admin.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/admin.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>welcome</from-outcome>
+            <to-view-id>/welcome.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <!-- Navigation Rules for User Profile -->
+    <navigation-rule>
+        <from-view-id>/welcome.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>user</from-outcome>
+            <to-view-id>/user.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/user.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>welcome</from-outcome>
+            <to-view-id>/welcome.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
 </faces-config> 

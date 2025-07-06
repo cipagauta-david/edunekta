@@ -3,10 +3,288 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
-        <title>Admin</title>
+        <title>Administración - Sistema SENA</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- Bootstrap 5 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+        <!-- Global CSS -->
+        <h:outputStylesheet library="css" name="global.css" />
+        <!-- Font Awesome para iconos -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     </h:head>
-    <h:body>
-        <h2>Vista de Administrador</h2>
-        <p>Has iniciado sesión como: #{login.usuario}</p>
+    <h:body class="bg-light">
+        <div class="container-fluid">
+            <!-- Header con navegación -->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+                <div class="container">
+                    <a class="navbar-brand" href="#">
+                        <i class="fas fa-graduation-cap me-2"></i>
+                        Sistema SENA
+                    </a>
+                    <div class="navbar-nav ms-auto">
+                        <span class="navbar-text">
+                            <i class="fas fa-user me-2"></i>
+                            #{login.usuario}
+                        </span>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="container mt-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <h:link outcome="welcome" styleClass="text-decoration-none">
+                            <i class="fas fa-home me-1"></i>Inicio
+                        </h:link>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <i class="fas fa-tools me-1"></i>Administración
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Contenido principal -->
+            <div class="container mt-4">
+                <!-- Header de la página -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-warning text-dark">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h1 class="h3 mb-0">
+                                            <i class="fas fa-tools me-2"></i>
+                                            Panel de Administración
+                                        </h1>
+                                        <p class="mb-0 opacity-75">Configuraciones avanzadas del sistema</p>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-cogs fa-2x opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información del usuario -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-info text-white">
+                                <h4 class="mb-0">
+                                    <i class="fas fa-user-shield me-2"></i>
+                                    Información del Administrador
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="fas fa-user-circle fa-3x text-primary me-3"></i>
+                                            <div>
+                                                <h5 class="mb-1">Usuario Administrador</h5>
+                                                <p class="mb-0 text-muted">#{login.usuario}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="fas fa-shield-alt fa-3x text-success me-3"></i>
+                                            <div>
+                                                <h5 class="mb-1">Nivel de Acceso</h5>
+                                                <p class="mb-0 text-muted">Administrador del Sistema</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Módulos de administración -->
+                <div class="row g-4">
+                    <!-- Gestión de Usuarios -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                                <h5 class="card-title">Gestión de Usuarios</h5>
+                                <p class="card-text text-muted">
+                                    Administra usuarios, roles y permisos del sistema
+                                </p>
+                                <h:link outcome="views/usuarios/index" 
+                                       styleClass="btn btn-primary">
+                                    <i class="fas fa-arrow-right me-2"></i>
+                                    Acceder
+                                </h:link>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Niveles Académicos -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
+                                <h5 class="card-title">Niveles Académicos</h5>
+                                <p class="card-text text-muted">
+                                    Gestiona los niveles académicos del sistema educativo
+                                </p>
+                                <h:link outcome="views/nivelAcademico/index" 
+                                       styleClass="btn btn-success">
+                                    <i class="fas fa-arrow-right me-2"></i>
+                                    Acceder
+                                </h:link>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Configuración del Sistema -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-cogs fa-3x text-warning mb-3"></i>
+                                <h5 class="card-title">Configuración</h5>
+                                <p class="card-text text-muted">
+                                    Configuraciones generales del sistema
+                                </p>
+                                <button class="btn btn-warning" disabled>
+                                    <i class="fas fa-lock me-2"></i>
+                                    Próximamente
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reportes -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-chart-bar fa-3x text-info mb-3"></i>
+                                <h5 class="card-title">Reportes</h5>
+                                <p class="card-text text-muted">
+                                    Genera reportes y estadísticas del sistema
+                                </p>
+                                <button class="btn btn-info" disabled>
+                                    <i class="fas fa-lock me-2"></i>
+                                    Próximamente
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backup y Restauración -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-database fa-3x text-secondary mb-3"></i>
+                                <h5 class="card-title">Backup</h5>
+                                <p class="card-text text-muted">
+                                    Respaldos y restauración de datos
+                                </p>
+                                <button class="btn btn-secondary" disabled>
+                                    <i class="fas fa-lock me-2"></i>
+                                    Próximamente
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logs del Sistema -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-file-alt fa-3x text-dark mb-3"></i>
+                                <h5 class="card-title">Logs</h5>
+                                <p class="card-text text-muted">
+                                    Registros de actividad del sistema
+                                </p>
+                                <button class="btn btn-dark" disabled>
+                                    <i class="fas fa-lock me-2"></i>
+                                    Próximamente
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estadísticas rápidas -->
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-light">
+                                <h4 class="mb-0">
+                                    <i class="fas fa-chart-pie me-2"></i>
+                                    Estadísticas del Sistema
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-md-3 mb-3">
+                                        <div class="border rounded p-3">
+                                            <i class="fas fa-users fa-2x text-primary mb-2"></i>
+                                            <h5 class="mb-1">Usuarios</h5>
+                                            <p class="text-muted mb-0">Total registrados</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <div class="border rounded p-3">
+                                            <i class="fas fa-chart-line fa-2x text-success mb-2"></i>
+                                            <h5 class="mb-1">Niveles</h5>
+                                            <p class="text-muted mb-0">Académicos</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <div class="border rounded p-3">
+                                            <i class="fas fa-shield-alt fa-2x text-warning mb-2"></i>
+                                            <h5 class="mb-1">Roles</h5>
+                                            <p class="text-muted mb-0">Activos</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <div class="border rounded p-3">
+                                            <i class="fas fa-clock fa-2x text-info mb-2"></i>
+                                            <h5 class="mb-1">Sesiones</h5>
+                                            <p class="text-muted mb-0">Activas</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bootstrap 5 JS Bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        
+        <!-- Script personalizado -->
+        <script>
+            // Efecto hover para las cards
+            document.addEventListener('DOMContentLoaded', function() {
+                const cards = document.querySelectorAll('.hover-lift');
+                cards.forEach(card => {
+                    card.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-5px)';
+                        this.style.transition = 'transform 0.3s ease';
+                    });
+                    
+                    card.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(0)';
+                    });
+                });
+                
+                // Animaciones para las cards
+                const allCards = document.querySelectorAll('.card');
+                allCards.forEach((card, index) => {
+                    card.style.animationDelay = (index * 0.1) + 's';
+                    card.classList.add('fade-in');
+                });
+            });
+        </script>
     </h:body>
 </html>

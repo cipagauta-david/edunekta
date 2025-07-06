@@ -1,0 +1,411 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Gestión de Usuarios - Sistema SENA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+    <!-- Global CSS -->
+    <h:outputStylesheet library="css" name="global.css" />
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</h:head>
+<h:body class="bg-light">
+    <div class="container-fluid">
+        <!-- Header con navegación -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-graduation-cap me-2"></i>
+                    Sistema SENA
+                </a>
+                <div class="navbar-nav ms-auto">
+                    <span class="navbar-text">
+                        <i class="fas fa-user me-2"></i>
+                        #{login.usuario}
+                    </span>
+                </div>
+        </div>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="container mt-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <h:link outcome="welcome" styleClass="text-decoration-none">
+                        <i class="fas fa-home me-1"></i>Inicio
+                    </h:link>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <i class="fas fa-users me-1"></i>Gestión de Usuarios
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Contenido principal -->
+        <div class="container mt-4">
+            <!-- Header de la página -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h1 class="h3 mb-0">
+                                        <i class="fas fa-users me-2"></i>
+                                        Gestión de Usuarios
+                                    </h1>
+                                    <p class="mb-0 opacity-75">Administración completa de usuarios del sistema</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-user-cog fa-2x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        
+        <!-- Mensajes de feedback -->
+            <h:messages globalOnly="true" styleClass="alert alert-success" 
+                       infoClass="alert alert-info" 
+                       errorClass="alert alert-danger" 
+                       warnClass="alert alert-warning" 
+                       fatalClass="alert alert-danger" />
+
+            <!-- Sección de búsqueda y acciones -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="row align-items-end">
+                                <!-- Búsqueda -->
+                                <div class="col-md-8 mb-3 mb-md-0">
+                                    <h:form id="searchForm" styleClass="row g-3">
+                                        <div class="col-md-8">
+                                            <label for="searchInput" class="form-label">
+                                                <i class="fas fa-search me-2"></i>Buscar Usuario
+                                            </label>
+                                            <h:inputText id="searchInput" value="#{usuarioController.searchTerm}" 
+                                                       styleClass="form-control" 
+                                                       placeholder="Ingrese nombre, apellido o email..." />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">&nbsp;</label>
+                                            <div class="d-grid gap-2 d-md-flex">
+                    <h:commandButton value="Buscar" action="#{usuarioController.search()}" 
+                                   styleClass="btn btn-primary" />
+                    <h:commandButton value="Limpiar" action="#{usuarioController.clearSearch()}" 
+                                                               styleClass="btn btn-outline-secondary" />
+                                            </div>
+                                        </div>
+                </h:form>
+            </div>
+            
+                                <!-- Botón Nuevo -->
+                                <div class="col-md-4">
+            <h:panelGroup rendered="#{usuarioController.canPerformOperation('CREATE')}">
+                                        <button type="button" class="btn btn-success w-100" onclick="showForm()">
+                                            <i class="fas fa-plus me-2"></i>Nuevo Usuario
+                                        </button>
+            </h:panelGroup>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        
+        <!-- Formulario para agregar/editar -->
+            <div class="row mb-4" id="formContainer" style="display: none;">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm fade-in">
+                        <div class="card-header bg-info text-white">
+                            <h3 class="mb-0">
+                                <i class="fas fa-user-plus me-2"></i>
+                                <span id="formTitle">Nuevo Usuario</span>
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <h:form id="usuarioForm" styleClass="needs-validation" novalidate="true">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="nombre" class="form-label">
+                                            <i class="fas fa-user me-2"></i>Nombre *
+                                        </label>
+                    <h:inputText id="nombre" value="#{usuarioController.selected.nombre}" 
+                                                   required="true" requiredMessage="El nombre es obligatorio"
+                                                   styleClass="form-control" 
+                                                   placeholder="Ingrese el nombre" />
+                                        <h:message for="nombre" styleClass="invalid-feedback d-block" />
+                </div>
+                
+                                    <div class="col-md-6 mb-3">
+                                        <label for="apellido" class="form-label">
+                                            <i class="fas fa-user me-2"></i>Apellido *
+                                        </label>
+                    <h:inputText id="apellido" value="#{usuarioController.selected.apellido}" 
+                                                   required="true" requiredMessage="El apellido es obligatorio"
+                                                   styleClass="form-control" 
+                                                   placeholder="Ingrese el apellido" />
+                                        <h:message for="apellido" styleClass="invalid-feedback d-block" />
+                                    </div>
+                </div>
+                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">
+                                            <i class="fas fa-envelope me-2"></i>Email *
+                                        </label>
+                    <h:inputText id="email" value="#{usuarioController.selected.email}" 
+                                                   required="true" requiredMessage="El email es obligatorio"
+                                                   styleClass="form-control" 
+                                                   placeholder="usuario@ejemplo.com" />
+                                        <h:message for="email" styleClass="invalid-feedback d-block" />
+                </div>
+                
+                                    <div class="col-md-6 mb-3">
+                                        <label for="password" class="form-label">
+                                            <i class="fas fa-lock me-2"></i>Contraseña *
+                                        </label>
+                                        <div class="input-group">
+                        <h:inputSecret id="password" value="#{usuarioController.confirmPassword}" 
+                                      rendered="#{!usuarioController.isEditing or usuarioController.showPassword}"
+                                                          styleClass="form-control" 
+                                                          placeholder="Ingrese la contraseña" />
+                        <h:inputText id="passwordText" value="#{usuarioController.confirmPassword}" 
+                                    rendered="#{usuarioController.isEditing and usuarioController.showPassword}"
+                                                        styleClass="form-control" 
+                                                        placeholder="Ingrese la contraseña" />
+                                            
+                                            <h:panelGroup rendered="#{!usuarioController.isEditing}">
+                        <h:commandButton value="Generar" action="#{usuarioController.generatePassword()}" 
+                                                               styleClass="btn btn-outline-info" />
+                                            </h:panelGroup>
+                                            
+                                            <h:panelGroup rendered="#{usuarioController.isEditing}">
+                        <h:commandButton value="#{usuarioController.showPassword ? 'Ocultar' : 'Mostrar'}" 
+                                       action="#{usuarioController.togglePasswordVisibility()}" 
+                                                               styleClass="btn btn-outline-secondary" />
+                                            </h:panelGroup>
+                                        </div>
+                                        <h:message for="password" styleClass="invalid-feedback d-block" />
+                    </div>
+                </div>
+                
+                                <!-- Campo de confirmación de contraseña solo para nuevos usuarios -->
+                                <div class="row">
+                                    <h:panelGroup rendered="#{!usuarioController.isEditing}">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="confirmPassword" class="form-label">
+                                            <i class="fas fa-lock me-2"></i>Confirmar Contraseña *
+                                        </label>
+                                        <div class="input-group">
+                        <h:inputSecret id="confirmPassword" value="#{usuarioController.confirmPassword2}" 
+                                      styleClass="form-control" 
+                                      placeholder="Confirme la contraseña" />
+                                        </div>
+                                        <h:message for="confirmPassword" styleClass="invalid-feedback d-block" />
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="institucion" class="form-label">
+                                            <i class="fas fa-building me-2"></i>Institución
+                                        </label>
+                        <h:selectOneMenu id="institucion" value="#{usuarioController.selected.institucionIdInstitucion}" 
+                                        styleClass="form-control">
+                            <f:selectItem itemValue="" itemLabel="Seleccione una institución" />
+                            <f:selectItems value="#{usuarioController.instituciones}" />
+                        </h:selectOneMenu>
+                                        <h:message for="institucion" styleClass="invalid-feedback d-block" />
+                                    </div>
+                                    </h:panelGroup>
+                </div>
+                
+                                <div class="d-flex gap-2">
+                    <h:commandButton value="Guardar" action="#{usuarioController.save()}" 
+                                   styleClass="btn btn-success" />
+                    <h:commandButton value="Cancelar" action="#{usuarioController.cancel()}" 
+                                                   styleClass="btn btn-outline-secondary" />
+                </div>
+            </h:form>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        
+        <!-- Tabla de usuarios -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-light">
+                            <h4 class="mb-0">
+                                <i class="fas fa-list me-2"></i>
+                                Lista de Usuarios
+                            </h4>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+            <h:form id="tableForm">
+                <h:dataTable value="#{usuarioController.getPaginatedItems()}" 
+                                                var="usuario" styleClass="table table-hover mb-0">
+                    <h:column>
+                        <f:facet name="header">
+                                                <h:outputText value="ID" styleClass="fw-bold" />
+                        </f:facet>
+                                            <span class="badge bg-secondary">#{usuario.idUsuario}</span>
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">
+                                                <h:outputText value="Nombre Completo" styleClass="fw-bold" />
+                        </f:facet>
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-user-circle fa-2x text-primary me-2"></i>
+                                                <div>
+                                                    <h:outputText value="#{usuarioController.getUserFullName(usuario)}" 
+                                                                 styleClass="fw-semibold" />
+                                                    <br />
+                                                    <small class="text-muted">#{usuario.email}</small>
+                                                </div>
+                                            </div>
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">
+                                                <h:outputText value="Roles" styleClass="fw-bold" />
+                        </f:facet>
+                                            <div class="d-flex flex-wrap gap-1">
+                                                <h:panelGroup rendered="#{usuarioController.getUserRoles(usuario) != null and usuarioController.getUserRoles(usuario) != ''}">
+                                                    <span class="badge bg-primary">#{usuarioController.getUserRoles(usuario)}</span>
+                                                </h:panelGroup>
+                                                <h:panelGroup rendered="#{usuarioController.getUserRoles(usuario) == null or usuarioController.getUserRoles(usuario) == ''}">
+                                                    <span class="badge bg-warning text-dark">Sin roles</span>
+                                                </h:panelGroup>
+                                            </div>
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">
+                                                <h:outputText value="Institución" styleClass="fw-bold" />
+                        </f:facet>
+                                            <div class="d-flex flex-wrap gap-1">
+                                                <h:panelGroup rendered="#{usuario.institucionIdInstitucion != null and usuario.institucionIdInstitucion.nombre != null and usuario.institucionIdInstitucion.nombre != ''}">
+                                                    <span class="badge bg-info">#{usuario.institucionIdInstitucion.nombre}</span>
+                                                </h:panelGroup>
+                                                <h:panelGroup rendered="#{usuario.institucionIdInstitucion == null or usuario.institucionIdInstitucion.nombre == null or usuario.institucionIdInstitucion.nombre == ''}">
+                                                    <span class="badge bg-secondary">Sin institución</span>
+                                                </h:panelGroup>
+                                            </div>
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">
+                                                <h:outputText value="Acciones" styleClass="fw-bold" />
+                        </f:facet>
+                                            <div class="btn-group" role="group">
+                            <h:panelGroup rendered="#{usuarioController.canPerformOperation('UPDATE')}">
+                                                    <h:commandButton value="Editar" styleClass="btn btn-warning btn-sm" 
+                                               action="#{usuarioController.edit(usuario)}" 
+                                               onclick="showEditForm()" type="button" />
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{usuarioController.canPerformOperation('DELETE')}">
+                                                    <h:commandButton value="Eliminar" styleClass="btn btn-danger btn-sm" 
+                                               action="#{usuarioController.delete(usuario)}" 
+                                               onclick="return confirm('¿Está seguro de eliminar este usuario?')" />
+                            </h:panelGroup>
+                        </div>
+                    </h:column>
+                </h:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                        
+                        <!-- Paginación -->
+                        <div class="card-footer bg-light">
+                            <h:form id="paginationForm">
+                                <h:panelGroup rendered="#{usuarioController.totalPages > 1}" styleClass="d-flex justify-content-between align-items-center">
+                                    <div class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Página #{usuarioController.currentPage} de #{usuarioController.totalPages}
+                                    </div>
+                                    
+                                    <div class="btn-group" role="group">
+                        <h:commandButton value="&laquo; Anterior" 
+                                       action="#{usuarioController.previousPage()}" 
+                                                       styleClass="btn btn-outline-primary" 
+                                                       rendered="#{usuarioController.hasPreviousPage()}" />
+                        
+                        <h:commandButton value="Siguiente &raquo;" 
+                                       action="#{usuarioController.nextPage()}" 
+                                                       styleClass="btn btn-outline-primary" 
+                                                       rendered="#{usuarioController.hasNextPage()}" />
+                                    </div>
+                    </h:panelGroup>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    
+    <!-- Script personalizado -->
+    <script type="text/javascript">
+        // Validación de formulario Bootstrap
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+        
+        // Funciones para mostrar/ocultar formulario
+        function showForm() {
+            document.getElementById('formContainer').style.display = 'block';
+            document.getElementById('formTitle').textContent = 'Nuevo Usuario';
+            // Limpiar el formulario
+            document.getElementById('usuarioForm:nombre').value = '';
+            document.getElementById('usuarioForm:apellido').value = '';
+            document.getElementById('usuarioForm:email').value = '';
+            document.getElementById('usuarioForm:password').value = '';
+            if (document.getElementById('usuarioForm:confirmPassword')) {
+                document.getElementById('usuarioForm:confirmPassword').value = '';
+            }
+        }
+        
+        function showEditForm() {
+            document.getElementById('formContainer').style.display = 'block';
+            document.getElementById('formTitle').textContent = 'Editar Usuario';
+        }
+        
+        function hideForm() {
+            document.getElementById('formContainer').style.display = 'none';
+        }
+        
+        // Animaciones para las cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.1) + 's';
+                card.classList.add('fade-in');
+            });
+        });
+    </script>
+</h:body>
+</html> 

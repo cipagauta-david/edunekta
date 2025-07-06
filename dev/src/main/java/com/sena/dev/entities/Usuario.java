@@ -21,7 +21,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
     @NamedQuery(name = "Usuario.findByIdUsuario", query = "SELECT u FROM Usuario u WHERE u.idUsuario = :idUsuario"),
+    @NamedQuery(name = "Usuario.findByIdUsuarioWithRoles", query = "SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.usuarioRolCollection ur LEFT JOIN FETCH ur.rolIdRol r LEFT JOIN FETCH r.rolPermisoCollection rp LEFT JOIN FETCH rp.permisoIdPermiso p WHERE u.idUsuario = :idUsuario"),
     @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email"),
+    @NamedQuery(name = "Usuario.findByEmailWithRoles", query = "SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.usuarioRolCollection ur LEFT JOIN FETCH ur.rolIdRol r LEFT JOIN FETCH r.rolPermisoCollection rp LEFT JOIN FETCH rp.permisoIdPermiso p WHERE u.email = :email"),
     @NamedQuery(name = "Usuario.iniciarSesion", query = "SELECT u FROM Usuario u WHERE u.email = :email AND u.password = :password")
 })
 public class Usuario implements Serializable {
@@ -42,7 +44,7 @@ public class Usuario implements Serializable {
     @NotNull
     @Size(min = 1, max = 255)
     private String password;
-    @OneToMany(mappedBy = "usuarioIdUsuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuarioIdUsuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UsuarioRol> usuarioRolCollection;
     @ManyToOne
     @JoinColumn(name = "grado_id_grado")

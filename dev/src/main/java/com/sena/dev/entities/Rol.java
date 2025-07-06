@@ -41,6 +41,9 @@ public class Rol implements Serializable {
     private String estado;
     @OneToMany(mappedBy = "rolIdRol", cascade = CascadeType.ALL)
     private Set<UsuarioRol> usuarioRolCollection;
+    
+    @OneToMany(mappedBy = "rolIdRol", cascade = CascadeType.ALL)
+    private Set<RolPermiso> rolPermisoCollection;
 
     public Rol() {
     }
@@ -83,6 +86,14 @@ public class Rol implements Serializable {
 
     public void setUsuarioRolCollection(Set<UsuarioRol> usuarioRolCollection) {
         this.usuarioRolCollection = usuarioRolCollection;
+    }
+    
+    public Set<RolPermiso> getRolPermisoCollection() {
+        return rolPermisoCollection;
+    }
+
+    public void setRolPermisoCollection(Set<RolPermiso> rolPermisoCollection) {
+        this.rolPermisoCollection = rolPermisoCollection;
     }
     
 }
