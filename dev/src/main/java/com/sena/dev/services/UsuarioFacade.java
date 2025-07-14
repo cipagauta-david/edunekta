@@ -55,9 +55,36 @@ public class UsuarioFacade implements UsuarioFacadeLocal {
    * Create a new user with hashed password
    */
   public void createWithHashedPassword(Usuario usuario, String plainPassword) {
-    if (usuario != null && plainPassword != null) {
-      usuario.setPassword(PasswordUtil.hashPassword(plainPassword));
+    try {
+      if (usuario == null) {
+        throw new IllegalArgumentException("Usuario cannot be null");
+      }
+      if (plainPassword == null || plainPassword.trim().isEmpty()) {
+        throw new IllegalArgumentException("Password cannot be null or empty");
+      }
+      
+      // Log the creation attempt
+      System.out.println("Creating user with email: " + usuario.getEmail());
+      System.out.println("User data before hashing: " + usuario.toString());
+      
+      // Hash the password
+      String hashedPassword = PasswordUtil.hashPassword(plainPassword);
+      usuario.setPassword(hashedPassword);
+      
+      // Log the user data after hashing
+      System.out.println("User data after hashing: " + usuario.toString());
+      
+      // Persist the user
       em.persist(usuario);
+      
+      // Flush to ensure the data is written to the database
+      em.flush();
+      
+      System.out.println("User created successfully with ID: " + usuario.getIdUsuario());
+    } catch (Exception e) {
+      System.err.println("Error creating user: " + e.getMessage());
+      e.printStackTrace();
+      throw e;
     }
   }
   

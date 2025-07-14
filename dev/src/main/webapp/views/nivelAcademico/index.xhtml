@@ -2,7 +2,7 @@
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
     <title>Gestión de Niveles Académicos - Sistema SENA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,6 +12,14 @@
     <h:outputStylesheet library="css" name="global.css" />
     <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- JavaScript para descargas -->
+    <h:outputScript library="js" name="download.js" />
+    <!-- jsPDF y autoTable para exportar PDF real -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.0/jspdf.plugin.autotable.min.js"></script>
+    <script>
+      window.jsPDF = window.jspdf.jsPDF;
+    </script>
 </h:head>
 <h:body class="bg-light">
     <div class="container-fluid">
@@ -91,7 +99,7 @@
                                             </label>
                                             <h:inputText id="searchInput" value="#{nivelAcademicoController.searchTerm}" 
                                                        styleClass="form-control" 
-                                                       placeholder="Ingrese nombre o descripción..." />
+                                                       p:placeholder="Ingrese nombre o descripción..." />
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label">&nbsp;</label>
@@ -105,14 +113,24 @@
                                     </h:form>
                                 </div>
                                 
-                                <!-- Botón Nuevo -->
+                                <!-- Botones de acción -->
                                 <div class="col-md-4">
                                     <h:form id="actionForm">
-                                        <h:panelGroup rendered="#{nivelAcademicoController.canPerformOperation('CREATE')}">
-                                            <h:commandButton value="Nuevo Nivel Académico" 
-                                                           action="#{nivelAcademicoController.mostrarFormulario()}" 
-                                                           styleClass="btn btn-success w-100" />
-                                        </h:panelGroup>
+                                        <div class="d-grid gap-2">
+                                            <h:panelGroup rendered="#{nivelAcademicoController.canPerformOperation('CREATE')}">
+                                                <h:commandButton value="Nuevo Nivel Académico" 
+                                                               action="#{nivelAcademicoController.mostrarFormulario()}" 
+                                                               styleClass="btn btn-success" />
+                                            </h:panelGroup>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="downloadCSV()" title="Descargar como CSV">
+                                                  <i class="fas fa-file-csv me-1"></i>CSV
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="downloadPDF()" title="Descargar como PDF">
+                                                  <i class="fas fa-file-pdf me-1"></i>PDF
+                                                </button>
+                                            </div>
+                                        </div>
                                     </h:form>
                                 </div>
                             </div>
@@ -133,7 +151,7 @@
                                 </h3>
                             </div>
                             <div class="card-body">
-                                <h:form id="nivelAcademicoForm" styleClass="needs-validation" novalidate="true">
+                                <h:form id="nivelAcademicoForm" styleClass="needs-validation" p:novalidate="true">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="nombre" class="form-label">
@@ -142,7 +160,7 @@
                                             <h:inputText id="nombre" value="#{nivelAcademicoController.nA.nombre}" 
                                                        required="true" requiredMessage="El nombre es obligatorio"
                                                        styleClass="form-control" 
-                                                       placeholder="Ingrese el nombre del nivel académico" />
+                                                       p:placeholder="Ingrese el nombre del nivel académico" />
                                             <h:message for="nombre" styleClass="invalid-feedback d-block" />
                                         </div>
                                         
@@ -152,7 +170,7 @@
                                             </label>
                                             <h:inputTextarea id="descripcion" value="#{nivelAcademicoController.nA.descripcion}" 
                                                             rows="3" styleClass="form-control" 
-                                                            placeholder="Ingrese una descripción opcional" />
+                                                            p:placeholder="Ingrese una descripción opcional" />
                                             <h:message for="descripcion" styleClass="invalid-feedback d-block" />
                                         </div>
                                     </div>
@@ -285,8 +303,8 @@
         
         // Animaciones para las cards
         document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card, index) => {
+            var cards = document.querySelectorAll('.card');
+            cards.forEach(function(card, index) {
                 card.style.animationDelay = (index * 0.1) + 's';
                 card.classList.add('fade-in');
             });

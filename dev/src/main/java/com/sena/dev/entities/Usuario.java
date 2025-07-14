@@ -131,4 +131,18 @@ public class Usuario implements Serializable {
         this.institucionIdInstitucion = institucionIdInstitucion;
     }
     
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "idUsuario=" + idUsuario +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + (password != null ? "[HIDDEN]" : "null") + '\'' +
+                ", gradoIdGrado=" + (gradoIdGrado != null ? gradoIdGrado.getIdGrado() : "null") +
+                ", grupoIdGrupo=" + (grupoIdGrupo != null ? grupoIdGrupo.getIdGrupo() : "null") +
+                ", institucionIdInstitucion=" + (institucionIdInstitucion != null ? institucionIdInstitucion.getIdInstitucion() : "null") +
+                '}';
+    }
+    
 }

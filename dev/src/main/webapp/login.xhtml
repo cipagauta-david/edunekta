@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <title>Login - Sistema SENA</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,7 +24,7 @@
                             <p class="mb-0 opacity-75">Iniciar Sesión</p>
                         </div>
                         <div class="card-body p-4">
-                            <h:form styleClass="needs-validation" novalidate="true">
+                            <h:form styleClass="needs-validation" p:novalidate="true">
                                 <!-- Mensajes globales -->
                                 <h:messages globalOnly="true" styleClass="alert alert-danger" 
                                            infoClass="alert alert-info" 
@@ -40,7 +41,7 @@
                                                required="true" 
                                                requiredMessage="El usuario es obligatorio"
                                                styleClass="form-control" 
-                                               placeholder="Ingrese su usuario" />
+                                               p:placeholder="Ingrese su usuario" />
                                     <h:message for="usuario" styleClass="invalid-feedback d-block" />
                                 </div>
                                 
@@ -53,7 +54,7 @@
                                                  required="true"
                                                  requiredMessage="La contraseña es obligatoria"
                                                  styleClass="form-control" 
-                                                 placeholder="Ingrese su contraseña" />
+                                                 p:placeholder="Ingrese su contraseña" />
                                     <h:message for="contrasenna" styleClass="invalid-feedback d-block" />
                                 </div>
                                 
