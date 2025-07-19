@@ -2,7 +2,7 @@
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://xmlns.jcp.org/jsf/passthrough" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
     <title>Gestión de Usuarios - Sistema SENA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,20 +17,7 @@
 <h:body class="bg-light">
     <div class="container-fluid">
         <!-- Header con navegación -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="#">
-                    <i class="fas fa-graduation-cap me-2"></i>
-                    Sistema SENA
-                </a>
-                <div class="navbar-nav ms-auto">
-                    <span class="navbar-text">
-                        <i class="fas fa-user me-2"></i>
-                        #{login.usuario}
-                    </span>
-                </div>
-            </div>
-        </nav>
+        <ui:include src="../../resources/templates/userHeader.xhtml" />
 
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="container mt-3">
@@ -106,11 +93,15 @@
 
                                 <!-- Botón Nuevo -->
                                 <div class="col-md-4">
-                                    <h:panelGroup rendered="#{usuarioController.canPerformOperation('CREATE')}">
-                                        <button type="button" class="btn btn-success w-100" onclick="showForm()">
-                                            <i class="fas fa-plus me-2"></i>Nuevo Usuario
-                                        </button>
-                                    </h:panelGroup>
+                                    <h:form id="actionForm">
+                                        <h:panelGroup rendered="#{usuarioController.canPerformOperation('CREATE')}">
+                                            <h:commandButton value="Nuevo Usuario"
+                                                action="#{usuarioController.mostrarFormulario()}"
+                                                styleClass="btn btn-success w-100">
+                                                <i class="fas fa-plus me-2"></i>Nuevo Usuario
+                                            </h:commandButton>
+                                        </h:panelGroup>
+                                    </h:form>
                                 </div>
                             </div>
                         </div>
@@ -119,166 +110,164 @@
             </div>
 
             <!-- Formulario para agregar/editar -->
-            <div class="row mb-4" id="formContainer" style="display: none;">
-                <div class="col-12">
-                    <div class="card border-0 shadow-sm fade-in">
-                        <div class="card-header bg-info text-white">
-                            <h3 class="mb-0">
-                                <i class="fas fa-user-plus me-2"></i>
-                                <span id="formTitle">Nuevo Usuario</span>
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            <h:form id="usuarioForm" styleClass="needs-validation">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="nombre" class="form-label">
-                                            <i class="fas fa-user me-2"></i>Nombre *
-                                        </label>
-                                        <h:inputText id="nombre" value="#{usuarioController.selected.nombre}"
-                                            required="true" requiredMessage="El nombre es obligatorio"
-                                            styleClass="form-control" p:placeholder="Ingrese el nombre" />
-                                        <h:message for="nombre" styleClass="invalid-feedback d-block" />
-                                    </div>
-
-                                    <div class="col-md-6 mb-3">
-                                        <label for="apellido" class="form-label">
-                                            <i class="fas fa-user me-2"></i>Apellido *
-                                        </label>
-                                        <h:inputText id="apellido" value="#{usuarioController.selected.apellido}"
-                                            required="true" requiredMessage="El apellido es obligatorio"
-                                            styleClass="form-control" p:placeholder="Ingrese el apellido" />
-                                        <h:message for="apellido" styleClass="invalid-feedback d-block" />
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="email" class="form-label">
-                                            <i class="fas fa-envelope me-2"></i>Email *
-                                        </label>
-                                        <h:inputText id="email" value="#{usuarioController.selected.email}"
-                                            required="true" requiredMessage="El email es obligatorio"
-                                            styleClass="form-control" p:placeholder="usuario@ejemplo.com" />
-                                        <h:message for="email" styleClass="invalid-feedback d-block" />
-                                    </div>
-
-                                    <div class="col-md-6 mb-3">
-                                        <label for="password" class="form-label">
-                                            <i class="fas fa-lock me-2"></i>Contraseña *
-                                        </label>
-                                        <div class="input-group">
-                                            <!-- Single password field for all cases -->
-                                            <h:inputSecret id="password" value="#{usuarioController.password}"
-                                                required="#{!usuarioController.isEditing}" 
-                                                requiredMessage="La contraseña es obligatoria para nuevos usuarios"
-                                                styleClass="form-control" p:placeholder="Ingrese la contraseña" />
-
-                                            <!-- Generate button for new users -->
-                                            <h:panelGroup rendered="#{!usuarioController.isEditing}">
-                                                <h:commandButton value="Generar"
-                                                    action="#{usuarioController.generatePassword()}"
-                                                    styleClass="btn btn-outline-info" />
-                                            </h:panelGroup>
-
-                                            <!-- Show/Hide button for editing -->
-                                            <h:panelGroup rendered="#{usuarioController.isEditing}">
-                                                <h:commandButton
-                                                    value="#{usuarioController.showPassword ? 'Ocultar' : 'Mostrar'}"
-                                                    action="#{usuarioController.togglePasswordVisibility()}"
-                                                    styleClass="btn btn-outline-secondary" />
-                                            </h:panelGroup>
-                                        </div>
-                                        <h:message for="password" styleClass="invalid-feedback d-block" />
-                                    </div>
-                                </div>
-
-                                <!-- Campo de confirmación de contraseña solo para nuevos usuarios -->
-                                <div class="row">
-                                    <h:panelGroup rendered="#{!usuarioController.isEditing}">
+            <h:panelGroup rendered="#{usuarioController.showForm}">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card border-0 shadow-sm fade-in">
+                            <div class="card-header bg-info text-white">
+                                <h3 class="mb-0">
+                                    <i class="fas fa-user-plus me-2"></i>
+                                    #{usuarioController.isEditing ? 'Editar Usuario' : 'Nuevo Usuario'}
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <h:form id="usuarioForm" styleClass="needs-validation" p:novalidate="true">
+                                    <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="confirmPassword" class="form-label">
-                                                <i class="fas fa-lock me-2"></i>Confirmar Contraseña *
+                                            <label for="nombre" class="form-label">
+                                                <i class="fas fa-user me-2"></i>Nombre *
+                                            </label>
+                                            <h:inputText id="nombre" value="#{usuarioController.selected.nombre}"
+                                                required="true" requiredMessage="El nombre es obligatorio"
+                                                styleClass="form-control" p:placeholder="Ingrese el nombre" />
+                                            <h:message for="nombre" styleClass="invalid-feedback d-block" />
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="apellido" class="form-label">
+                                                <i class="fas fa-user me-2"></i>Apellido *
+                                            </label>
+                                            <h:inputText id="apellido" value="#{usuarioController.selected.apellido}"
+                                                required="true" requiredMessage="El apellido es obligatorio"
+                                                styleClass="form-control" p:placeholder="Ingrese el apellido" />
+                                            <h:message for="apellido" styleClass="invalid-feedback d-block" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="email" class="form-label">
+                                                <i class="fas fa-envelope me-2"></i>Email *
+                                            </label>
+                                            <h:inputText id="email" value="#{usuarioController.selected.email}"
+                                                required="true" requiredMessage="El email es obligatorio"
+                                                styleClass="form-control" p:placeholder="usuario@ejemplo.com" />
+                                            <h:message for="email" styleClass="invalid-feedback d-block" />
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="password" class="form-label">
+                                                <i class="fas fa-lock me-2"></i>Contraseña *
                                             </label>
                                             <div class="input-group">
-                                                <h:inputSecret id="confirmPassword"
-                                                    value="#{usuarioController.confirmPassword}"
-                                                    required="true" requiredMessage="La confirmación de contraseña es obligatoria"
-                                                    styleClass="form-control" p:placeholder="Confirme la contraseña" />
+                                                <!-- Single password field for all cases -->
+                                                <h:inputSecret id="password" value="#{usuarioController.password}"
+                                                    required="#{!usuarioController.isEditing}"
+                                                    requiredMessage="La contraseña es obligatoria para nuevos usuarios"
+                                                    styleClass="form-control" p:placeholder="Ingrese la contraseña" />
+
+                                                <!-- Generate button for new users -->
+                                                <h:panelGroup rendered="#{!usuarioController.isEditing}">
+                                                    <h:commandButton value="Generar"
+                                                        action="#{usuarioController.generatePassword()}"
+                                                        styleClass="btn btn-outline-info" />
+                                                </h:panelGroup>
+
+                                                <!-- Show/Hide button for editing -->
+                                                <h:panelGroup rendered="#{usuarioController.isEditing}">
+                                                    <h:commandButton
+                                                        value="#{usuarioController.showPassword ? 'Ocultar' : 'Mostrar'}"
+                                                        action="#{usuarioController.togglePasswordVisibility()}"
+                                                        styleClass="btn btn-outline-secondary" />
+                                                </h:panelGroup>
                                             </div>
-                                            <h:message for="confirmPassword" styleClass="invalid-feedback d-block" />
+                                            <h:message for="password" styleClass="invalid-feedback d-block" />
                                         </div>
+                                    </div>
 
-                                        <div class="col-md-6 mb-3">
-                                            <label for="institucion" class="form-label">
-                                                <i class="fas fa-building me-2"></i>Institución
-                                            </label>
-                                            <h:selectOneMenu id="institucion"
-                                                value="#{usuarioController.selected.institucionIdInstitucion}"
-                                                styleClass="form-control">
-                                                <f:selectItem itemValue="" itemLabel="Seleccione una institución" />
-                                                <f:selectItems value="#{usuarioController.instituciones}" 
-                                                              var="institucion"
-                                                              itemValue="#{institucion}"
-                                                              itemLabel="#{institucion.nombre}" />
-                                            </h:selectOneMenu>
-                                            <h:message for="institucion" styleClass="invalid-feedback d-block" />
-                                        </div>
-                                    </h:panelGroup>
-                                </div>
+                                    <!-- Campo de confirmación de contraseña solo para nuevos usuarios -->
+                                    <div class="row">
+                                        <h:panelGroup rendered="#{!usuarioController.isEditing}">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="confirmPassword" class="form-label">
+                                                    <i class="fas fa-lock me-2"></i>Confirmar Contraseña *
+                                                </label>
+                                                <div class="input-group">
+                                                    <h:inputSecret id="confirmPassword"
+                                                        value="#{usuarioController.confirmPassword}" required="true"
+                                                        requiredMessage="La confirmación de contraseña es obligatoria"
+                                                        styleClass="form-control"
+                                                        p:placeholder="Confirme la contraseña" />
+                                                </div>
+                                                <h:message for="confirmPassword"
+                                                    styleClass="invalid-feedback d-block" />
+                                            </div>
 
-                                <!-- Campos de Grado y Grupo (requeridos para nuevos usuarios) -->
-                                <div class="row">
-                                    <h:panelGroup rendered="#{!usuarioController.isEditing}">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="grado" class="form-label">
-                                                <i class="fas fa-graduation-cap me-2"></i>Grado *
-                                            </label>
-                                            <h:selectOneMenu id="grado"
-                                                value="#{usuarioController.selected.gradoIdGrado}"
-                                                required="true" requiredMessage="El grado es obligatorio"
-                                                styleClass="form-control">
-                                                <f:selectItem itemValue="" itemLabel="Seleccione un grado" />
-                                                <f:selectItems value="#{usuarioController.grados}" 
-                                                              var="grado"
-                                                              itemValue="#{grado}"
-                                                              itemLabel="#{grado.nombre}" />
-                                            </h:selectOneMenu>
-                                            <h:message for="grado" styleClass="invalid-feedback d-block" />
-                                        </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="institucion" class="form-label">
+                                                    <i class="fas fa-building me-2"></i>Institución
+                                                </label>
+                                                <h:selectOneMenu id="institucion"
+                                                    value="#{usuarioController.selectedInstitucionId}"
+                                                    styleClass="form-control">
+                                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione una institución" />
+                                                    <f:selectItems value="#{usuarioController.instituciones}"
+                                                        var="institucion" itemValue="#{institucion.idInstitucion}"
+                                                        itemLabel="#{institucion.nombre}" />
+                                                </h:selectOneMenu>
+                                                <h:message for="institucion" styleClass="invalid-feedback d-block" />
+                                            </div>
+                                        </h:panelGroup>
+                                    </div>
 
-                                        <div class="col-md-6 mb-3">
-                                            <label for="grupo" class="form-label">
-                                                <i class="fas fa-users me-2"></i>Grupo *
-                                            </label>
-                                            <h:selectOneMenu id="grupo"
-                                                value="#{usuarioController.selected.grupoIdGrupo}"
-                                                required="true" requiredMessage="El grupo es obligatorio"
-                                                styleClass="form-control">
-                                                <f:selectItem itemValue="" itemLabel="Seleccione un grupo" />
-                                                <f:selectItems value="#{usuarioController.grupos}" 
-                                                              var="grupo"
-                                                              itemValue="#{grupo}"
-                                                              itemLabel="#{grupo.nombreGrupo}" />
-                                            </h:selectOneMenu>
-                                            <h:message for="grupo" styleClass="invalid-feedback d-block" />
-                                        </div>
-                                    </h:panelGroup>
-                                </div>
+                                    <!-- Campos de Grado y Grupo (requeridos para nuevos usuarios) -->
+                                    <div class="row">
+                                        <h:panelGroup rendered="#{!usuarioController.isEditing}">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="grado" class="form-label">
+                                                    <i class="fas fa-graduation-cap me-2"></i>Grado *
+                                                </label>
+                                                <h:selectOneMenu id="grado"
+                                                    value="#{usuarioController.selectedGradoId}" required="true"
+                                                    requiredMessage="El grado es obligatorio" styleClass="form-control">
+                                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione un grado" />
+                                                    <f:selectItems value="#{usuarioController.grados}" var="grado"
+                                                        itemValue="#{grado.idGrado}" itemLabel="#{grado.nombre}" />
+                                                </h:selectOneMenu>
+                                                <h:message for="grado" styleClass="invalid-feedback d-block" />
+                                            </div>
 
-                                <div class="d-flex gap-2">
-                                    <h:commandButton value="Guardar" action="#{usuarioController.save()}"
-                                        styleClass="btn btn-success" onclick="return handleFormButton('save')" />
-                                    <h:commandButton value="Cancelar" action="#{usuarioController.cancel()}"
-                                        styleClass="btn btn-outline-secondary" onclick="return handleFormButton('cancel')" />
-                                    <h:commandButton value="Test DB" action="#{usuarioController.testDatabaseConnection()}"
-                                        styleClass="btn btn-info btn-sm" onclick="return handleFormButton('test')" />
-                                </div>
-                            </h:form>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="grupo" class="form-label">
+                                                    <i class="fas fa-users me-2"></i>Grupo *
+                                                </label>
+                                                <h:selectOneMenu id="grupo"
+                                                    value="#{usuarioController.selectedGrupoId}" required="true"
+                                                    requiredMessage="El grupo es obligatorio" styleClass="form-control">
+                                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione un grupo" />
+                                                    <f:selectItems value="#{usuarioController.grupos}" var="grupo"
+                                                        itemValue="#{grupo.idGrupo}" itemLabel="#{grupo.nombreGrupo}" />
+                                                </h:selectOneMenu>
+                                                <h:message for="grupo" styleClass="invalid-feedback d-block" />
+                                            </div>
+                                        </h:panelGroup>
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                        <h:commandButton value="Guardar" action="#{usuarioController.save()}"
+                                            styleClass="btn btn-success" />
+                                        <h:commandButton value="Cancelar" action="#{usuarioController.cancel()}"
+                                            styleClass="btn btn-outline-secondary" />
+                                        <h:commandButton value="Test DB"
+                                            action="#{usuarioController.testDatabaseConnection()}"
+                                            styleClass="btn btn-info btn-sm" />
+                                    </div>
+                                </h:form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </h:panelGroup>
 
             <!-- Tabla de usuarios -->
             <div class="row">
@@ -341,8 +330,7 @@
                                             <div class="d-flex flex-wrap gap-1">
                                                 <h:panelGroup
                                                     rendered="#{usuario.gradoIdGrado != null and usuario.gradoIdGrado.nombre != null and usuario.gradoIdGrado.nombre != ''}">
-                                                    <span
-                                                        class="badge bg-success">#{usuario.gradoIdGrado.nombre}</span>
+                                                    <span class="badge bg-success">#{usuario.gradoIdGrado.nombre}</span>
                                                 </h:panelGroup>
                                                 <h:panelGroup
                                                     rendered="#{usuario.gradoIdGrado == null or usuario.gradoIdGrado.nombre == null or usuario.gradoIdGrado.nombre == ''}">
@@ -393,8 +381,7 @@
                                                 <h:panelGroup
                                                     rendered="#{usuarioController.canPerformOperation('UPDATE')}">
                                                     <h:commandButton value="Editar" styleClass="btn btn-warning btn-sm"
-                                                        action="#{usuarioController.edit(usuario)}"
-                                                        onclick="showEditForm()" type="button" />
+                                                        action="#{usuarioController.edit(usuario)}" />
                                                 </h:panelGroup>
                                                 <h:panelGroup
                                                     rendered="#{usuarioController.canPerformOperation('DELETE')}">
@@ -420,13 +407,11 @@
                                     </div>
 
                                     <div class="btn-group" role="group">
-                                        <h:commandButton value="« Anterior"
-                                            action="#{usuarioController.previousPage()}"
+                                        <h:commandButton value="« Anterior" action="#{usuarioController.previousPage()}"
                                             styleClass="btn btn-outline-primary"
                                             rendered="#{usuarioController.hasPreviousPage()}" />
 
-                                        <h:commandButton value="Siguiente »"
-                                            action="#{usuarioController.nextPage()}"
+                                        <h:commandButton value="Siguiente »" action="#{usuarioController.nextPage()}"
                                             styleClass="btn btn-outline-primary"
                                             rendered="#{usuarioController.hasNextPage()}" />
                                     </div>
@@ -446,45 +431,7 @@
 
     <!-- Script personalizado -->
     <script type="text/javascript">
-    //<![CDATA[
-        // Form validation - Let JSF handle validation
-        (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                // Remove Bootstrap validation to let JSF handle it
-                console.log('Form validation disabled - letting JSF handle validation');
-            }, false);
-        })();
-
-        // Funciones para mostrar/ocultar formulario
-        function showForm() {
-            document.getElementById('formContainer').style.display = 'block';
-            document.getElementById('formTitle').textContent = 'Nuevo Usuario';
-            
-            // Clear all field errors
-            clearFormErrors();
-            
-            // Reset form fields
-            const form = document.getElementById('usuarioForm');
-            if (form) {
-                const inputs = form.querySelectorAll('input, select');
-                inputs.forEach(input => {
-                    if (input.type !== 'submit' && input.type !== 'button') {
-                        input.value = '';
-                    }
-                });
-            }
-        }
-
-        function showEditForm() {
-            document.getElementById('formContainer').style.display = 'block';
-            document.getElementById('formTitle').textContent = 'Editar Usuario';
-        }
-
-        function hideForm() {
-            document.getElementById('formContainer').style.display = 'none';
-        }
-
+        //<![CDATA[
         // Animaciones para las cards
         document.addEventListener('DOMContentLoaded', function () {
             const cards = document.querySelectorAll('.card');
@@ -493,114 +440,7 @@
                 card.classList.add('fade-in');
             });
         });
-
-        // Form utility functions
-        function clearFormErrors() {
-            const form = document.getElementById('usuarioForm');
-            if (form) {
-                const invalidFields = form.querySelectorAll('.is-invalid');
-                invalidFields.forEach(field => {
-                    field.classList.remove('is-invalid');
-                });
-                
-                const errorMessages = form.querySelectorAll('.invalid-feedback');
-                errorMessages.forEach(msg => {
-                    if (msg.textContent && msg.textContent.trim() !== '') {
-                        msg.textContent = '';
-                    }
-                });
-            }
-        }
-        
-        // Simple form submission logging
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('usuarioForm');
-            if (form) {
-                form.addEventListener('submit', function(event) {
-                    console.log('Form submission started');
-                    
-                    // Log basic form info
-                    const nombre = document.getElementById('usuarioForm:nombre');
-                    const apellido = document.getElementById('usuarioForm:apellido');
-                    const email = document.getElementById('usuarioForm:email');
-                    const password = document.getElementById('usuarioForm:password');
-                    const confirmPassword = document.getElementById('usuarioForm:confirmPassword');
-                    
-                    console.log('Nombre:', nombre ? nombre.value : 'not found');
-                    console.log('Apellido:', apellido ? apellido.value : 'not found');
-                    console.log('Email:', email ? email.value : 'not found');
-                    console.log('Password:', password ? (password.value ? '[SET]' : '[EMPTY]') : 'not found');
-                    console.log('Confirm Password:', confirmPassword ? (confirmPassword.value ? '[SET]' : '[EMPTY]') : 'not found');
-                    
-                    console.log('Form validation passed - proceeding with submission');
-                });
-            }
-        });
-        
-        // Handle form button clicks
-        function handleFormButton(buttonType) {
-            console.log('Form button clicked:', buttonType);
-            
-            // Clear any previous errors
-            clearFormErrors();
-            
-            // Add loading state for save button only
-            if (buttonType === 'save') {
-                const form = document.getElementById('usuarioForm');
-                if (form) {
-                    const saveButton = form.querySelector('input[value="Guardar"]');
-                    if (saveButton) {
-                        saveButton.disabled = true;
-                        saveButton.value = 'Procesando...';
-                        
-                        // Add timeout to prevent infinite loading
-                        setTimeout(function() {
-                            if (saveButton.disabled) {
-                                saveButton.disabled = false;
-                                saveButton.value = 'Guardar';
-                                console.log('Form submission timeout - re-enabling button');
-                            }
-                        }, 10000); // 10 second timeout
-                    }
-                }
-            }
-            
-            return true;
-        }
-        
-        // Add form submission monitoring
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('usuarioForm');
-            if (form) {
-                // Monitor form submission
-                let submissionStartTime = null;
-                
-                form.addEventListener('submit', function(event) {
-                    submissionStartTime = Date.now();
-                    console.log('Form submission started at:', submissionStartTime);
-                });
-                
-                // Check for stuck submissions every 5 seconds
-                setInterval(function() {
-                    if (submissionStartTime && (Date.now() - submissionStartTime) > 15000) {
-                        console.log('Form submission appears to be stuck - resetting');
-                        submissionStartTime = null;
-                        
-                        // Re-enable any disabled buttons
-                        const buttons = form.querySelectorAll('input[type="submit"], button[type="submit"]');
-                        buttons.forEach(button => {
-                            if (button.disabled) {
-                                button.disabled = false;
-                                if (button.value === 'Procesando...') {
-                                    button.value = 'Guardar';
-                                }
-                            }
-                        });
-                    }
-                }, 5000);
-            }
-        });
-    //]]>
+        //]]>
     </script>
 </h:body>
 

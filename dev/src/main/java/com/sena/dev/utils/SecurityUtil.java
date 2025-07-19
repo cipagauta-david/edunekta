@@ -62,6 +62,9 @@ public class SecurityUtil {
         Set<Permiso> userPermissions = getUserPermissions(usuario);
         
         for (Permiso p : userPermissions) {
+            System.out.println( p.getModulo()+ "is == to? " + modulo);
+            System.out.println("Name: " + p.getNombre());
+            System.out.println("Status: " + p.getEstado());
             if (p.getModulo().equals(modulo) && 
                 ("ACTIVO".equals(p.getEstado()) || "Activo".equals(p.getEstado()))) {
                 return true;

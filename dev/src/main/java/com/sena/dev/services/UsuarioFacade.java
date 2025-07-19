@@ -97,6 +97,7 @@ public class UsuarioFacade implements UsuarioFacadeLocal {
       if (usuario != null) {
         usuario.setPassword(PasswordUtil.hashPassword(newPlainPassword));
         em.merge(usuario);
+          System.out.println("actualizada contraseña");
       }
     } catch (Exception e) {
       // Log error silently

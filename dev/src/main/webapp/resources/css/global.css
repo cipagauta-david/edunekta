@@ -643,3 +643,429 @@ img {
   display: inline-block;
   text-align: center;
 } 
+
+/* Global CSS for SENA System */
+
+/* Fade in animation */
+.fade-in {
+    animation: fadeIn 0.8s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover lift effect */
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+}
+
+/* Module card animations */
+.module-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.module-card.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Loading animations */
+.spinner-border {
+    animation: spinner-border 0.75s linear infinite;
+}
+
+@keyframes spinner-border {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Stagger animation for cards */
+.module-card:nth-child(1) { animation-delay: 0.1s; }
+.module-card:nth-child(2) { animation-delay: 0.2s; }
+.module-card:nth-child(3) { animation-delay: 0.3s; }
+.module-card:nth-child(4) { animation-delay: 0.4s; }
+.module-card:nth-child(5) { animation-delay: 0.5s; }
+.module-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1rem !important;
+    }
+    
+    .fa-3x {
+        font-size: 2em !important;
+    }
+    
+    .fa-4x {
+        font-size: 2.5em !important;
+    }
+}
+
+/* Alert styling */
+.alert {
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Button improvements */
+.btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Card improvements */
+.card {
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.card-header {
+    border-bottom: none;
+}
+
+.card-footer {
+    border-top: none;
+    background-color: rgba(0,0,0,0.02);
+}
+
+/* Navbar improvements */
+.navbar-brand {
+    font-weight: 600;
+}
+
+.navbar-text {
+    font-size: 0.9rem;
+}
+
+/* Loading indicator improvements */
+#initialLoadingIndicator {
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Module container improvements */
+#modulesContainer {
+    min-height: 200px;
+}
+
+/* No modules message styling */
+#noModulesMessage .alert {
+    border-left: 4px solid #17a2b8;
+    background-color: #f8f9fa;
+}
+
+/* Debug console styling (for development) */
+.debug-info {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 1000;
+    display: none;
+}
+
+/* Animation utilities */
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Permission loading states */
+.permission-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.permission-loaded {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ===========================================
+   ESTILOS PARA EL DESPLEGABLE DE USUARIO
+   =========================================== */
+
+/* Estilos del botón del desplegable */
+.user-dropdown-btn {
+    background: none !important;
+    border: none !important;
+    color: white !important;
+    text-decoration: none !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.375rem !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.user-dropdown-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.user-dropdown-btn:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25) !important;
+    outline: none !important;
+}
+
+/* Estilos del menú desplegable */
+.user-dropdown-menu {
+    min-width: 280px !important;
+    border: none !important;
+    border-radius: 10px !important;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    margin-top: 0.5rem !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Header del desplegable */
+.user-dropdown-header {
+    background: linear-gradient(135deg, #007bff, #0056b3) !important;
+    color: white !important;
+    padding: 1.5rem !important;
+    border-bottom: none !important;
+}
+
+.user-dropdown-header h6 {
+    margin-bottom: 0.25rem !important;
+    font-weight: 600 !important;
+}
+
+.user-dropdown-header small {
+    opacity: 0.8 !important;
+}
+
+/* Información del usuario */
+.user-info-section {
+    padding: 1rem 1.5rem !important;
+    background-color: #f8f9fa !important;
+}
+
+.user-info-item {
+    display: flex !important;
+    align-items: center !important;
+    margin-bottom: 0.75rem !important;
+    font-size: 0.875rem !important;
+}
+
+.user-info-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+.user-info-item i {
+    width: 16px !important;
+    margin-right: 0.5rem !important;
+    color: #6c757d !important;
+}
+
+.user-info-item small {
+    color: #6c757d !important;
+    font-size: 0.875rem !important;
+}
+
+/* Separadores */
+.user-dropdown-divider {
+    margin: 0 !important;
+    border-top: 1px solid #dee2e6 !important;
+    height: 1px !important;
+    background-color: #dee2e6 !important;
+}
+
+/* Enlaces del desplegable */
+.user-dropdown-item {
+    padding: 0.75rem 1.5rem !important;
+    color: #212529 !important;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease-in-out !important;
+    border: none !important;
+    background: none !important;
+    width: 100% !important;
+    text-align: left !important;
+    font-size: 0.875rem !important;
+}
+
+.user-dropdown-item:hover {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+    text-decoration: none !important;
+}
+
+.user-dropdown-item:focus {
+    background-color: #e9ecef !important;
+    color: #212529 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.user-dropdown-item.text-danger:hover {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+}
+
+/* Estilos específicos para el botón de cerrar sesión */
+.user-dropdown-item.text-danger {
+    border: none !important;
+    background: none !important;
+    width: 100% !important;
+    text-align: left !important;
+    padding: 0.75rem 1.5rem !important;
+    font-size: 0.875rem !important;
+    color: #dc3545 !important;
+    transition: background-color 0.2s ease-in-out !important;
+    position: relative !important;
+}
+
+/* Estilos base para íconos en botones del dropdown */
+.user-dropdown-item button::before {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    margin-right: 0.5rem !important;
+    font-size: 0.875rem !important;
+    display: inline-block !important;
+}
+
+/* Ícono para Cerrar sesión */
+.user-dropdown-item.text-danger::before {
+    content: "\f08b" !important; /* FontAwesome sign-out-alt icon */
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    margin-right: 0.5rem !important;
+    font-size: 0.875rem !important;
+    display: inline-block !important;
+}
+
+/* Ícono para Mi Perfil */
+.btn-profile::before {
+    content: "\f007" !important; /* FontAwesome user icon */
+}
+
+/* Ícono para Inicio */
+.btn-home::before {
+    content: "\f015" !important; /* FontAwesome home icon */
+}
+
+.user-dropdown-item.text-danger:hover {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+    text-decoration: none !important;
+}
+
+.user-dropdown-item.text-danger:focus {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Asegurar que el formulario no interfiera con el layout */
+.user-dropdown-item form {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Estilos para botones que actúan como enlaces en el dropdown */
+.user-dropdown-item button {
+    border: none !important;
+    background: none !important;
+    width: 100% !important;
+    text-align: left !important;
+    padding: 0.75rem 1.5rem !important;
+    font-size: 0.875rem !important;
+    color: #212529 !important;
+    transition: background-color 0.2s ease-in-out !important;
+    cursor: pointer !important;
+}
+
+.user-dropdown-item button:hover {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+    text-decoration: none !important;
+}
+
+.user-dropdown-item button:focus {
+    background-color: #e9ecef !important;
+    color: #212529 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Responsive para el desplegable */
+@media (max-width: 768px) {
+    .user-dropdown-menu {
+        min-width: 250px !important;
+        margin-top: 0.25rem !important;
+    }
+    
+    .user-dropdown-header {
+        padding: 1rem !important;
+    }
+    
+    .user-info-section {
+        padding: 0.75rem 1rem !important;
+    }
+    
+    .user-dropdown-item {
+        padding: 0.5rem 1rem !important;
+    }
+}
+
+/* Animación de entrada del desplegable */
+.dropdown-menu.show {
+    animation: dropdownFadeIn 0.2s ease-in-out !important;
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} 

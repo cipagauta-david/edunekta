@@ -47,9 +47,13 @@ public class Filtro implements Filter {
         res.setDateHeader("Expires", 0);
 
         String loginURI = req.getContextPath() + "/login.xhtml";
+        String error400URI = req.getContextPath() + "/error400.xhtml";
+        String error500URI = req.getContextPath() + "/error500.xhtml";
+        String errorURI = req.getContextPath() + "/error.xhtml";
         String resourceURI = req.getRequestURI();
 
-        boolean loginRequest = resourceURI.endsWith("login.xhtml") || resourceURI.contains("javax.faces.resource");
+        boolean loginRequest = resourceURI.endsWith("login.xhtml") || resourceURI.contains("javax.faces.resource") || resourceURI.equals(req.getContextPath() + "/") || resourceURI.equals(req.getContextPath() + "/index.xhtml");
+        boolean errorRequest = resourceURI.endsWith("error400.xhtml") || resourceURI.endsWith("error500.xhtml") || resourceURI.endsWith("error.xhtml");
 
         HttpSession session = req.getSession(false);
         boolean loggedIn = false;
@@ -72,17 +76,18 @@ public class Filtro implements Filter {
             }
         }
 
-        if (loginRequest) {
+        if (loginRequest || errorRequest) {
             chain.doFilter(request, response);
         } else if (loggedIn && currentUser != null) {
             // Check if user has access to the requested resource
             if (hasAccessToResource(currentUser, resourceURI)) {
                 chain.doFilter(request, response);
             } else {
-                res.sendRedirect(loginURI);
+                // Redirigir a la página de error personalizada
+                res.sendRedirect(error400URI);
             }
         } else {
-            res.sendRedirect(loginURI);
+            res.sendRedirect(error400URI);
         }
     }
 
@@ -97,21 +102,34 @@ public class Filtro implements Filter {
         
         boolean hasAccess = false;
         
+        System.out.println("=== FILTER DEBUG ===");
+        System.out.println("User ID: " + user.getIdUsuario());
+        System.out.println("Resource URI: " + resourceURI);
+        
         // Define module mappings
         if (resourceURI.contains("/views/usuarios/")) {
             hasAccess = SecurityUtil.hasModuleAccess(user, "USUARIOS");
+            System.out.println("Checking USUARIOS access: " + hasAccess);
         } else if (resourceURI.contains("/views/roles/")) {
             hasAccess = SecurityUtil.hasModuleAccess(user, "ROLES");
+            System.out.println("Checking ROLES access: " + hasAccess);
         } else if (resourceURI.contains("/views/permisos/")) {
             hasAccess = SecurityUtil.hasModuleAccess(user, "PERMISOS");
+            System.out.println("Checking PERMISOS access: " + hasAccess);
         } else if (resourceURI.contains("/views/nivelAcademico/")) {
             hasAccess = SecurityUtil.hasModuleAccess(user, "NIVELES_ACADEMICOS");
+            System.out.println("Checking NIVELES_ACADEMICOS access: " + hasAccess);
         } else if (resourceURI.contains("/admin.xhtml")) {
             hasAccess = SecurityUtil.isAdmin(user);
+            System.out.println("Checking ADMIN access: " + hasAccess);
         } else {
             // Default: allow access if user is logged in
             hasAccess = true;
+            System.out.println("Default access granted: " + hasAccess);
         }
+        
+        System.out.println("Final access decision: " + hasAccess);
+        System.out.println("===================");
         
         // Cache the result
         accessCache.put(cacheKey, hasAccess);

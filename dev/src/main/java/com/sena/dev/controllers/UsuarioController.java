@@ -42,6 +42,12 @@ public class UsuarioController extends BaseEnhancedController<Usuario> {
     private String password = "";
     private String confirmPassword = "";
     private boolean showPassword = false;
+    private boolean showForm = false;
+    
+    // Properties for handling selected IDs
+    private Integer selectedInstitucionId;
+    private Integer selectedGradoId;
+    private Integer selectedGrupoId;
     
     public UsuarioController() {
         // Initialize with a new user
@@ -152,8 +158,106 @@ public class UsuarioController extends BaseEnhancedController<Usuario> {
         this.showPassword = showPassword;
     }
     
+    public boolean isShowForm() {
+        return showForm;
+    }
+
+    public void setShowForm(boolean showForm) {
+        this.showForm = showForm;
+    }
+    
+    // Getters and setters for selected IDs
+    public Integer getSelectedInstitucionId() {
+        return selectedInstitucionId;
+    }
+    
+    public void setSelectedInstitucionId(Integer selectedInstitucionId) {
+        this.selectedInstitucionId = selectedInstitucionId;
+    }
+    
+    public Integer getSelectedGradoId() {
+        return selectedGradoId;
+    }
+    
+    public void setSelectedGradoId(Integer selectedGradoId) {
+        this.selectedGradoId = selectedGradoId;
+    }
+    
+    public Integer getSelectedGrupoId() {
+        return selectedGrupoId;
+    }
+    
+    public void setSelectedGrupoId(Integer selectedGrupoId) {
+        this.selectedGrupoId = selectedGrupoId;
+    }
+    
+    // Overloaded setters to handle String conversion
+    public void setSelectedInstitucionId(String selectedInstitucionId) {
+        if (selectedInstitucionId != null && !selectedInstitucionId.trim().isEmpty()) {
+            try {
+                this.selectedInstitucionId = Integer.parseInt(selectedInstitucionId);
+            } catch (NumberFormatException e) {
+                this.selectedInstitucionId = null;
+            }
+        } else {
+            this.selectedInstitucionId = null;
+        }
+    }
+    
+    public void setSelectedGradoId(String selectedGradoId) {
+        if (selectedGradoId != null && !selectedGradoId.trim().isEmpty()) {
+            try {
+                this.selectedGradoId = Integer.parseInt(selectedGradoId);
+            } catch (NumberFormatException e) {
+                this.selectedGradoId = null;
+            }
+        } else {
+            this.selectedGradoId = null;
+        }
+    }
+    
+    public void setSelectedGrupoId(String selectedGrupoId) {
+        if (selectedGrupoId != null && !selectedGrupoId.trim().isEmpty()) {
+            try {
+                this.selectedGrupoId = Integer.parseInt(selectedGrupoId);
+            } catch (NumberFormatException e) {
+                this.selectedGrupoId = null;
+            }
+        } else {
+            this.selectedGrupoId = null;
+        }
+    }
+    
+    public String mostrarFormulario() {
+        selected = createNewEntity();
+        isEditing = false;
+        password = "";
+        confirmPassword = "";
+        showPassword = false;
+        showForm = true;
+        // Clear selected IDs
+        selectedInstitucionId = null;
+        selectedGradoId = null;
+        selectedGrupoId = null;
+        return null;
+    }
+    
+    public String ocultarFormulario() {
+        selected = createNewEntity();
+        isEditing = false;
+        password = "";
+        confirmPassword = "";
+        showPassword = false;
+        showForm = false;
+        // Clear selected IDs
+        selectedInstitucionId = null;
+        selectedGradoId = null;
+        selectedGrupoId = null;
+        return null;
+    }
+    
     /**
-     * Override save to handle password validation
+     * Override save to handle password validation and form state
      */
     @Override
     public String save() {
@@ -210,14 +314,21 @@ public class UsuarioController extends BaseEnhancedController<Usuario> {
                     return null;
                 }
                 
-                // Validate required fields for new users
-                if (selected.getGradoIdGrado() == null) {
-                    System.out.println("Grado validation failed");
+                // Validate required fields for new users using selected IDs
+                System.out.println("=== VALIDATION DEBUG ===");
+                System.out.println("selectedGradoId: " + selectedGradoId + " (type: " + (selectedGradoId != null ? selectedGradoId.getClass().getName() : "null") + ")");
+                System.out.println("selectedGrupoId: " + selectedGrupoId + " (type: " + (selectedGrupoId != null ? selectedGrupoId.getClass().getName() : "null") + ")");
+                System.out.println("selectedGradoId == null: " + (selectedGradoId == null));
+                System.out.println("selectedGrupoId == null: " + (selectedGrupoId == null));
+                System.out.println("========================");
+                
+                if (selectedGradoId == null) {
+                    System.out.println("Grado validation failed - selectedGradoId is null");
                     addMessage("El grado es obligatorio", FacesMessage.SEVERITY_ERROR);
                     return null;
                 }
-                if (selected.getGrupoIdGrupo() == null) {
-                    System.out.println("Grupo validation failed");
+                if (selectedGrupoId == null) {
+                    System.out.println("Grupo validation failed - selectedGrupoId is null");
                     addMessage("El grupo es obligatorio", FacesMessage.SEVERITY_ERROR);
                     return null;
                 }
@@ -234,10 +345,26 @@ public class UsuarioController extends BaseEnhancedController<Usuario> {
             System.out.println("User data: " + selected.toString());
             System.out.println("Password length: " + (password != null ? password.length() : "null"));
             System.out.println("Confirm password length: " + (confirmPassword != null ? confirmPassword.length() : "null"));
-            System.out.println("Grado: " + (selected.getGradoIdGrado() != null ? selected.getGradoIdGrado().getNombre() : "null"));
-            System.out.println("Grupo: " + (selected.getGrupoIdGrupo() != null ? selected.getGrupoIdGrupo().getNombreGrupo() : "null"));
-            System.out.println("Institucion: " + (selected.getInstitucionIdInstitucion() != null ? selected.getInstitucionIdInstitucion().getNombre() : "null"));
+            System.out.println("Selected Grado ID: " + selectedGradoId);
+            System.out.println("Selected Grupo ID: " + selectedGrupoId);
+            System.out.println("Selected Institucion ID: " + selectedInstitucionId);
+            System.out.println("Selected Grado ID type: " + (selectedGradoId != null ? selectedGradoId.getClass().getName() : "null"));
+            System.out.println("Selected Grupo ID type: " + (selectedGrupoId != null ? selectedGrupoId.getClass().getName() : "null"));
             System.out.println("===================");
+            
+            // Assign entities based on selected IDs
+            if (selectedGradoId != null) {
+                Grado grado = gradoService.find(selectedGradoId);
+                selected.setGradoIdGrado(grado);
+            }
+            if (selectedGrupoId != null) {
+                Grupo grupo = grupoService.find(selectedGrupoId);
+                selected.setGrupoIdGrupo(grupo);
+            }
+            if (selectedInstitucionId != null) {
+                Institucion institucion = institucionService.find(selectedInstitucionId);
+                selected.setInstitucionIdInstitucion(institucion);
+            }
             
             System.out.println("Calling saveEntity...");
             saveEntity(selected);
@@ -247,12 +374,17 @@ public class UsuarioController extends BaseEnhancedController<Usuario> {
             addMessage(message, FacesMessage.SEVERITY_INFO);
             
             System.out.println("Resetting form...");
-            // Reset form
+            // Reset form and hide it
             selected = createNewEntity();
             isEditing = false;
             password = "";
             confirmPassword = "";
             showPassword = false;
+            showForm = false; // ✅ OCULTA el formulario después de guardar
+            // Clear selected IDs
+            selectedInstitucionId = null;
+            selectedGradoId = null;
+            selectedGrupoId = null;
             filteredItems = null; // Refresh the list
             
             System.out.println("=== SAVE METHOD COMPLETED SUCCESSFULLY ===");
@@ -269,7 +401,7 @@ public class UsuarioController extends BaseEnhancedController<Usuario> {
     }
     
     /**
-     * Override edit to handle password field
+     * Override edit to handle password field and show form
      */
     @Override
     public void edit(Usuario usuario) {
@@ -284,10 +416,19 @@ public class UsuarioController extends BaseEnhancedController<Usuario> {
         password = ""; // Clear password field for editing
         confirmPassword = ""; // Clear confirm password field for editing
         showPassword = false;
+        showForm = true; // ✅ MUESTRA el formulario al editar
+        
+        // Set selected IDs based on user's entities
+        selectedInstitucionId = usuario.getInstitucionIdInstitucion() != null ? 
+            usuario.getInstitucionIdInstitucion().getIdInstitucion() : null;
+        selectedGradoId = usuario.getGradoIdGrado() != null ? 
+            usuario.getGradoIdGrado().getIdGrado() : null;
+        selectedGrupoId = usuario.getGrupoIdGrupo() != null ? 
+            usuario.getGrupoIdGrupo().getIdGrupo() : null;
     }
     
     /**
-     * Override cancel to clear password field
+     * Override cancel to clear password field and hide form
      */
     @Override
     public String cancel() {
@@ -296,6 +437,11 @@ public class UsuarioController extends BaseEnhancedController<Usuario> {
         password = "";
         confirmPassword = "";
         showPassword = false;
+        showForm = false; // ✅ OCULTA el formulario al cancelar
+        // Clear selected IDs
+        selectedInstitucionId = null;
+        selectedGradoId = null;
+        selectedGrupoId = null;
         return null; // Stay on the same page
     }
     
@@ -425,4 +571,4 @@ public class UsuarioController extends BaseEnhancedController<Usuario> {
             addMessage("Error en la conexión a la base de datos: " + e.getMessage(), FacesMessage.SEVERITY_ERROR);
         }
     }
-} 
+}

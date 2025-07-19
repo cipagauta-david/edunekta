@@ -2,7 +2,7 @@
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
     <title>Bienvenido - Sistema SENA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,20 +16,7 @@
 <h:body class="bg-light">
     <div class="container-fluid">
         <!-- Header con navegación -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="#">
-                    <i class="fas fa-graduation-cap me-2"></i>
-                    Sistema SENA
-                </a>
-                <div class="navbar-nav ms-auto">
-                    <span class="navbar-text">
-                        <i class="fas fa-user me-2"></i>
-                        #{login.usuario}
-                    </span>
-                </div>
-            </div>
-        </nav>
+        <ui:include src="resources/templates/userHeader.xhtml" />
 
         <!-- Contenido principal -->
         <div class="container mt-5">
@@ -70,9 +57,17 @@
                                 </div>
                             </div>
                             
-                            <div class="row g-4">
+                            <!-- Indicador de carga inicial -->
+                            <div class="text-center mb-4" id="initialLoadingIndicator">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Cargando módulos...</span>
+                                </div>
+                                <p class="mt-2 text-muted">Verificando permisos de acceso...</p>
+                            </div>
+                            
+                            <div class="row g-4" id="modulesContainer" style="display: none;">
                                 <!-- Módulo Niveles Académicos -->
-                                <div class="col-md-6">
+                                <div class="col-md-6 module-card" data-module="NIVELES_ACADEMICOS" style="display: none;">
                                     <div class="card h-100 border-0 shadow-sm hover-lift">
                                         <div class="card-body text-center p-4">
                                             <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
@@ -90,7 +85,7 @@
                                 </div>
                                 
                                 <!-- Módulo Usuarios -->
-                                <div class="col-md-6">
+                                <div class="col-md-6 module-card" data-module="USUARIOS" style="display: none;">
                                     <div class="card h-100 border-0 shadow-sm hover-lift">
                                         <div class="card-body text-center p-4">
                                             <i class="fas fa-users fa-3x text-success mb-3"></i>
@@ -108,7 +103,7 @@
                                 </div>
                                 
                                 <!-- Módulo Administración -->
-                                <div class="col-md-6">
+                                <div class="col-md-6 module-card" data-module="ADMIN" style="display: none;">
                                     <div class="card h-100 border-0 shadow-sm hover-lift">
                                         <div class="card-body text-center p-4">
                                             <i class="fas fa-tools fa-3x text-warning mb-3"></i>
@@ -126,7 +121,7 @@
                                 </div>
                                 
                                 <!-- Módulo Usuario -->
-                                <div class="col-md-6">
+                                <div class="col-md-6 module-card" data-module="USER_PROFILE" style="display: none;">
                                     <div class="card h-100 border-0 shadow-sm hover-lift">
                                         <div class="card-body text-center p-4">
                                             <i class="fas fa-user-cog fa-3x text-info mb-3"></i>
@@ -141,6 +136,51 @@
                                             </h:link>
                                         </div>
                                     </div>
+                                </div>
+                                
+                                <!-- Módulo Roles -->
+                                <div class="col-md-6 module-card" data-module="ROLES" style="display: none;">
+                                    <div class="card h-100 border-0 shadow-sm hover-lift">
+                                        <div class="card-body text-center p-4">
+                                            <i class="fas fa-user-tag fa-3x text-secondary mb-3"></i>
+                                            <h5 class="card-title">Gestión de Roles</h5>
+                                            <p class="card-text text-muted">
+                                                Administra roles y asignaciones de permisos
+                                            </p>
+                                            <h:link outcome="views/roles/index" 
+                                                   styleClass="btn btn-secondary">
+                                                <i class="fas fa-arrow-right me-2"></i>
+                                                Acceder
+                                            </h:link>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Módulo Permisos -->
+                                <div class="col-md-6 module-card" data-module="PERMISOS" style="display: none;">
+                                    <div class="card h-100 border-0 shadow-sm hover-lift">
+                                        <div class="card-body text-center p-4">
+                                            <i class="fas fa-key fa-3x text-dark mb-3"></i>
+                                            <h5 class="card-title">Gestión de Permisos</h5>
+                                            <p class="card-text text-muted">
+                                                Administra permisos y configuraciones de seguridad
+                                            </p>
+                                            <h:link outcome="views/permisos/index" 
+                                                   styleClass="btn btn-dark">
+                                                <i class="fas fa-arrow-right me-2"></i>
+                                                Acceder
+                                            </h:link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Mensaje cuando no hay módulos disponibles -->
+                            <div class="text-center mt-4" id="noModulesMessage" style="display: none;">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Sin módulos disponibles</strong>
+                                    <p class="mb-0 mt-2">No tienes permisos para acceder a ningún módulo del sistema.</p>
                                 </div>
                             </div>
                             
@@ -169,6 +209,14 @@
     
     <!-- Script personalizado -->
     <script type="text/javascript">
+        // Variables globales
+        let permissionsLoaded = false;
+        let userModules = [];
+        let checkInterval;
+        let checkTimeout;
+        let checkCount = 0;
+        const MAX_CHECKS = 20; // Maximum 10 seconds (20 * 500ms)
+        
         // Start permission preloading after page loads
         window.onload = function() {
             // Small delay to ensure page is fully loaded
@@ -177,8 +225,157 @@
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', '#{request.contextPath}/welcome.xhtml?preload=true', true);
                 xhr.send();
+                
+                // Start checking for permissions
+                startPermissionCheck();
             }, 100);
         };
+        
+        // Function to start checking for permissions
+        function startPermissionCheck() {
+            checkInterval = setInterval(function() {
+                checkCount++;
+                if (checkCount >= MAX_CHECKS) {
+                    clearInterval(checkInterval);
+                    console.log('Permission check timeout - showing fallback');
+                    showFallbackModules();
+                    return;
+                }
+                checkPermissionsStatus();
+            }, 500); // Check every 500ms
+        }
+        
+        // Function to check if permissions are loaded
+        function checkPermissionsStatus() {
+            // Make AJAX call to check permissions status
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '#{request.contextPath}/permission-check', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        try {
+                            var response = JSON.parse(xhr.responseText);
+                            console.log('Permission check response:', response);
+                            
+                            if (response.permissionsLoaded) {
+                                clearInterval(checkInterval);
+                                permissionsLoaded = true;
+                                userModules = response.modules || [];
+                                console.log('Available modules:', userModules);
+                                showAvailableModules();
+                            } else {
+                                console.log('Permissions not loaded yet...');
+                            }
+                        } catch (e) {
+                            console.log('Error parsing response:', e);
+                            console.log('Raw response:', xhr.responseText);
+                        }
+                    } else {
+                        console.log('HTTP Error:', xhr.status, xhr.statusText);
+                    }
+                }
+            };
+            xhr.onerror = function() {
+                console.log('Network error occurred');
+            };
+            xhr.send();
+        }
+        
+        // Function to show available modules
+        function showAvailableModules() {
+            // Hide initial loading indicator
+            document.getElementById('initialLoadingIndicator').style.display = 'none';
+            
+            // Show modules container
+            document.getElementById('modulesContainer').style.display = 'flex';
+            
+            // Show available modules with animation
+            let availableModules = 0;
+            const moduleCards = document.querySelectorAll('.module-card');
+            
+            moduleCards.forEach(function(card, index) {
+                const moduleName = card.getAttribute('data-module');
+                
+                // Check if user has access to this module
+                if (hasModuleAccess(moduleName)) {
+                    availableModules++;
+                    
+                    // Show card with delay for animation effect
+                    setTimeout(function() {
+                        card.style.display = 'block';
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        
+                        // Animate in
+                        setTimeout(function() {
+                            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, index * 200); // Stagger animation
+                }
+            });
+            
+            // Show no modules message if no access
+            if (availableModules === 0) {
+                setTimeout(function() {
+                    document.getElementById('noModulesMessage').style.display = 'block';
+                }, 500);
+            }
+        }
+        
+        // Function to check if user has access to a module
+        function hasModuleAccess(moduleName) {
+            // Special cases
+            if (moduleName === 'USER_PROFILE') {
+                return true; // All logged in users can access their profile
+            }
+            
+            if (moduleName === 'ADMIN') {
+                return userModules.includes('ADMIN') || isAdminUser();
+            }
+            
+            // Check if module is in user's accessible modules
+            return userModules.includes(moduleName);
+        }
+        
+        // Function to check if user is admin (simplified check)
+        function isAdminUser() {
+            // This would typically be checked server-side, but for demo purposes
+            // we'll check if user has ADMIN role or ALL permissions
+            return userModules.includes('ADMIN') || userModules.includes('ALL');
+        }
+        
+        // Function to show fallback modules when permission check fails
+        function showFallbackModules() {
+            // Hide initial loading indicator
+            document.getElementById('initialLoadingIndicator').style.display = 'none';
+            
+            // Show modules container
+            document.getElementById('modulesContainer').style.display = 'flex';
+            
+            // Show basic modules that most users should have access to
+            const fallbackModules = ['USER_PROFILE', 'NIVELES_ACADEMICOS'];
+            
+            const moduleCards = document.querySelectorAll('.module-card');
+            moduleCards.forEach(function(card, index) {
+                const moduleName = card.getAttribute('data-module');
+                
+                if (fallbackModules.includes(moduleName)) {
+                    setTimeout(function() {
+                        card.style.display = 'block';
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        
+                        setTimeout(function() {
+                            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, index * 200);
+                }
+            });
+        }
         
         // Efecto hover para las cards
         document.addEventListener('DOMContentLoaded', function() {

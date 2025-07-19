@@ -16,6 +16,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -113,6 +115,76 @@ public class LoginController implements Serializable {
     }
     
     /**
+     * Get user's accessible modules
+     */
+    public List<String> getUserModules() {
+        Usuario currentUser = getUsuarioActual();
+        if (currentUser != null) {
+            return SecurityUtil.getUserModules(currentUser);
+        }
+        return new ArrayList<>();
+    }
+    
+    /**
+     * Check if user has access to a specific module
+     */
+    public boolean hasModuleAccess(String module) {
+        Usuario currentUser = getUsuarioActual();
+        if (currentUser != null) {
+            return SecurityUtil.hasModuleAccess(currentUser, module);
+        }
+        return false;
+    }
+    
+    /**
+     * Check if user is admin
+     */
+    public boolean isAdmin() {
+        Usuario currentUser = getUsuarioActual();
+        if (currentUser != null) {
+            return SecurityUtil.isAdmin(currentUser);
+        }
+        return false;
+    }
+    
+    /**
+     * Get modules that should be shown to the user
+     */
+    public List<String> getAvailableModules() {
+        List<String> availableModules = new ArrayList<>();
+        Usuario currentUser = getUsuarioActual();
+        
+        if (currentUser != null) {
+            // Always add user profile for logged in users
+            availableModules.add("USER_PROFILE");
+            
+            // Check specific module access
+            if (SecurityUtil.hasModuleAccess(currentUser, "NIVELES_ACADEMICOS")) {
+                availableModules.add("NIVELES_ACADEMICOS");
+            }
+            
+            if (SecurityUtil.hasModuleAccess(currentUser, "USUARIOS")) {
+                availableModules.add("USUARIOS");
+            }
+            
+            if (SecurityUtil.hasModuleAccess(currentUser, "ROLES")) {
+                availableModules.add("ROLES");
+            }
+            
+            if (SecurityUtil.hasModuleAccess(currentUser, "PERMISOS")) {
+                availableModules.add("PERMISOS");
+            }
+            
+            // Admin module is special - check if user is admin
+            if (SecurityUtil.isAdmin(currentUser)) {
+                availableModules.add("ADMIN");
+            }
+        }
+        
+        return availableModules;
+    }
+    
+    /**
      * Clear user cache (call when user data changes)
      */
     public void clearUserCache() {
@@ -170,5 +242,85 @@ public class LoginController implements Serializable {
      */
     public String getFechaActual() {
         return new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date());
+    }
+    
+    /**
+     * Get user's first name for welcome message
+     */
+    public String getPrimerNombre() {
+        Usuario currentUser = getUsuarioActual();
+        if (currentUser != null && currentUser.getNombre() != null) {
+            return currentUser.getNombre().split(" ")[0]; // Get first name only
+        }
+        return "Usuario";
+    }
+    
+    /**
+     * Get user's full name
+     */
+    public String getNombreCompleto() {
+        Usuario currentUser = getUsuarioActual();
+        if (currentUser != null) {
+            return currentUser.getNombre() + " " + currentUser.getApellido();
+        }
+        return "Usuario";
+    }
+    
+    /**
+     * Get user's email
+     */
+    public String getEmailUsuario() {
+        Usuario currentUser = getUsuarioActual();
+        if (currentUser != null) {
+            return currentUser.getEmail();
+        }
+        return "";
+    }
+    
+    /**
+     * Get user's roles as a formatted string
+     */
+    public String getRolesUsuario() {
+        Usuario currentUser = getUsuarioActual();
+        if (currentUser != null && currentUser.getUsuarioRolCollection() != null) {
+            StringBuilder roles = new StringBuilder();
+            boolean first = true;
+            for (com.sena.dev.entities.UsuarioRol usuarioRol : currentUser.getUsuarioRolCollection()) {
+                if (usuarioRol.getRolIdRol() != null) {
+                    if (!first) {
+                        roles.append(", ");
+                    }
+                    roles.append(usuarioRol.getRolIdRol().getNombreRol());
+                    first = false;
+                }
+            }
+            return roles.toString();
+        }
+        return "Sin roles asignados";
+    }
+    
+    /**
+     * Get user's institution name
+     */
+    public String getInstitucionUsuario() {
+        Usuario currentUser = getUsuarioActual();
+        if (currentUser != null && currentUser.getInstitucionIdInstitucion() != null) {
+            return currentUser.getInstitucionIdInstitucion().getNombre();
+        }
+        return "No asignada";
+    }
+    
+    /**
+     * Navigate to user profile
+     */
+    public String goToUserProfile() {
+        return "user";
+    }
+    
+    /**
+     * Navigate to welcome/home page
+     */
+    public String goToWelcome() {
+        return "welcome";
     }
 }
