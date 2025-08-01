@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edunekta - Acerca</title>
+    <link rel="stylesheet" href="dashboard_files/styles.css">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <header>
+        <div class="caja1">
+            <div class="logo">
+                <a href="index.php" >
+                    <img src="imagenes/Logotipo.png" alt="Logo Edunekta" width="50" height="50">
+                </a>
+                <h1>Edunekta</h1>
+            </div>
+            <nav>
+                <ul class="links">
+                    <li><a href="index.php" >Inicio</a></li>
+                    <li><a href="acerca.php" class="active">Acerca</a></li>
+                    <li><a href="contactenos.php" >Contáctanos</a></li>
+                    <li><a href="FAQ.php" >FAQ</a></li>
+                </ul>
+            </nav>
+            <button class="login-button" onclick="window.location.href='login_1.php" '">LOGIN</button>
+        </div>
+    </header>
+
+    <div>
+        <section class="fraseinicial">
+            <h2>Conoce Más Sobre Nosotros</h2>
+        </section>
+
+        <section class="contenido">
+            <div class="p1">
+                <img src="imagenes/imgcolegio.jpg" alt="Imagen de un colegio" class="responsive-img">
+                <p class="margen">
+                    Edunekta se dedica a impulsar el futuro de la educación mediante el 
+                    uso de tecnologías avanzadas y enfoques centrados en el estudiante. 
+                    Con un compromiso firme hacia la innovación, nuestra visión es crear un entorno 
+                    educativo más inclusivo, donde cada individuo tenga acceso a recursos que fomenten el crecimiento intelectual y profesional. Buscamos empoderar tanto a estudiantes como a educadores, ofreciéndoles herramientas efectivas y accesibles que faciliten la enseñanza y el aprendizaje, adaptándose a las necesidades cambiantes del mundo educativo.
+                </p>
+            </div>
+
+            <div class="p2">
+                <p class="margen2">
+                    Próximamente, Edunekta se lanzará como una plataforma innovadora en el ámbito educativo, diseñada para ofrecer recursos de alta calidad, cursos interactivos y una comunidad comprometida con la excelencia académica. Nuestro equipo está compuesto por profesionales apasionados que trabajan constantemente para mejorar y adaptar nuestras ofertas a las necesidades cambiantes del mundo educativo.
+                </p>
+                <img src="imagenes/imgcolegio.jpg" alt="Imagen de un colegio" class="responsive-img">
+            </div>
+        </section>
+
+        <section class="m-5">
+            <div>
+                <h2>Nuestra Misión</h2>
+                <p>Somos un sistema de gestión académica dedicado a optimizar los procesos administrativos y académicos de colegios, facilitando así la conexión entre estudiantes, padres, docentes y administrativos.</p>
+            </div>
+            <div>
+                <h2>Nuestra Visión</h2>
+                <p>Convertirnos en el sistema líder en gestión académica del país, promoviendo la transición digital y la eficiencia en las instituciones educativas de la región.</p>
+            </div>
+            <section>
+                <h2>Valores</h2>
+                <div class="valores-container">
+                    <div class="cardvision">
+                        <h3>Innovación</h3>
+                        <p>Incorporamos tecnologías de vanguardia.</p>
+                    </div>
+                    <div class="cardvision">
+                        <h3>Compromiso</h3>
+                        <p>Con el éxito de la comunidad educativa.</p>
+                    </div>
+                    <div class="cardvision">
+                        <h3>Transparencia</h3>
+                        <p>Procesos claros y accesibles para todos los usuarios.</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section class="equipo m-5">
+            <h2>Nuestro Equipo</h2>
+            <div class="container row"> 
+                <div class="col-1"></div>
+                <div class="cardvision">
+                    <img src="imagenes/avatarMujer1.png" alt="Miembro del Equipo 1" class="imgtestimonios">
+                    <div class="info">
+                        <p><strong>Sonia Cano</strong></p>
+                        <p>Desarrolladora FullStack</p>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+                <div class="cardvision">
+                    <img src="imagenes/avatarHombre2.png" alt="Miembro del Equipo 2" class="imgtestimonios">
+                    <div class="info">
+                        <p><strong>Kevin Diaz</strong></p>
+                        <p>Desarrollador FullStack</p>
+                    </div>
+                </div>
+                <div class="col-4"></div>
+                <div class="cardvision">
+                    <img src="imagenes/avatarHombre2.png" alt="Miembro del Equipo 2" class="imgtestimonios">
+                    <div class="info">
+                        <p><strong>Miguel Olarte</strong></p>
+                        <p>Desarrollador FullStack</p>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-1"></div>
+                <div class="cardvision">
+                    <img src="imagenes/avatarHombre2.png" alt="Miembro del Equipo 2" class="imgtestimonios">
+                    <div class="info">
+                        <p><strong>Jersy Acevedo</strong></p>
+                        <p>Desarrollador FullStack</p>
+                    </div>
+                </div>
+                <div class="col-4"></div>
+                <div class="cardvision">
+                    <img src="imagenes/avatarHombre2.png" alt="Miembro del Equipo 2" class="imgtestimonios">
+                    <div class="info">
+                        <p><strong>David Jiménez</strong></p>
+                        <p>Desarrollador FullStack</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="contenedorfooter">
+            <h2>Edunekta</h2>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook">
+                    <img src="imagenes/iconoFacebook.png" alt="Icono de Facebook" width="20" height="20">
+                </a>
+                <a href="#" aria-label="LinkedIn">
+                    <img src="imagenes/iconoLinkedin.png" alt="Icono de LinkedIn" width="20" height="20">
+                </a>
+                <a href="#" aria-label="YouTube">
+                    <img src="imagenes/iconoYoutube.png" alt="Icono de YouTube" width="20" height="20">
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <img src="imagenes/iconoInstragram.png" alt="Icono de Instagram" width="20" height="20">
+                </a>
+                <a href="mapa.php" id="mapaS">Conoce el mapa del sitio</a>
+                <a href="error404page.php" id="mapaS">Error 404</a>
+                <a href="error500page.php" id="mapaS">Error 500</a>
+            </div>
+            <p>&copy; 2024 Edunekta. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

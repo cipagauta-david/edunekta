@@ -1,5 +1,5 @@
 <?php
-include "../../conexion.php";
+include "../../conexion.php" ;
 
 class Foro {
     private $id_foro;

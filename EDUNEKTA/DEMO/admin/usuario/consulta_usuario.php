@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../../conexion.php');
+include('../../conexion.php" ');
 
 // Verificar si se ha enviado el formulario con los parámetros de búsqueda
 if (isset($_GET['criterio']) && isset($_GET['valor'])) {
@@ -28,7 +28,7 @@ if (isset($_GET['criterio']) && isset($_GET['valor'])) {
 
         if ($resultado->num_rows > 0) {
             $_SESSION['resultados'] = $resultado->fetch_all(MYSQLI_ASSOC);
-            header("Location: resultado.html");
+            header("Location: resultado.php" );
             exit();
         } else {
             echo "<script>alert('No se encontraron resultados.'); window.history.back();</script>";
