@@ -399,170 +399,162 @@
                 </div>
               </nav>
             </div>
-            <div id="layoutSidenav_content">
-              <div class="container mt-5">
-                <h2>Resultados de búsqueda</h2>
-                <table class="table table-bordered table-hover">
-                  <thead class="table-dark">
-                    <tr>
-                      <th>ID</th>
-                      <th>Nombre</th>
-                      <th>Cédula</th>
-                      <th>Correo</th>
-                      <th>Rol</th>
-                      <th>Estado</th>
-                      <th>Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody id="tablaResultados"></tbody>
-                </table>
-              </div>
+
+
             
-              <!-- Modal de edición -->
-              <div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
-                  <form id="formEditar" class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Editar Usuario</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                      <input type="hidden" id="edit_id">
-                      <div class="mb-3"><label>Nombre</label><input type="text" id="edit_nombre" class="form-control" required></div>
-                      <div class="mb-3"><label>Cédula</label><input type="text" id="edit_cedula" class="form-control" required></div>
-                      <div class="mb-3"><label>Correo</label><input type="email" id="edit_correo" class="form-control" required></div>
-                      <div class="mb-3"><label>Rol</label><input type="text" id="edit_rol" class="form-control" required></div>
-                      <div class="mb-3">
-                        <label>Estado</label>
-                        <select id="edit_estado" class="form-select">
-                          <option value="1">Activo</option>
-                          <option value="0">Inactivo</option>
-                        </select>
+            <body>
+              
+              <div id="layoutSidenav_content">
+                <div class="container mt-5">
+                  <h2 class="text-center">Resultados de búsqueda</h2>
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover text-center">
+                      <thead class="table-dark">
+                        <tr>
+                          <th>ID</th>
+                          <th>Nombre</th>
+                          <th>Cédula</th>
+                          <th>Correo</th>
+                          <th>Rol</th>
+                          <th>Estado</th>
+                          <th>Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tablaResultados"></tbody>
+                    </table>
+                  </div>
+                </div>
+              
+                <!-- Modal de edición -->
+                <div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <form id="formEditar" class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Editar Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                      </div>
+                      <div class="modal-body">
+                        <input type="hidden" id="edit_id">
+                        <div class="mb-3"><label>Nombre</label><input type="text" id="edit_nombre" class="form-control" required></div>
+                        <div class="mb-3"><label>Cédula</label><input type="text" id="edit_cedula" class="form-control" required></div>
+                        <div class="mb-3"><label>Correo</label><input type="email" id="edit_correo" class="form-control" required></div>
+                        <div class="mb-3"><label>Rol</label><input type="text" id="edit_rol" class="form-control" required></div>
+                        <div class="mb-3">
+                          <label>Estado</label>
+                          <select id="edit_estado" class="form-select" required>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              
+                <!-- Footer -->
+                <footer class="py-4 bg-light mt-auto">
+                  <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                      <div class="text-muted">Copyright © Tu Sitio 2025</div>
+                      <div>
+                        <a href="#">Política de Privacidad</a> ·
+                        <a href="#">Términos y condiciones</a>
                       </div>
                     </div>
-                    <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary">Guardar</button>
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-
-        
-           
-               
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright © Your Website 2023</div>
-                            <div>
-                                <a href="../dashboard.html#">Política de Privacidad</a>
-                                ·
-                                <a href="../dashboard.html#">Terminos y condiciones</a>
-                            </div>
-                        </div>
-                    </div>
+                  </div>
                 </footer>
-            </div>
-        </div>
+              </div>
         <script>
   
-     // Cargar usuarios
-    fetch('obtener_datos.php')
-      .then(res => res.json())
-      .then(data => {
-        const tabla = document.getElementById('tablaResultados');
-        tabla.innerHTML = '';
-        data.forEach(fila => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${fila.id}</td>
-            <td>${fila.nombre_completo}</td>
-            <td>${fila.cedula}</td>
-            <td>${fila.correo}</td>
-            <td>${fila.rol}</td>
-            <td>${fila.estado == 1 ? 'Activo' : 'Inactivo'}</td>
-            <td>
-              <button class="btn btn-warning btn-sm btn-editar"
-                data-id="${fila.id}"
-                data-nombre="${fila.nombre_completo}"
-                data-cedula="${fila.cedula}"
-                data-correo="${fila.correo}"
-                data-rol="${fila.rol}"
-                data-estado="${fila.estado}">
-                Editar
-              </button>
-              <button class="btn btn-danger btn-sm btn-eliminar" data-id="${fila.id}">Eliminar</button>
-            </td>
-          `;
-
-          // Evento editar
-          tr.querySelector('.btn-editar').addEventListener('click', function () {
-            document.getElementById('edit_id').value = this.dataset.id;
-            document.getElementById('edit_nombre').value = this.dataset.nombre;
-            document.getElementById('edit_cedula').value = this.dataset.cedula;
-            document.getElementById('edit_correo').value = this.dataset.correo;
-            document.getElementById('edit_rol').value = this.dataset.rol;
-            document.getElementById('edit_estado').value = this.dataset.estado;
-
-            const modal = new bootstrap.Modal(document.getElementById('modalEditar'));
-            modal.show();
-          });
-
-          // Evento eliminar
-          tr.querySelector('.btn-eliminar').addEventListener('click', function () {
-            if (confirm('¿Eliminar este usuario?')) {
-              const formData = new FormData();
-              formData.append('accion', 'eliminar');
-              formData.append('id', this.dataset.id);
-
-              fetch('acciones_usuario.php', {
-                method: 'POST',
-                body: formData
-              })
-              .then(res => res.text())
-              .then(resp => {
-                if (resp === 'ok') {
-                  alert('Usuario eliminado');
-                  location.reload();
-                } else {
-                  alert('Error al eliminar');
-                }
-              });
-            }
-          });
-
-          tabla.appendChild(tr);
-        });
-      });
-
-    // Guardar cambios
-    document.getElementById('formEditar').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const formData = new FormData();
-      formData.append('accion', 'editar');
-      formData.append('id', document.getElementById('edit_id').value);
-      formData.append('nombre', document.getElementById('edit_nombre').value);
-      formData.append('cedula', document.getElementById('edit_cedula').value);
-      formData.append('correo', document.getElementById('edit_correo').value);
-      formData.append('rol', document.getElementById('edit_rol').value);
-      formData.append('estado', document.getElementById('edit_estado').value);
-
-      fetch('acciones_usuario.php', {
-        method: 'POST',
-        body: formData
-      })
-      .then(res => res.text())
-      .then(resp => {
-        if (resp === 'ok') {
-          alert('Usuario actualizado');
-          location.reload();
-        } else {
-          alert('Error al actualizar');
-        }
-      });
+  fetch('obtener_datos.php')
+  .then(response => response.json())
+  .then(data => {
+    const tabla = document.getElementById('tablaResultados');
+    data.forEach(fila => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${fila.id}</td>
+        <td>${fila.nombre_completo}</td>
+        <td>${fila.cedula}</td>
+        <td>${fila.correo}</td>
+        <td>${fila.rol}</td>
+        <td>${fila.estado}</td>
+        <td>
+          <button class="btn btn-warning btn-sm" 
+            onclick="mostrarEditar(${fila.id}, '${fila.nombre_completo.replace(/'/g, "\\'")}', '${fila.cedula}', '${fila.correo}', '${fila.rol}', '${fila.estado}')">
+            Editar
+          </button>
+          <button class="btn btn-danger btn-sm" onclick="eliminar(${fila.id})">Eliminar</button>
+        </td>
+      `;
+      tabla.appendChild(tr);
     });
+  });
+
+function mostrarEditar(id, nombre, cedula, correo, rol, estado) {
+  document.getElementById('edit_id').value = id;
+  document.getElementById('edit_nombre').value = nombre;
+  document.getElementById('edit_cedula').value = cedula;
+  document.getElementById('edit_correo').value = correo;
+  document.getElementById('edit_rol').value = rol;
+
+  const estadoSelect = document.getElementById('edit_estado');
+  Array.from(estadoSelect.options).forEach(opt => {
+    opt.selected = (opt.value === estado);
+  });
+
+  const modal = new bootstrap.Modal(document.getElementById('modalEditar'));
+  modal.show();
+}
+
+document.getElementById('formEditar').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append('accion', 'editar');
+  formData.append('id', document.getElementById('edit_id').value);
+  formData.append('nombre', document.getElementById('edit_nombre').value);
+  formData.append('cedula', document.getElementById('edit_cedula').value);
+  formData.append('correo', document.getElementById('edit_correo').value);
+  formData.append('rol', document.getElementById('edit_rol').value);
+  formData.append('estado', document.getElementById('edit_estado').value);
+
+  fetch('acciones_usuario.php', {
+    method: 'POST',
+    body: formData
+  }).then(res => res.text())
+    .then(resp => {
+      if (resp === 'ok') {
+        alert('Actualizado correctamente');
+        location.reload();
+      } else {
+        alert('Error al actualizar');
+      }
+    });
+});
+
+function eliminar(id) {
+  if (!confirm('¿Deseas eliminar este usuario?')) return;
+  const formData = new FormData();
+  formData.append('accion', 'eliminar');
+  formData.append('id', id);
+
+  fetch('acciones_usuario.php', {
+    method: 'POST',
+    body: formData
+  }).then(res => res.text())
+    .then(resp => {
+      if (resp === 'ok') {
+        alert('Eliminado correctamente');
+        location.reload();
+      } else {
+        alert('Error al eliminar');
+      }
+    });
+}
 </script>
 
 
