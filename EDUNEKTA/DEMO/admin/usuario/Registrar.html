@@ -395,86 +395,72 @@
             </nav>
           </div>
             <div id="layoutSidenav_content">
-                
-
-                <div class="container d-flex justify-content-center align-items-center min-vh-100">
-                    <div class="card shadow p-4 form-card">
-                        <form action="#" method="post" class="needs-validation" novalidate="">
-                            <div class="text-center mb-4">
-                                <a href="./index.html">
-                                    <img src="../../imagenes/Logotipo.png" alt="logo" class="logologin mb-4">
-                                </a>
-                                <h1 class="h4">Registro de Personal RR.HH.</h1>
+              <div class="container d-flex justify-content-center align-items-center min-vh-100">
+                <div class="card shadow p-4 form-card">
+                    <form action="procesar.php" method="post" class="needs-validation" novalidate="">
+                        <div class="text-center mb-4">
+                            <a href="./index.html">
+                                <img src="../../imagenes/Logotipo.png" alt="logo" class="logologin mb-4">
+                            </a>
+                            <h1 class="h4">Registro de Personal RR.HH.</h1>
+                        </div>
+            
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <label for="nombre-completo" class="form-label">Nombre Completo</label>
+                                <input type="text" id="nombre-completo" name="nombre_completo" class="form-control" required="" placeholder="Nombre Completo">
                             </div>
             
-                            <div class="row g-2">
-                                <div class="col-md-4">
-                                    <label for="nombre-completo" class="form-label">Nombre Completo</label>
-                                    <input type="text" id="nombre-completo" name="nombre_completo" class="form-control" required=""
-                                        placeholder="Nombre Completo">
-                                    <div class="invalid-feedback">Por favor, ingresa tu nombre completo.</div>
-                                </div>
-            
-                                <div class="col-md-4">
-                                    <label for="cedula" class="form-label">Número Doc Identidad</label>
-                                    <input type="text" id="cedula" name="cedula" class="form-control" required=""
-                                        placeholder="Número Doc Identidad">
-                                    <div class="invalid-feedback">Por favor, ingresa tu número de documento.</div>
-                                </div>
-            
-                                <div class="col-md-4">
-                                    <label for="correo" class="form-label">Correo Electrónico</label>
-                                    <input type="email" id="correo" name="correo" class="form-control" required=""
-                                        placeholder="edunekta@correo.com">
-                                    <div class="invalid-feedback">Por favor, ingresa un correo válido.</div>
-                                </div>
-            
-                                <div class="col-md-4">
-                                    <label for="telefono" class="form-label">Teléfono</label>
-                                    <input type="tel" id="telefono" name="telefono" class="form-control" required=""
-                                        placeholder="Teléfono">
-                                    <div class="invalid-feedback">Por favor, ingresa tu número de teléfono.</div>
-                                </div>
-            
-                                <div class="col-md-4">
-                                    <label for="rol" class="form-label">Rol en el colegio</label>
-                                    <select id="rol" name="rol" class="form-select" required="">
-                                        <option value="">Seleccione un rol</option>
-                                        <option value="docente">Docente</option>
-                                        <option value="administrativo">Administrativo</option>
-                                        <option value="psicologo">Psicólogo</option>
-                                        <option value="otro">Otro</option>
-                                    </select>
-                                    <div class="invalid-feedback">Por favor, selecciona un rol.</div>
-                                </div>
-            
-                                <div class="col-md-4">
-                                    <label for="fecha-nacimiento" class="form-label">Fecha de nacimiento</label>
-                                    <input type="date" id="fecha-nacimiento" name="fecha_nacimiento" class="form-control"
-                                        required="">
-                                    <div class="invalid-feedback">Por favor, selecciona tu fecha de nacimiento.</div>
-                                </div>
-            
-                                <div class="col-md-4">
-                                    <label for="direccion" class="form-label">Dirección</label>
-                                    <input type="text" id="direccion" name="direccion" class="form-control"
-                                        placeholder="Ingrese la dirección">
-                                </div>
-            
-                                <div class="col-md-4">
-                                    <label for="observaciones" class="form-label">Observaciones</label>
-                                    <textarea id="observaciones" name="observaciones" class="form-control" rows="4"
-                                        placeholder="Ingrese observaciones adicionales"></textarea>
-                                </div>
+                            <div class="col-md-4">
+                                <label for="cedula" class="form-label">Número Doc Identidad</label>
+                                <input type="text" id="cedula" name="cedula" class="form-control" required="" placeholder="Número Doc Identidad">
                             </div>
             
-                            <div class="d-flex justify-content-between mt-3">
-                                <button type="submit" class="btn btn-primary">Registrar</button>
-                                <button type="reset" class="btn btn-secondary">Limpiar</button>
+                            <div class="col-md-4">
+                                <label for="correo" class="form-label">Correo Electrónico</label>
+                                <input type="email" id="correo" name="correo" class="form-control" required="" placeholder="edunekta@correo.com">
                             </div>
-                        </form>
-                    </div>
+            
+                            <div class="col-md-4">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="tel" id="telefono" name="telefono" class="form-control" required="" placeholder="Teléfono">
+                            </div>
+            
+                            <div class="col-md-4">
+                                <label for="rol" class="form-label">Rol en el colegio</label>
+                                <select id="rol" name="rol" class="form-select" required="">
+                                    <option value="">Seleccione un rol</option>
+                                    <option value="docente">Docente</option>
+                                    <option value="administrativo">Administrativo</option>
+                                    <option value="psicologo">Psicólogo</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+            
+                            <div class="col-md-4">
+                                <label for="fecha-nacimiento" class="form-label">Fecha de nacimiento</label>
+                                <input type="date" id="fecha-nacimiento" name="fecha_nacimiento" class="form-control" required="">
+                            </div>
+            
+                            <div class="col-md-4">
+                                <label for="direccion" class="form-label">Dirección</label>
+                                <input type="text" id="direccion" name="direccion" class="form-control" placeholder="Ingrese la dirección">
+                            </div>
+            
+                            <div class="col-md-4">
+                                <label for="observaciones" class="form-label">Observaciones</label>
+                                <textarea id="observaciones" name="observaciones" class="form-control" rows="4" placeholder="Ingrese observaciones adicionales"></textarea>
+                            </div>
+                        </div>
+            
+                        <div class="d-flex justify-content-between mt-3">
+                            <button type="submit" class="btn btn-primary">Registrar</button>
+                            <button type="reset" class="btn btn-secondary">Limpiar</button>
+                        </div>
+                    </form>
                 </div>
+            </div>
+            
 
 
 

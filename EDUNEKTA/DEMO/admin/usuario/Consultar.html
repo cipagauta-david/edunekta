@@ -10,6 +10,9 @@
         <link href="../../../dashboard_files/styles.css" rel="stylesheet">
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <link href="../../../estilos.css" rel="stylesheet">
+        <style>
+          
+        </style>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-light">
             <!-- Navbar Brand-->
@@ -398,43 +401,41 @@
             <div id="layoutSidenav_content">
                 
 
-                <div class="container mt-5">
-                    <div class="card shadow p-4">
-                        <form action="#" method="get" class="needs-validation" novalidate>
-                            <div class="text-center mb-4">
-                                <a href="./index.html"><img src="../../imagenes/Logotipo.png" alt="logo" class="logologin mb-3"></a>
-                                <h1 class="h4">Consulta de Usuarios</h1>
-                            </div>
+              <div class="container mt-5">
+                <div class="card shadow p-4">
+                    <form action="consulta_usuario.php" method="get" class="needs-validation" novalidate>
+                        <div class="text-center mb-4">
+                            <a href="./index.html"><img src="../../../imagenes/Logotipo.png" alt="logo" class="logologin mb-3"></a>
+                            <h1 class="h4">Consulta de Usuarios</h1>
+                        </div>
             
-                            <div class="mb-3">
-                                <label for="criterio-busqueda" class="form-label">Criterio de búsqueda</label>
-                                <select id="criterio-busqueda" name="criterio" class="form-select" required>
-                                    <option value="">Seleccionar</option>
-                                    <option value="nombre">Nombre</option>
-                                    <option value="cedula">Número Doc Identidad</option>
-                                    <option value="correo">Correo</option>
-                                    <option value="rol">Rol</option>
-                                </select>
-                                <div class="invalid-feedback">Por favor, selecciona un criterio de búsqueda.</div>
-                            </div>
+                        <div class="mb-3">
+                            <label for="criterio-busqueda" class="form-label">Criterio de búsqueda</label>
+                            <select id="criterio-busqueda" name="criterio" class="form-select" required>
+                                <option value="">Seleccionar</option>
+                                <option value="nombre_completo">Nombre</option>
+                                <option value="cedula">Número Doc Identidad</option>
+                                <option value="correo">Correo</option>
+                                <option value="rol">Rol</option>
+                                <option value="estado">Estado</option> <!-- Si deseas buscar por estado -->
+                            </select>
+                            <div class="invalid-feedback">Por favor, selecciona un criterio de búsqueda.</div>
+                        </div>
             
-                            <div class="mb-3">
-                                <label for="valor-busqueda" class="form-label">Valor de búsqueda</label>
-                                <input type="text" id="valor-busqueda" name="valor" class="form-control" required placeholder="Ingresa tu búsqueda aquí">
-                                <div class="invalid-feedback">Por favor, ingresa el dato correspondiente.</div>
-                            </div>
+                        <div class="mb-3">
+                            <label for="valor-busqueda" class="form-label">Valor de búsqueda</label>
+                            <input type="text" id="valor-busqueda" name="valor" class="form-control" required placeholder="Ingresa tu búsqueda aquí">
+                            <div class="invalid-feedback">Por favor, ingresa el dato correspondiente.</div>
+                        </div>
             
-                            <div class="d-flex justify-content-between">
-                                <button type="submit" class="btn btn-primary">Buscar</button>
-                                <button type="reset" class="btn btn-secondary">Limpiar</button>
-                            </div>
-                        </form>
-                    </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">Buscar</button>
+                            <button type="reset" class="btn btn-secondary">Limpiar</button>
+                        </div>
+                    </form>
                 </div>
-
-
-
-                
+            </div>
+            
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
@@ -450,6 +451,36 @@
             </div>
         </div>
         <script>
+           
+        // AJAX para manejar la búsqueda
+        $('#formBusqueda').on('submit', function (e) {
+            e.preventDefault(); // Evitar el envío normal del formulario
+            
+            var criterio = $('#criterio-busqueda').val();
+            var valor = $('#valor-busqueda').val();
+
+            // Verificar si ambos campos tienen valores
+            if (criterio && valor) {
+                $.ajax({
+                    url: 'consulta_usuario.php',  // Archivo PHP que procesará la búsqueda
+                    type: 'GET',
+                    data: {
+                        criterio: criterio,
+                        valor: valor
+                    },
+                    success: function(response) {
+                        // Mostrar los resultados dentro de #resultados
+                        $('#resultados').html(response);
+                    },
+                    error: function() {
+                        $('#resultados').html('<div class="alert alert-danger">Error al realizar la búsqueda.</div>');
+                    }
+                });
+            } else {
+                $('#resultados').html('<div class="alert alert-warning">Por favor ingresa todos los datos.</div>');
+            }
+        });
+    
             (() => {
                 'use strict'
                 const forms = document.querySelectorAll('.needs-validation')
