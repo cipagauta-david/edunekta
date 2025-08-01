@@ -10,37 +10,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Dashboard - SB Admin</title>
-    <link href="../../dashboard_files/styles.css" rel="stylesheet">
+    <link href="../../../dashboard_files/styles.css" rel="stylesheet">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <link href="../../estilos.css" rel="stylesheet">
+    <link href="../../../estilos.css" rel="stylesheet">
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-light">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="../dashboard.html">Edunekta Demo</a>
-        <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><svg
-                class="svg-inline--fa fa-bars" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars"
-                role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
-                <path fill="currentColor"
-                    d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z">
-                </path>
-            </svg><!-- <i class="fas fa-bars"></i> Font Awesome fontawesome.com --></button>
-        <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
-                    aria-describedby="btnNavbarSearch">
-                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><svg
-                        class="svg-inline--fa fa-magnifying-glass" aria-hidden="true" focusable="false"
-                        data-prefix="fas" data-icon="magnifying-glass" role="img" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 512 512" data-fa-i2svg="">
-                        <path fill="currentColor"
-                            d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z">
-                        </path>
-                    </svg><!-- <i class="fas fa-search"></i> Font Awesome fontawesome.com --></button>
-            </div>
-        </form>
+        <a class="navbar-brand ps-3" href="../../dashboard.html">Edunekta Demo</a>
         <!-- Navbar-->
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown">
@@ -72,9 +49,9 @@
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdown"
           >
-            <li><a class="dropdown-item" href="../Ajuste.html">Ajustes</a></li>
+            <li><a class="dropdown-item" href="../../Ajuste.html">Ajustes</a></li>
             <li>
-              <a class="dropdown-item" href="../dashboard.html#!"
+              <a class="dropdown-item" href="../../dashboard.html#!"
                 >Registro de actividad</a
               >
             </li>
@@ -82,7 +59,7 @@
               <hr class="dropdown-divider" />
             </li>
             <li>
-              <a class="dropdown-item" href="../dashboard.html#!">
+              <a class="dropdown-item" href="../../dashboard.html#!">
                 Cerrar sesión</a
               >
             </li>
@@ -151,11 +128,9 @@
                 data-bs-parent="#sidenavAccordion"
               >
                 <nav class="sb-sidenav-menu-nested nav">
-                  <a class="nav-link" href="crearActividad.html">Crear</a>
-                  <a class="nav-link" href="editarActividad.html">Editar</a>
-                  <a class="nav-link" href="eliminarActividad.html"
-                    >Eliminar</a
-                  >
+                  <a class="nav-link" href="../actividad/crearActividad.html">Crear</a>
+                  <a class="nav-link" href="../actividad/editarActividad.html">Editar</a>
+                  <a class="nav-link" href="../actividad/eliminarActividad.html">Eliminar</a>
                 </nav>
               </div>
               <a
@@ -215,12 +190,10 @@
                 <nav class="sb-sidenav-menu-nested nav">
                   <a class="nav-link" href="crearAsignatura.html">Crear</a>
                   <a class="nav-link" href="editarAsignatura.html">Editar</a>
-                  <a class="nav-link" href="eliminarAsignatura.html"
-                    >Eliminar</a
-                  >
+                  <a class="nav-link" href="eliminarAsignatura.html">Eliminar</a>
                 </nav>
               </div>
-              <a href="admin/Administracion.html" class="sb-sidenav-menu-heading nav-link">Administracion</a>
+              <a href="../../admin/Administracion.html" class="sb-sidenav-menu-heading nav-link">Administracion</a>
               <a
                 class="nav-link collapsed"
                 href="../dashboard.html#"
@@ -276,10 +249,10 @@
                 data-bs-parent="#sidenavAccordion"
               >
                 <nav class="sb-sidenav-menu-nested nav">
-                  <a class="nav-link" href="../admin/Registrar.html">Registrar</a>
-                  <a class="nav-link" href="../admin/Consultar.html">Consultar</a>
-                  <a class="nav-link" href="../admin/Habilitar.html">Habilitar</a>
-                  <a class="nav-link" href="../admin/Modificar.html">Modificar</a>
+                  <a class="nav-link" href="../../admin/usuario/Registrar.html">Registrar</a>
+                  <a class="nav-link" href="../../admin/usuario/Consultar.html">Consultar</a>
+                  <a class="nav-link" href="../../admin/usuario/Habilitar.html">Habilitar</a>
+                  <a class="nav-link" href="../../admin/usuario/Modificar.html">Modificar</a>
                 </nav>
               </div>
               <a
@@ -341,7 +314,7 @@
                   id="sidenavAccordionPages"
                 >
                   <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="../admin/Certificado.html"
+                    <a class="nav-link" href="../../admin/Certificado.html"
                       >Descargar Certificado</a
                     >
                   </nav>
@@ -403,12 +376,12 @@
                 data-bs-parent="#sidenavAccordion"
               >
                 <nav class="sb-sidenav-menu-nested nav">
-                  <a class="nav-link" href="../Foro.html">Foro</a>
-                  <a class="nav-link" href="../Mensaje.html">Mensaje</a>
-                  <a class="nav-link" href="../Notificacion.html"
+                  <a class="nav-link" href="../../comunicacion/Foro.html">Foro</a>
+                  <a class="nav-link" href="../../comunicacion/Mensaje.html">Mensaje</a>
+                  <a class="nav-link" href="../../comunicacion/Notificacion.html"
                     >Notificaciones</a
                   >
-                  <a class="nav-link" href="../Noticias.html">Noticias</a>
+                  <a class="nav-link" href="../../comunicacion/Noticias.html">Noticias</a>
                 </nav>
               </div>
             </div>
@@ -426,8 +399,8 @@
                 <div class="card shadow p-4 form-card">
                     <form action="#" method="post" class="needs-validation" novalidate="">
                         <div class="text-center mb-4">
-                            <a href="./index.html">
-                                <img src="../../imagenes/Logotipo.png" alt="logo" class="logologin mb-4">
+                            <a href="../../../index.html">
+                                <img src="../../../imagenes/Logotipo.png" alt="logo" class="logologin mb-4">
                             </a>
                             <h1 class="h4">Eliminar grupo</h1>
                         </div>
@@ -501,13 +474,10 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
+    <script src="../../dashboard.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="assets/demo/chart-area-demo.js"></script>
-    <script src="assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
         crossorigin="anonymous"></script>
-    <script src="js/datatables-simple-demo.js"></script>
 
 
 </body>

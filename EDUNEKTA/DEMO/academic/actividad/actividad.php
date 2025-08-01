@@ -23,52 +23,23 @@ class Actividad {
         return $this->id;
     }
 
-    public function getTitulo() {
-        return $this->titulo;
-    }
-
-    public function getFecha() {
-        return $this->fecha;
-    }
-
-    public function getDescripcion() {
-        return $this->descripcion;
-    }
-    
-    public function getClaseId() {
-        return $this->clase_id;
-    }
-    
-    public function getEstado() {
-        return $this->estado;
-    }
-
     // Setters
     public function setId($id) {
         $this->id = $id;
     }
 
-    public function setTitulo($titulo) {
-        $this->titulo = $titulo;
-    }
-
-    public function setFecha($fecha) {
-        $this->fecha = $fecha;
-    }
-
-    public function setDescripcion($descripcion) {
-        $this->descripcion = $descripcion;
-    }
-    
-    public function setClaseId($clase_id) {
-        $this->clase_id = $clase_id;
-    }
-    
-    public function setEstado($estado) {
-        $this->estado = $estado;
-    }
-
     // Métodos para operaciones CRUD
+    public function obtener($conexion) {
+        $stmt = $conexion->prepare("SELECT * from actividad where id=?");
+        $stmt->bind_param("sssis", $this->titulo, $this->fecha, $this->descripcion, $this->clase_id, $this->estado);
+        
+        if ($stmt->execute()) {
+            $this->id = $conexion->insert_id;
+            return true;
+        }
+        
+        return false;
+    }
     public function guardar($conexion) {
         $stmt = $conexion->prepare("INSERT INTO actividad (titulo, fecha_entrega, descripcion, clase_id_clase, estado) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssis", $this->titulo, $this->fecha, $this->descripcion, $this->clase_id, $this->estado);

@@ -4,7 +4,7 @@ if (!class_exists('Conexion')) {
     class Conexion {
         private $host = "edunekta-edunekta.i.aivencloud.com:10536";
         private $dbname = "edunekta";
-        private $username = ""; 
+        private $username = "testing"; 
         private $password = "";
         private $conexion;
 
