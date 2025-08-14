@@ -1,18 +1,28 @@
 {
   "name": "edu-back",
   "version": "0.0.1",
-  "description": "",
+  "description": "Edunekta backend monorepo",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "workspaces": [
+    "apps/*",
+    "libs/*",
+    "libs/domains/*"
+  ],
   "scripts": {
-    "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "build": "nest build api",
+    "build:api": "nest build api",
+    "build:outbox": "nest build outbox-publisher",
+    "start": "nest start api",
+    "start:dev": "nest start api --watch",
+    "start:api": "nest start api",
+    "start:api:dev": "nest start api --watch",
+    "start:outbox": "nest start outbox-publisher",
+    "start:outbox:dev": "nest start outbox-publisher --watch",
+    "db:init": "node -r ts-node/register -r tsconfig-paths/register apps/api/src/scripts/db-init.ts",
+    "format": "prettier --write \"{apps,libs}/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "eslint \"{apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -23,6 +33,7 @@
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/cqrs": "^11.0.0",
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
@@ -64,20 +75,12 @@
     "typescript-eslint": "^8.20.0"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
+    "moduleFileExtensions": ["js", "json", "ts"],
+    "rootDir": ".",
     "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
+    "transform": {"^.+\\.(t|j)s$": "ts-jest"},
+    "collectCoverageFrom": ["{apps,libs}/**/*.(t|j)s"],
+    "coverageDirectory": "./coverage",
     "testEnvironment": "node"
   }
 }

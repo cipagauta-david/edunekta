@@ -1,8 +1,86 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "monorepo": true,
+  "root": "./",
+  "sourceRoot": "apps/api/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": false,
+    "tsConfigPath": "tsconfig.base.json"
+  },
+  "projects": {
+    "api": {
+      "type": "application",
+      "root": "apps/api",
+      "entryFile": "main",
+      "sourceRoot": "apps/api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api/tsconfig.app.json"
+      }
+    },
+    "outbox-publisher": {
+      "type": "application",
+      "root": "apps/outbox-publisher",
+      "entryFile": "main",
+      "sourceRoot": "apps/outbox-publisher/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/outbox-publisher/tsconfig.app.json"
+      }
+    },
+    "common": {
+      "type": "library",
+      "root": "libs/common",
+      "entryFile": "index",
+      "sourceRoot": "libs/common/src"
+    },
+    "core": {
+      "type": "library",
+      "root": "libs/core",
+      "entryFile": "index",
+      "sourceRoot": "libs/core/src"
+    },
+    "integrations": {
+      "type": "library",
+      "root": "libs/integrations",
+      "entryFile": "index",
+      "sourceRoot": "libs/integrations/src"
+    },
+    "domains-access-control": {
+      "type": "library",
+      "root": "libs/domains/access-control",
+      "entryFile": "index",
+      "sourceRoot": "libs/domains/access-control/src"
+    },
+    "domains-academic": {
+      "type": "library",
+      "root": "libs/domains/academic",
+      "entryFile": "index",
+      "sourceRoot": "libs/domains/academic/src"
+    },
+    "domains-communication": {
+      "type": "library",
+      "root": "libs/domains/communication",
+      "entryFile": "index",
+      "sourceRoot": "libs/domains/communication/src"
+    },
+    "domains-financial": {
+      "type": "library",
+      "root": "libs/domains/financial",
+      "entryFile": "index",
+      "sourceRoot": "libs/domains/financial/src"
+    },
+    "domains-institutions": {
+      "type": "library",
+      "root": "libs/domains/institutions",
+      "entryFile": "index",
+      "sourceRoot": "libs/domains/institutions/src"
+    },
+    "domains-users": {
+      "type": "library",
+      "root": "libs/domains/users",
+      "entryFile": "index",
+      "sourceRoot": "libs/domains/users/src"
+    }
   }
 }

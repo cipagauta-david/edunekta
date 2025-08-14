@@ -1,4 +1,21 @@
+// Root tsconfig for building the project libraries and apps
 {
-  "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext"
+  },
+  "references": [
+    { "path": "apps/api/tsconfig.app.json" },
+    { "path": "apps/outbox-publisher/tsconfig.app.json" },
+    { "path": "libs/common/tsconfig.lib.json" },
+    { "path": "libs/core/tsconfig.lib.json" },
+    { "path": "libs/integrations/tsconfig.lib.json" },
+    { "path": "libs/domains/access-control/tsconfig.lib.json" },
+    { "path": "libs/domains/academic/tsconfig.lib.json" },
+    { "path": "libs/domains/communication/tsconfig.lib.json" },
+    { "path": "libs/domains/financial/tsconfig.lib.json" },
+    { "path": "libs/domains/institutions/tsconfig.lib.json" },
+    { "path": "libs/domains/users/tsconfig.lib.json" }
+  ]
 }
