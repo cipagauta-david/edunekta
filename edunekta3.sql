@@ -5,10 +5,10 @@ SET NAMES utf8mb4;
 SET time_zone = '+00:00';
 SET sql_mode = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
-CREATE DATABASE IF NOT EXISTS edunekta
+CREATE DATABASE IF NOT EXISTS edunekta3
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_0900_ai_ci;
-USE edunekta;
+USE edunekta3;
 
 -- =========================
 -- 1) ENTIDADES CENTRALES
@@ -542,3 +542,186 @@ GROUP BY
   ua.nombre,
   ua.apellido,
   ua.email;
+
+-- Objetivo: ver cuántos estudiantes están matriculados por periodo, por grado y por grupo — base para capacidad y planificación.
+CREATE OR REPLACE VIEW vista_matriculas_por_periodo AS
+SELECT
+  p.id AS periodo_id,
+  p.nombre AS periodo_nombre,
+  g.id AS grado_id,
+  g.nombre AS grado_nombre,
+  gr.id AS grupo_id,
+  gr.nombre AS grupo_nombre,
+  COUNT(m.id) AS total_matriculas
+FROM periodo_academico p
+JOIN grupo gr ON gr.periodo_academico_id = p.id
+JOIN grado g ON g.id = gr.grado_id
+LEFT JOIN matricula m
+  ON m.periodo_academico_id = p.id
+  AND m.grupo_id = gr.id
+GROUP BY p.id, p.nombre, g.id, g.nombre, gr.id, gr.nombre;
+
+-- Objetivo: indicadores de asistencia por estudiante y por clase (presentes, ausentes, tardes, justificadas). Útil para detectar problemas de retención temprana.
+CREATE OR REPLACE VIEW vista_asistencia_resumen AS
+SELECT
+  a.institucion_id,
+  a.clase_id,
+  c.nombre AS clase_nombre,
+  a.estudiante_id,
+  CONCAT(u.nombre, ' ', u.apellido) AS estudiante_nombre,
+  SUM(a.estado = 'PRESENTE') AS cnt_presente,
+  SUM(a.estado = 'AUSENTE') AS cnt_ausente,
+  SUM(a.estado = 'TARDE') AS cnt_tarde,
+  SUM(a.estado = 'JUSTIFICADA') AS cnt_justificada,
+  COUNT(*) AS total_registros,
+  ROUND(100 * SUM(a.estado = 'PRESENTE') / GREATEST(COUNT(*),1),2) AS pct_presente
+FROM asistencia a
+JOIN usuario u ON u.id = a.estudiante_id
+LEFT JOIN clase c ON c.id = a.clase_id
+GROUP BY a.institucion_id, a.clase_id, a.estudiante_id, c.nombre;
+
+-- Objetivo: ver la distribución de notas por rangos (buckets) por asignatura — para analizar si una materia es “dura” o “fácil”.
+CREATE OR REPLACE VIEW vista_distribucion_notas_por_asignatura AS
+SELECT
+  cp.asignatura_id,
+  a.nombre AS asignatura_nombre,
+  CASE
+    WHEN cp.nota_final >= 90 THEN '90-100'
+    WHEN cp.nota_final >= 80 THEN '80-89'
+    WHEN cp.nota_final >= 70 THEN '70-79'
+    WHEN cp.nota_final >= 60 THEN '60-69'
+    ELSE '0-59'
+  END AS rango,
+  COUNT(*) AS cantidad,
+  ROUND(100 * COUNT(*) / GREATEST((SELECT COUNT(*) FROM calificacion_periodo cp2 WHERE cp2.asignatura_id = cp.asignatura_id),1),2) AS porcentaje
+FROM calificacion_periodo cp
+JOIN asignatura a ON a.id = cp.asignatura_id
+GROUP BY cp.asignatura_id, a.nombre, rango;
+
+-- Objetivo: promedio de notas por grupo y asignatura — para detectar brechas entre grupos en la misma materia.
+CREATE OR REPLACE VIEW vista_promedio_notas_por_grupo_asignatura AS
+SELECT
+  cp.periodo_academico_id,
+  pa.nombre AS periodo_nombre,
+  gr.id AS grupo_id,
+  gr.nombre AS grupo_nombre,
+  cp.asignatura_id,
+  a.nombre AS asignatura_nombre,
+  ROUND(AVG(cp.nota_final),2) AS promedio_nota,
+  COUNT(*) AS muestras
+FROM calificacion_periodo cp
+JOIN periodo_academico pa ON pa.id = cp.periodo_academico_id
+LEFT JOIN grupo gr ON gr.institucion_id = cp.institucion_id -- join solo para traer nombre si aplica
+LEFT JOIN asignatura a ON a.id = cp.asignatura_id
+GROUP BY cp.periodo_academico_id, pa.nombre, gr.id, gr.nombre, cp.asignatura_id, a.nombre;
+
+-- Objetivo: cuántas clases, horas y estudiantes atiende cada profesor — útil para asignación y balance de carga.
+CREATE OR REPLACE VIEW vista_carga_docente AS
+SELECT
+  u.id AS profesor_id,
+  CONCAT(u.nombre, ' ', u.apellido) AS profesor_nombre,
+  COUNT(DISTINCT c.id) AS numero_clases,
+  -- horas estimadas por sesión (TIME_TO_SEC) convertido a horas
+  ROUND(SUM(TIME_TO_SEC(TIMEDIFF(c.hora_fin, c.hora_inicio))) / 3600, 2) AS horas_por_semana_aprox,
+  COUNT(DISTINCT m.estudiante_id) AS alumnos_distintos
+FROM clase c
+JOIN usuario u ON u.id = c.profesor_id
+LEFT JOIN grupo g ON g.id = c.grupo_id
+LEFT JOIN matricula m ON m.grupo_id = g.id AND m.periodo_academico_id = c.periodo_academico_id
+GROUP BY u.id, profesor_nombre;
+
+-- Objetivo: totales facturados, pagado y saldo por periodo (fecha de emisión agrupada por mes/año).
+CREATE OR REPLACE VIEW vista_resumen_financiero_periodo AS
+SELECT
+  YEAR(f.fecha_emision) AS anio,
+  MONTH(f.fecha_emision) AS mes,
+  CONCAT(YEAR(f.fecha_emision), '-', LPAD(MONTH(f.fecha_emision),2,'0')) AS anio_mes,
+  ROUND(SUM(f.total),2) AS total_facturado,
+  ROUND(COALESCE(SUM(p.monto),0),2) AS total_pagado,
+  ROUND(SUM(f.saldo_cache),2) AS saldo_total
+FROM factura f
+LEFT JOIN pago p ON p.factura_id = f.id
+GROUP BY YEAR(f.fecha_emision), MONTH(f.fecha_emision)
+ORDER BY anio, mes;
+
+-- Objetivo: agrupar facturas vencidas en buckets (0-30, 31-60, 61-90, >90) para priorizar cobros.
+CREATE OR REPLACE VIEW vista_aging_facturas AS
+SELECT
+  CASE
+    WHEN DATEDIFF(CURDATE(), f.fecha_vencimiento) < 0 THEN 'NO VENCIDA'
+    WHEN DATEDIFF(CURDATE(), f.fecha_vencimiento) BETWEEN 0 AND 30 THEN '0-30'
+    WHEN DATEDIFF(CURDATE(), f.fecha_vencimiento) BETWEEN 31 AND 60 THEN '31-60'
+    WHEN DATEDIFF(CURDATE(), f.fecha_vencimiento) BETWEEN 61 AND 90 THEN '61-90'
+    ELSE '90+'
+  END AS aging_bucket,
+  COUNT(*) AS cantidad_facturas,
+  ROUND(SUM(f.saldo_cache),2) AS total_saldo
+FROM factura f
+WHERE f.estado <> 'ANULADA'
+GROUP BY aging_bucket;
+
+-- Objetivo: para cada actividad, tasa de entrega y tasa de entrega a tiempo (on-time vs late). Crucial para medir compromiso.
+CREATE OR REPLACE VIEW vista_tasa_entrega_actividades AS
+SELECT
+  act.id AS actividad_id,
+  act.titulo,
+  act.clase_id,
+  COALESCE((SELECT COUNT(*) FROM matricula m WHERE m.grupo_id = cl.grupo_id AND m.periodo_academico_id = cl.periodo_academico_id), 0) AS alumnos_inscritos,
+  COUNT(ea.id) AS entregas_registradas,
+  SUM(ea.fecha_subida <= act.fecha_entrega) AS entregas_a_tiempo,
+  ROUND(100 * COUNT(ea.id) / GREATEST((SELECT COUNT(*) FROM matricula m WHERE m.grupo_id = cl.grupo_id AND m.periodo_academico_id = cl.periodo_academico_id),1),2) AS pct_entrega,
+  ROUND(100 * SUM(ea.fecha_subida <= act.fecha_entrega) / GREATEST(COUNT(ea.id),1),2) AS pct_on_time_entregas
+FROM actividad act
+LEFT JOIN clase cl ON cl.id = act.clase_id
+LEFT JOIN evidencia_actividad ea ON ea.actividad_id = act.id
+GROUP BY act.id, act.titulo, act.clase_id, cl.grupo_id, cl.periodo_academico_id;
+
+-- Objetivo: quién sube qué tipo de archivos y volumen por usuario/tipo (uso y gobernanza de almacenamiento).
+CREATE OR REPLACE VIEW vista_uso_archivos AS
+SELECT
+  ad.propietario_id,
+  CONCAT(u.nombre, ' ', u.apellido) AS propietario_nombre,
+  ad.tipo,
+  COUNT(*) AS cantidad_archivos,
+  MAX(ad.created_at) AS ultima_subida
+FROM archivo_digital ad
+LEFT JOIN usuario u ON u.id = ad.propietario_id
+GROUP BY ad.propietario_id, propietario_nombre, ad.tipo;
+
+-- Objetivo: actividad de foros (número de foros creados, comentarios, respuestas en árbol) por usuario o por foro.
+CREATE OR REPLACE VIEW vista_participacion_foro AS
+SELECT
+  f.id AS foro_id,
+  f.titulo,
+  f.usuario_id_autor,
+  CONCAT(u.nombre, ' ', u.apellido) AS autor_nombre,
+  COUNT(cf.id) AS total_comentarios,
+  SUM(CASE WHEN cf.parent_id IS NOT NULL THEN 1 ELSE 0 END) AS respuestas,
+  ROUND(COUNT(cf.id) / GREATEST((SELECT COUNT(*) FROM usuario_conversacion uc WHERE uc.institucion_id = f.institucion_id),1),2) AS comentarios_por_usuario_relativo
+FROM foro f
+LEFT JOIN comentario_foro cf ON cf.foro_id = f.id
+LEFT JOIN usuario u ON u.id = f.usuario_id_autor
+GROUP BY f.id, f.titulo, f.usuario_id_autor, autor_nombre;
+
+-- Objetivo: medir entregabilidad / lectura de notificaciones por canal y prioridad.
+CREATE OR REPLACE VIEW vista_notificaciones_resumen AS
+SELECT
+  canal,
+  prioridad,
+  COUNT(*) AS enviadas,
+  SUM(estado = 'LEIDA') AS leidas,
+  ROUND(100 * SUM(estado = 'LEIDA') / GREATEST(COUNT(*),1),2) AS pct_leidas
+FROM notificacion
+GROUP BY canal, prioridad;
+
+-- Objetivo: entender qué aulas están más ocupadas (horas agendadas) y su relación con capacidad (utilización).
+CREATE OR REPLACE VIEW vista_ocupacion_aulas AS
+SELECT
+  au.id AS aula_id,
+  au.nombre AS aula_nombre,
+  au.capacidad,
+  COUNT(c.id) AS sesiones_programadas,
+  ROUND(SUM(TIME_TO_SEC(TIMEDIFF(c.hora_fin, c.hora_inicio))) / 3600, 2) AS horas_programadas_total
+FROM aula au
+LEFT JOIN clase c ON c.aula_id = au.id
+GROUP BY au.id, au.nombre, au.capacidad;
