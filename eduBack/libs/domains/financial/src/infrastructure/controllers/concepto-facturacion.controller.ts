@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body, Param, ParseIntPipe, Patch, Delete, Query } from '@nestjs/common';
-import { InvoicesService } from '../services/invoices.service';
-import { CreateFacturaDto } from '../dto/create-factura.dto';
-import { UpdateFacturaDto } from '../dto/update-factura.dto';
+import { ConceptoFacturacionService } from '../services/concepto-facturacion.service';
+import { CreateConceptoFacturacionDto } from '../dto/create-concepto-facturacion.dto';
+import { UpdateConceptoFacturacionDto } from '../dto/update-concepto-facturacion.dto';
 
-@Controller('invoices')
-export class InvoicesController {
-  constructor(private readonly service: InvoicesService) {}
+@Controller('conceptos-facturacion')
+export class ConceptoFacturacionController {
+  constructor(private readonly service: ConceptoFacturacionService) {}
 
   @Get()
   findAll(@Query('institucionId') institucionId?: string) {
@@ -18,12 +18,12 @@ export class InvoicesController {
   }
 
   @Post()
-  create(@Body() dto: CreateFacturaDto) {
+  create(@Body() dto: CreateConceptoFacturacionDto) {
     return this.service.create(dto);
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateFacturaDto) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateConceptoFacturacionDto) {
     return this.service.update(id, dto);
   }
 
