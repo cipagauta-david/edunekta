@@ -39,6 +39,19 @@ import { EvaluationWeightsController } from './infrastructure/controllers/evalua
 import { EvaluationWeightsService } from './infrastructure/services/evaluation-weights.service';
 import { TermGradesController } from './infrastructure/controllers/term-grades.controller';
 import { TermGradesService } from './infrastructure/services/term-grades.service';
+import { NivelAcademicoDao } from './infrastructure/daos/nivel-academico.dao';
+import { GradoDao } from './infrastructure/daos/grado.dao';
+import { GrupoDao } from './infrastructure/daos/grupo.dao';
+import { AsignaturaDao } from './infrastructure/daos/asignatura.dao';
+import { AulaDao } from './infrastructure/daos/aula.dao';
+import { PeriodoAcademicoDao } from './infrastructure/daos/periodo-academico.dao';
+import { ClaseDao } from './infrastructure/daos/clase.dao';
+import { MatriculaDao } from './infrastructure/daos/matricula.dao';
+import { ActividadDao } from './infrastructure/daos/actividad.dao';
+import { EvidenciaActividadDao } from './infrastructure/daos/evidencia-actividad.dao';
+import { AsistenciaDao } from './infrastructure/daos/asistencia.dao';
+import { PonderacionEvaluacionDao } from './infrastructure/daos/ponderacion-evaluacion.dao';
+import { CalificacionPeriodoDao } from './infrastructure/daos/calificacion-periodo.dao';
 
 @Module({
   imports: [
@@ -87,6 +100,19 @@ import { TermGradesService } from './infrastructure/services/term-grades.service
     AttendanceService,
     EvaluationWeightsService,
     TermGradesService,
+    NivelAcademicoDao,
+    GradoDao,
+    GrupoDao,
+    AsignaturaDao,
+    AulaDao,
+    PeriodoAcademicoDao,
+    ClaseDao,
+    MatriculaDao,
+    ActividadDao,
+    EvidenciaActividadDao,
+    AsistenciaDao,
+    PonderacionEvaluacionDao,
+    CalificacionPeriodoDao,
   ],
   exports: [
     ClassroomsService,

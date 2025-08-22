@@ -1,35 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { NivelAcademico } from '../../entities/nivel-academico.entity';
+import { Injectable } from '@nestjs/common';
+import { NivelAcademicoDao } from '../daos/nivel-academico.dao';
+import { CreateNivelAcademicoDto } from '../dto/create-nivel-academico.dto';
+import { UpdateNivelAcademicoDto } from '../dto/update-nivel-academico.dto';
 
 @Injectable()
 export class AcademicLevelsService {
-  constructor(@InjectRepository(NivelAcademico) private readonly repo: Repository<NivelAcademico>) {}
+  constructor(private readonly dao: NivelAcademicoDao) {}
 
   findAll(institucionId?: number) {
-    return this.repo.find({ where: (institucionId ? { institucionId } : {}) as any });
+    return this.dao.findAll(institucionId);
   }
 
-  async findOne(id: number) {
-    const entity = await this.repo.findOne({ where: { id } });
-    if (!entity) throw new NotFoundException('Nivel académico no encontrado');
-    return entity;
+  findOne(id: number) {
+    return this.dao.findOne(id);
   }
 
-  create(dto: Partial<NivelAcademico>) {
-    const entity = this.repo.create(dto);
-    return this.repo.save(entity);
+  create(dto: CreateNivelAcademicoDto) {
+    return this.dao.create(dto);
   }
 
-  async update(id: number, dto: Partial<NivelAcademico>) {
-    const entity = await this.findOne(id);
-    Object.assign(entity, dto);
-    return this.repo.save(entity);
+  update(id: number, dto: UpdateNivelAcademicoDto) {
+    return this.dao.update(id, dto);
   }
 
-  async remove(id: number) {
-    const entity = await this.findOne(id);
-    await this.repo.remove(entity);
+  remove(id: number) {
+    return this.dao.remove(id);
   }
 }

@@ -1,35 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Matricula } from '../../entities/matricula.entity';
+import { Injectable } from '@nestjs/common';
+import { MatriculaDao } from '../daos/matricula.dao';
+import { CreateMatriculaDto } from '../dto/create-matricula.dto';
+import { UpdateMatriculaDto } from '../dto/update-matricula.dto';
 
 @Injectable()
 export class EnrollmentsService {
-  constructor(@InjectRepository(Matricula) private readonly repo: Repository<Matricula>) {}
+  constructor(private readonly dao: MatriculaDao) {}
 
   findAll(institucionId?: number) {
-    return this.repo.find({ where: (institucionId ? { institucionId } : {}) as any });
+    return this.dao.findAll(institucionId);
   }
 
-  async findOne(id: number) {
-    const entity = await this.repo.findOne({ where: { id } });
-    if (!entity) throw new NotFoundException('Matrícula no encontrada');
-    return entity;
+  findOne(id: number) {
+    return this.dao.findOne(id);
   }
 
-  create(dto: Partial<Matricula>) {
-    const entity = this.repo.create(dto);
-    return this.repo.save(entity);
+  create(dto: CreateMatriculaDto) {
+    return this.dao.create(dto);
   }
 
-  async update(id: number, dto: Partial<Matricula>) {
-    const entity = await this.findOne(id);
-    Object.assign(entity, dto);
-    return this.repo.save(entity);
+  update(id: number, dto: UpdateMatriculaDto) {
+    return this.dao.update(id, dto);
   }
 
-  async remove(id: number) {
-    const entity = await this.findOne(id);
-    await this.repo.remove(entity);
+  remove(id: number) {
+    return this.dao.remove(id);
   }
 }

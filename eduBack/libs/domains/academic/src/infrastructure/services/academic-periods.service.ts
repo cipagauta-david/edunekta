@@ -1,35 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { PeriodoAcademico } from '../../entities/periodo-academico.entity';
+import { Injectable } from '@nestjs/common';
+import { PeriodoAcademicoDao } from '../daos/periodo-academico.dao';
+import { CreatePeriodoAcademicoDto } from '../dto/create-periodo-academico.dto';
+import { UpdatePeriodoAcademicoDto } from '../dto/update-periodo-academico.dto';
 
 @Injectable()
 export class AcademicPeriodsService {
-  constructor(@InjectRepository(PeriodoAcademico) private readonly repo: Repository<PeriodoAcademico>) {}
+  constructor(private readonly dao: PeriodoAcademicoDao) {}
 
   findAll(institucionId?: number) {
-    return this.repo.find({ where: (institucionId ? { institucionId } : {}) as any });
+    return this.dao.findAll(institucionId);
   }
 
-  async findOne(id: number) {
-    const entity = await this.repo.findOne({ where: { id } });
-    if (!entity) throw new NotFoundException('Periodo académico no encontrado');
-    return entity;
+  findOne(id: number) {
+    return this.dao.findOne(id);
   }
 
-  create(dto: Partial<PeriodoAcademico>) {
-    const entity = this.repo.create(dto);
-    return this.repo.save(entity);
+  create(dto: CreatePeriodoAcademicoDto) {
+    return this.dao.create(dto);
   }
 
-  async update(id: number, dto: Partial<PeriodoAcademico>) {
-    const entity = await this.findOne(id);
-    Object.assign(entity, dto);
-    return this.repo.save(entity);
+  update(id: number, dto: UpdatePeriodoAcademicoDto) {
+    return this.dao.update(id, dto);
   }
 
-  async remove(id: number) {
-    const entity = await this.findOne(id);
-    await this.repo.remove(entity);
+  remove(id: number) {
+    return this.dao.remove(id);
   }
 }

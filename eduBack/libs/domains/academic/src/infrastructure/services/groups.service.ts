@@ -1,35 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Grupo } from '../../entities/grupo.entity';
+import { Injectable } from '@nestjs/common';
+import { GrupoDao } from '../daos/grupo.dao';
+import { CreateGrupoDto } from '../dto/create-grupo.dto';
+import { UpdateGrupoDto } from '../dto/update-grupo.dto';
 
 @Injectable()
 export class GroupsService {
-  constructor(@InjectRepository(Grupo) private readonly repo: Repository<Grupo>) {}
+  constructor(private readonly dao: GrupoDao) {}
 
   findAll(institucionId?: number) {
-    return this.repo.find({ where: (institucionId ? { institucionId } : {}) as any });
+    return this.dao.findAll(institucionId);
   }
 
-  async findOne(id: number) {
-    const entity = await this.repo.findOne({ where: { id } });
-    if (!entity) throw new NotFoundException('Grupo no encontrado');
-    return entity;
+  findOne(id: number) {
+    return this.dao.findOne(id);
   }
 
-  create(dto: Partial<Grupo>) {
-    const entity = this.repo.create(dto);
-    return this.repo.save(entity);
+  create(dto: CreateGrupoDto) {
+    return this.dao.create(dto);
   }
 
-  async update(id: number, dto: Partial<Grupo>) {
-    const entity = await this.findOne(id);
-    Object.assign(entity, dto);
-    return this.repo.save(entity);
+  update(id: number, dto: UpdateGrupoDto) {
+    return this.dao.update(id, dto);
   }
 
-  async remove(id: number) {
-    const entity = await this.findOne(id);
-    await this.repo.remove(entity);
+  remove(id: number) {
+    return this.dao.remove(id);
   }
 }

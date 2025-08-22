@@ -1,35 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CalificacionPeriodo } from '../../entities/calificacion-periodo.entity';
+import { Injectable } from '@nestjs/common';
+import { CalificacionPeriodoDao } from '../daos/calificacion-periodo.dao';
+import { CreateCalificacionPeriodoDto } from '../dto/create-calificacion-periodo.dto';
+import { UpdateCalificacionPeriodoDto } from '../dto/update-calificacion-periodo.dto';
 
 @Injectable()
 export class TermGradesService {
-  constructor(@InjectRepository(CalificacionPeriodo) private readonly repo: Repository<CalificacionPeriodo>) {}
+  constructor(private readonly dao: CalificacionPeriodoDao) {}
 
   findAll(institucionId?: number) {
-    return this.repo.find({ where: (institucionId ? { institucionId } : {}) as any });
+    return this.dao.findAll(institucionId);
   }
 
-  async findOne(id: number) {
-    const entity = await this.repo.findOne({ where: { id } });
-    if (!entity) throw new NotFoundException('Calificación de periodo no encontrada');
-    return entity;
+  findOne(id: number) {
+    return this.dao.findOne(id);
   }
 
-  create(dto: Partial<CalificacionPeriodo>) {
-    const entity = this.repo.create(dto);
-    return this.repo.save(entity);
+  create(dto: CreateCalificacionPeriodoDto) {
+    return this.dao.create(dto);
   }
 
-  async update(id: number, dto: Partial<CalificacionPeriodo>) {
-    const entity = await this.findOne(id);
-    Object.assign(entity, dto);
-    return this.repo.save(entity);
+  update(id: number, dto: UpdateCalificacionPeriodoDto) {
+    return this.dao.update(id, dto);
   }
 
-  async remove(id: number) {
-    const entity = await this.findOne(id);
-    await this.repo.remove(entity);
+  remove(id: number) {
+    return this.dao.remove(id);
   }
 }

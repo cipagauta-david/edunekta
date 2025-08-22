@@ -1,5 +1,7 @@
 import { Controller, Get, Post, Body, Param, ParseIntPipe, Patch, Delete, Query } from '@nestjs/common';
 import { GroupsService } from '../services/groups.service';
+import { CreateGrupoDto } from '../dto/create-grupo.dto';
+import { UpdateGrupoDto } from '../dto/update-grupo.dto';
 
 @Controller('groups')
 export class GroupsController {
@@ -16,12 +18,12 @@ export class GroupsController {
   }
 
   @Post()
-  create(@Body() dto: any) {
+  create(@Body() dto: CreateGrupoDto) {
     return this.service.create(dto);
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: any) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateGrupoDto) {
     return this.service.update(id, dto);
   }
 
