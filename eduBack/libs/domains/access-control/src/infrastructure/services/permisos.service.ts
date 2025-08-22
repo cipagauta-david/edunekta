@@ -1,36 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Permiso } from '../../entities/permiso.entity';
+import { Injectable } from '@nestjs/common';
+import { PermisoDao } from '../daos/permiso.dao';
+import { CreatePermisoDto } from '../dto/create-permiso.dto';
+import { UpdatePermisoDto } from '../dto/update-permiso.dto';
 
 @Injectable()
 export class PermisosService {
-  constructor(
-    @InjectRepository(Permiso) private readonly repo: Repository<Permiso>,
-  ) {}
+  constructor(private readonly dao: PermisoDao) {}
 
   findAll() {
-    return this.repo.find({ relations: ['roles'] });
+    return this.dao.findAll();
   }
 
-  async findOne(id: number) {
-    const p = await this.repo.findOne({ where: { id }, relations: ['roles'] });
-    if (!p) throw new NotFoundException('Permiso no encontrado');
-    return p;
+  findOne(id: number) {
+    return this.dao.findOne(id);
   }
 
-  create(dto: Partial<Permiso>) {
-    return this.repo.save(this.repo.create(dto));
+  create(dto: CreatePermisoDto) {
+    return this.dao.create(dto);
   }
 
-  async update(id: number, dto: Partial<Permiso>) {
-    const p = await this.findOne(id);
-    Object.assign(p, dto);
-    return this.repo.save(p);
+  update(id: number, dto: UpdatePermisoDto) {
+    return this.dao.update(id, dto);
   }
 
-  async remove(id: number) {
-    const p = await this.findOne(id);
-    await this.repo.remove(p);
+  remove(id: number) {
+    return this.dao.remove(id);
   }
 }
