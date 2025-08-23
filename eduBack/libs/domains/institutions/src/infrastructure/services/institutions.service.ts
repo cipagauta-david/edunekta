@@ -1,38 +1,28 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Institucion } from '../../entities/institucion.entity';
+import { Injectable } from '@nestjs/common';
+import { InstitutionDAO } from '../dao';
+import { CreateInstitutionDto, UpdateInstitutionDto } from '../../application/dtos';
 
 @Injectable()
 export class InstitutionsService {
-  constructor(
-    @InjectRepository(Institucion)
-    private readonly repo: Repository<Institucion>,
-  ) {}
+  constructor(private readonly dao: InstitutionDAO) {}
 
   findAll() {
-    return this.repo.find();
+    return this.dao.findAll();
   }
 
-  async findOne(id: number) {
-    const inst = await this.repo.findOne({ where: { id } });
-    if (!inst) throw new NotFoundException('Institución no encontrada');
-    return inst;
+  findOne(id: number) {
+    return this.dao.findOne(id);
   }
 
-  create(dto: Partial<Institucion>) {
-    const entity = this.repo.create(dto);
-    return this.repo.save(entity);
+  create(dto: CreateInstitutionDto) {
+    return this.dao.create(dto);
   }
 
-  async update(id: number, dto: Partial<Institucion>) {
-    const entity = await this.findOne(id);
-    Object.assign(entity, dto);
-    return this.repo.save(entity);
+  update(id: number, dto: UpdateInstitutionDto) {
+    return this.dao.update(id, dto);
   }
 
-  async remove(id: number) {
-    const entity = await this.findOne(id);
-    await this.repo.remove(entity);
+  remove(id: number) {
+    return this.dao.remove(id);
   }
 }
