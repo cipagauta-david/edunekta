@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Param, ParseIntPipe, Patch, Delete, Query } from '@nestjs/common';
+import { CreateForoDto, UpdateForoDto } from '../../application/dtos';
 import { ForumsService } from '../services/forums.service';
 
 @Controller('forums')
@@ -16,12 +17,12 @@ export class ForumsController {
   }
 
   @Post()
-  create(@Body() dto: any) {
+  create(@Body() dto: CreateForoDto) {
     return this.service.create(dto);
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: any) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateForoDto) {
     return this.service.update(id, dto);
   }
 
