@@ -8,7 +8,13 @@ export class Institucion {
   @Column({ name: 'nombre', type: 'varchar', length: 255 })
   nombre: string;
 
-  @Column({ name: 'nit', type: 'varchar', length: 20, nullable: true, unique: true })
+  @Column({
+    name: 'nit',
+    type: 'varchar',
+    length: 20,
+    nullable: true,
+    unique: true,
+  })
   nit?: string | null;
 
   @Column({ name: 'correo', type: 'varchar', length: 150, nullable: true })
@@ -20,9 +26,18 @@ export class Institucion {
   @Column({ name: 'direccion', type: 'text', nullable: true })
   direccion?: string | null;
 
-  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'created_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
-  @Column({ name: 'updated_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'updated_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 }
