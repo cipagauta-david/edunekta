@@ -14,7 +14,6 @@ async function run() {
     const sqlPath = path.resolve(process.cwd(), '../edunekta3.sql');
     await sqlInit.runSqlFromFile(sqlPath);
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.error(e);
     process.exitCode = 1;
   } finally {

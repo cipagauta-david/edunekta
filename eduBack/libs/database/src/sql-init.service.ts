@@ -41,7 +41,9 @@ export class SqlInitService {
       for (const stmt of statements) {
         const sql = stmt.trim();
         if (!sql) continue;
-        this.logger.debug(`Executing SQL chunk (${sql.substring(0, 80).replace(/\n/g, ' ')}...)`);
+        this.logger.debug(
+          `Executing SQL chunk (${sql.substring(0, 80).replace(/\n/g, ' ')}...)`,
+        );
         await connection.query(sql);
       }
       this.logger.log('Database initialization completed successfully.');

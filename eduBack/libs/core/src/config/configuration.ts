@@ -13,7 +13,9 @@ export const configValidationSchema = Joi.object({
   JWT_SECRET: Joi.string().required(),
   JWT_EXPIRES_IN: Joi.string().default('24h'),
   PORT: Joi.number().default(3000),
-  NODE_ENV: Joi.string().valid('development', 'production', 'test').default('development'),
+  NODE_ENV: Joi.string()
+    .valid('development', 'production', 'test')
+    .default('development'),
   CORS_ORIGIN: Joi.string().default('*'),
   BCRYPT_ROUNDS: Joi.number().default(12),
 });

@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,8 +16,14 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(process.env.PORT ? Number(process.env.PORT) : 3000);
-  // eslint-disable-next-line no-console
-  console.log(`API running on http://localhost:${process.env.PORT || 3000}`);
+  // Prefer ConfigService for env-derived values
+  const configService = await app.get(ConfigService);
+  const portFromConfig = configService.get<number>('app.port');
+  const port =
+    portFromConfig ?? (process.env.PORT ? Number(process.env.PORT) : 3000);
+
+  await app.listen(port);
+
+  console.log(`API running on http://localhost:${port}`);
 }
 bootstrap();

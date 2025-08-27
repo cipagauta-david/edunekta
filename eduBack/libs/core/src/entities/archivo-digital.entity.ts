@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 
 @Entity('archivo_digital')
@@ -15,8 +21,12 @@ export class ArchivoDigital {
   @Column({ name: 'url', type: 'text' })
   url: string;
 
-  @Column({ name: 'tipo', type: 'enum', enum: ['DOCUMENTO','IMAGEN','VIDEO','AUDIO'] })
-  tipo: 'DOCUMENTO'|'IMAGEN'|'VIDEO'|'AUDIO';
+  @Column({
+    name: 'tipo',
+    type: 'enum',
+    enum: ['DOCUMENTO', 'IMAGEN', 'VIDEO', 'AUDIO'],
+  })
+  tipo: 'DOCUMENTO' | 'IMAGEN' | 'VIDEO' | 'AUDIO';
 
   @Column({ name: 'extension', type: 'varchar', length: 10, nullable: true })
   extension?: string | null;
@@ -24,7 +34,11 @@ export class ArchivoDigital {
   @Column({ name: 'propietario_id', type: 'int' })
   propietarioId: number;
 
-  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'created_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
   // Relations
