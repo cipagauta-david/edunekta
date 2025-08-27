@@ -5,6 +5,6 @@ export interface MatriculaModel {
   gradoId: number;
   grupoId: number;
   periodoAcademicoId: number;
-  estado: 'ACTIVA'|'RETIRADO'|'FINALIZADA'|'PENDIENTE';
+  estado: 'ACTIVA' | 'RETIRADO' | 'FINALIZADA' | 'PENDIENTE';
   fechaMatricula: string; // date
 }

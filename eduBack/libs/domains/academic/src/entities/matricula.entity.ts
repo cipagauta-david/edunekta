@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { Clase } from './clase.entity';
 import { Grado } from './grado.entity';
@@ -26,8 +33,13 @@ export class Matricula {
   @Column({ name: 'periodo_academico_id', type: 'int' })
   periodoAcademicoId: number;
 
-  @Column({ name: 'estado', type: 'enum', enum: ['ACTIVA','RETIRADO','FINALIZADA','PENDIENTE'], default: 'ACTIVA' })
-  estado: 'ACTIVA'|'RETIRADO'|'FINALIZADA'|'PENDIENTE';
+  @Column({
+    name: 'estado',
+    type: 'enum',
+    enum: ['ACTIVA', 'RETIRADO', 'FINALIZADA', 'PENDIENTE'],
+    default: 'ACTIVA',
+  })
+  estado: 'ACTIVA' | 'RETIRADO' | 'FINALIZADA' | 'PENDIENTE';
 
   @Column({ name: 'fecha_matricula', type: 'date' })
   fechaMatricula: string;
@@ -45,7 +57,9 @@ export class Matricula {
   @JoinColumn({ name: 'grado_id' })
   grado?: Grado;
 
-  @ManyToOne(() => Grupo, (g) => g.matriculas, { createForeignKeyConstraints: false })
+  @ManyToOne(() => Grupo, (g) => g.matriculas, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'grupo_id' })
   grupo?: Grupo;
 

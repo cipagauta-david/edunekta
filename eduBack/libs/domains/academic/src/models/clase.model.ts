@@ -1,4 +1,10 @@
-export type DiaSemana = 'Lunes'|'Martes'|'Miércoles'|'Jueves'|'Viernes'|'Sábado';
+export type DiaSemana =
+  | 'Lunes'
+  | 'Martes'
+  | 'Miércoles'
+  | 'Jueves'
+  | 'Viernes'
+  | 'Sábado';
 
 export interface ClaseModel {
   id: number;
@@ -6,7 +12,7 @@ export interface ClaseModel {
   nombre?: string | null;
   dia: DiaSemana;
   horaInicio: string; // time
-  horaFin: string;    // time
+  horaFin: string; // time
   grupoId: number;
   periodoAcademicoId: number;
   aulaId: number;

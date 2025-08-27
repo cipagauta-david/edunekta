@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { Actividad } from './actividad.entity';
 import { User } from '@app/domains/users';
@@ -20,10 +26,20 @@ export class EvidenciaActividad {
   @Column({ name: 'descripcion', type: 'text', nullable: true })
   descripcion?: string | null;
 
-  @Column({ name: 'fecha_subida', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'fecha_subida',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   fechaSubida: Date;
 
-  @Column({ name: 'calificacion', type: 'decimal', precision: 5, scale: 2, nullable: true })
+  @Column({
+    name: 'calificacion',
+    type: 'decimal',
+    precision: 5,
+    scale: 2,
+    nullable: true,
+  })
   calificacion?: string | null;
 
   // Relations
@@ -31,7 +47,9 @@ export class EvidenciaActividad {
   @JoinColumn({ name: 'institucion_id' })
   institucion?: Institucion;
 
-  @ManyToOne(() => Actividad, (a) => a.evidencias, { createForeignKeyConstraints: false })
+  @ManyToOne(() => Actividad, (a) => a.evidencias, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'actividad_id' })
   actividad?: Actividad;
 

@@ -1,5 +1,9 @@
-export type EstadoActividad = 'PUBLICADA'|'CERRADA'|'CALIFICADA';
-export type CategoriaActividad = 'TAREA'|'EXAMEN'|'PROYECTO'|'PARTICIPACION';
+export type EstadoActividad = 'PUBLICADA' | 'CERRADA' | 'CALIFICADA';
+export type CategoriaActividad =
+  | 'TAREA'
+  | 'EXAMEN'
+  | 'PROYECTO'
+  | 'PARTICIPACION';
 
 export interface ActividadModel {
   id: number;

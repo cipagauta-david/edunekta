@@ -1,35 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { EvidenciaActividad } from '../../entities/evidencia-actividad.entity';
+import { Injectable } from '@nestjs/common';
+import { EvidenciaActividadDao } from '../daos/evidencia-actividad.dao';
+import { CreateEvidenciaActividadDto } from '../dto/create-evidencia-actividad.dto';
+import { UpdateEvidenciaActividadDto } from '../dto/update-evidencia-actividad.dto';
 
 @Injectable()
 export class ActivityEvidencesService {
-  constructor(@InjectRepository(EvidenciaActividad) private readonly repo: Repository<EvidenciaActividad>) {}
+  constructor(private readonly dao: EvidenciaActividadDao) {}
 
   findAll(institucionId?: number) {
-    return this.repo.find({ where: (institucionId ? { institucionId } : {}) as any });
+    return this.dao.findAll(institucionId);
   }
 
-  async findOne(id: number) {
-    const entity = await this.repo.findOne({ where: { id } });
-    if (!entity) throw new NotFoundException('Evidencia de actividad no encontrada');
-    return entity;
+  findOne(id: number) {
+    return this.dao.findOne(id);
   }
 
-  create(dto: Partial<EvidenciaActividad>) {
-    const entity = this.repo.create(dto);
-    return this.repo.save(entity);
+  create(dto: CreateEvidenciaActividadDto) {
+    return this.dao.create(dto);
   }
 
-  async update(id: number, dto: Partial<EvidenciaActividad>) {
-    const entity = await this.findOne(id);
-    Object.assign(entity, dto);
-    return this.repo.save(entity);
+  update(id: number, dto: UpdateEvidenciaActividadDto) {
+    return this.dao.update(id, dto);
   }
 
-  async remove(id: number) {
-    const entity = await this.findOne(id);
-    await this.repo.remove(entity);
+  remove(id: number) {
+    return this.dao.remove(id);
   }
 }

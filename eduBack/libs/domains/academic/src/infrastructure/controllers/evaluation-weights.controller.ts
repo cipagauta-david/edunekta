@@ -1,5 +1,17 @@
-import { Controller, Get, Post, Body, Param, ParseIntPipe, Patch, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { EvaluationWeightsService } from '../services/evaluation-weights.service';
+import { CreatePonderacionEvaluacionDto } from '../dto/create-ponderacion-evaluacion.dto';
+import { UpdatePonderacionEvaluacionDto } from '../dto/update-ponderacion-evaluacion.dto';
 
 @Controller('evaluation-weights')
 export class EvaluationWeightsController {
@@ -7,7 +19,9 @@ export class EvaluationWeightsController {
 
   @Get()
   findAll(@Query('institucionId') institucionId?: string) {
-    return this.service.findAll(institucionId ? Number(institucionId) : undefined);
+    return this.service.findAll(
+      institucionId ? Number(institucionId) : undefined,
+    );
   }
 
   @Get(':id')
@@ -16,12 +30,15 @@ export class EvaluationWeightsController {
   }
 
   @Post()
-  create(@Body() dto: any) {
+  create(@Body() dto: CreatePonderacionEvaluacionDto) {
     return this.service.create(dto);
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: any) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdatePonderacionEvaluacionDto,
+  ) {
     return this.service.update(id, dto);
   }
 

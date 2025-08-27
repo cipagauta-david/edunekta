@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { NivelAcademico } from './nivel-academico.entity';
 import { Grupo } from './grupo.entity';
@@ -25,7 +32,9 @@ export class Grado {
   @JoinColumn({ name: 'institucion_id' })
   institucion?: Institucion;
 
-  @ManyToOne(() => NivelAcademico, (n) => n.grados, { createForeignKeyConstraints: false })
+  @ManyToOne(() => NivelAcademico, (n) => n.grados, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'nivel_academico_id' })
   nivelAcademico?: NivelAcademico;
 

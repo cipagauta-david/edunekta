@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { Grupo } from './grupo.entity';
 import { PeriodoAcademico } from './periodo-academico.entity';
@@ -20,8 +27,12 @@ export class Clase {
   @Column({ name: 'nombre', type: 'varchar', length: 200, nullable: true })
   nombre?: string | null;
 
-  @Column({ name: 'dia', type: 'enum', enum: ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'] })
-  dia: 'Lunes'|'Martes'|'Miércoles'|'Jueves'|'Viernes'|'Sábado';
+  @Column({
+    name: 'dia',
+    type: 'enum',
+    enum: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+  })
+  dia: 'Lunes' | 'Martes' | 'Miércoles' | 'Jueves' | 'Viernes' | 'Sábado';
 
   @Column({ name: 'hora_inicio', type: 'time' })
   horaInicio: string;
@@ -44,10 +55,19 @@ export class Clase {
   @Column({ name: 'profesor_id', type: 'int' })
   profesorId: number;
 
-  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'created_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
-  @Column({ name: 'updated_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'updated_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 
   // Relations
@@ -55,7 +75,9 @@ export class Clase {
   @JoinColumn({ name: 'institucion_id' })
   institucion?: Institucion;
 
-  @ManyToOne(() => Grupo, (g) => g.clases, { createForeignKeyConstraints: false })
+  @ManyToOne(() => Grupo, (g) => g.clases, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'grupo_id' })
   grupo?: Grupo;
 
@@ -63,7 +85,9 @@ export class Clase {
   @JoinColumn({ name: 'periodo_academico_id' })
   periodoAcademico?: PeriodoAcademico;
 
-  @ManyToOne(() => Aula, (a) => a.clases, { createForeignKeyConstraints: false })
+  @ManyToOne(() => Aula, (a) => a.clases, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'aula_id' })
   aula?: Aula;
 

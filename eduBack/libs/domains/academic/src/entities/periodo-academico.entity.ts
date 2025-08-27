@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { Grupo } from './grupo.entity';
 
@@ -13,7 +20,12 @@ export class PeriodoAcademico {
   @Column({ name: 'nombre', type: 'varchar', length: 50 })
   nombre: string;
 
-  @Column({ name: 'estado', type: 'enum', enum: ['PLANIFICADO','EN_CURSO','FINALIZADO','ARCHIVADO'], default: 'PLANIFICADO' })
+  @Column({
+    name: 'estado',
+    type: 'enum',
+    enum: ['PLANIFICADO', 'EN_CURSO', 'FINALIZADO', 'ARCHIVADO'],
+    default: 'PLANIFICADO',
+  })
   estado: 'PLANIFICADO' | 'EN_CURSO' | 'FINALIZADO' | 'ARCHIVADO';
 
   @Column({ name: 'fecha_inicio', type: 'date' })

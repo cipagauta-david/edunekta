@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { Clase } from './clase.entity';
 import { User } from '@app/domains/users';
@@ -20,8 +26,12 @@ export class Asistencia {
   @Column({ name: 'fecha', type: 'date' })
   fecha: string;
 
-  @Column({ name: 'estado', type: 'enum', enum: ['PRESENTE','AUSENTE','TARDE','JUSTIFICADA'] })
-  estado: 'PRESENTE'|'AUSENTE'|'TARDE'|'JUSTIFICADA';
+  @Column({
+    name: 'estado',
+    type: 'enum',
+    enum: ['PRESENTE', 'AUSENTE', 'TARDE', 'JUSTIFICADA'],
+  })
+  estado: 'PRESENTE' | 'AUSENTE' | 'TARDE' | 'JUSTIFICADA';
 
   @Column({ name: 'observacion', type: 'varchar', length: 255, nullable: true })
   observacion?: string | null;
@@ -31,7 +41,9 @@ export class Asistencia {
   @JoinColumn({ name: 'institucion_id' })
   institucion?: Institucion;
 
-  @ManyToOne(() => Clase, (c) => c.asistencias, { createForeignKeyConstraints: false })
+  @ManyToOne(() => Clase, (c) => c.asistencias, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'clase_id' })
   clase?: Clase;
 

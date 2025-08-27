@@ -1,4 +1,8 @@
-export type CategoriaPonderacion = 'TAREA'|'EXAMEN'|'PROYECTO'|'PARTICIPACION';
+export type CategoriaPonderacion =
+  | 'TAREA'
+  | 'EXAMEN'
+  | 'PROYECTO'
+  | 'PARTICIPACION';
 
 export interface PonderacionEvaluacionModel {
   id: number;

@@ -1,5 +1,17 @@
-import { Controller, Get, Post, Body, Param, ParseIntPipe, Patch, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { ActivityEvidencesService } from '../services/activity-evidences.service';
+import { CreateEvidenciaActividadDto } from '../dto/create-evidencia-actividad.dto';
+import { UpdateEvidenciaActividadDto } from '../dto/update-evidencia-actividad.dto';
 
 @Controller('activity-evidences')
 export class ActivityEvidencesController {
@@ -7,7 +19,9 @@ export class ActivityEvidencesController {
 
   @Get()
   findAll(@Query('institucionId') institucionId?: string) {
-    return this.service.findAll(institucionId ? Number(institucionId) : undefined);
+    return this.service.findAll(
+      institucionId ? Number(institucionId) : undefined,
+    );
   }
 
   @Get(':id')
@@ -16,12 +30,15 @@ export class ActivityEvidencesController {
   }
 
   @Post()
-  create(@Body() dto: any) {
+  create(@Body() dto: CreateEvidenciaActividadDto) {
     return this.service.create(dto);
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: any) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateEvidenciaActividadDto,
+  ) {
     return this.service.update(id, dto);
   }
 

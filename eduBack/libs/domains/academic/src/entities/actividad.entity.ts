@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { Clase } from './clase.entity';
 import { EvidenciaActividad } from './evidencia-actividad.entity';
@@ -23,16 +30,34 @@ export class Actividad {
   @Column({ name: 'clase_id', type: 'int' })
   claseId: number;
 
-  @Column({ name: 'estado', type: 'enum', enum: ['PUBLICADA','CERRADA','CALIFICADA'], default: 'PUBLICADA' })
-  estado: 'PUBLICADA'|'CERRADA'|'CALIFICADA';
+  @Column({
+    name: 'estado',
+    type: 'enum',
+    enum: ['PUBLICADA', 'CERRADA', 'CALIFICADA'],
+    default: 'PUBLICADA',
+  })
+  estado: 'PUBLICADA' | 'CERRADA' | 'CALIFICADA';
 
-  @Column({ name: 'categoria', type: 'enum', enum: ['TAREA','EXAMEN','PROYECTO','PARTICIPACION'] })
-  categoria: 'TAREA'|'EXAMEN'|'PROYECTO'|'PARTICIPACION';
+  @Column({
+    name: 'categoria',
+    type: 'enum',
+    enum: ['TAREA', 'EXAMEN', 'PROYECTO', 'PARTICIPACION'],
+  })
+  categoria: 'TAREA' | 'EXAMEN' | 'PROYECTO' | 'PARTICIPACION';
 
-  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'created_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
-  @Column({ name: 'updated_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'updated_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 
   // Relations
@@ -40,7 +65,9 @@ export class Actividad {
   @JoinColumn({ name: 'institucion_id' })
   institucion?: Institucion;
 
-  @ManyToOne(() => Clase, (c) => c.actividades, { createForeignKeyConstraints: false })
+  @ManyToOne(() => Clase, (c) => c.actividades, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'clase_id' })
   clase?: Clase;
 

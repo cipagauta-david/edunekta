@@ -1,4 +1,8 @@
-export type EstadoPeriodo = 'PLANIFICADO' | 'EN_CURSO' | 'FINALIZADO' | 'ARCHIVADO';
+export type EstadoPeriodo =
+  | 'PLANIFICADO'
+  | 'EN_CURSO'
+  | 'FINALIZADO'
+  | 'ARCHIVADO';
 
 export interface PeriodoAcademicoModel {
   id: number;
@@ -6,5 +10,5 @@ export interface PeriodoAcademicoModel {
   nombre: string;
   estado: EstadoPeriodo;
   fechaInicio: string; // date
-  fechaFin: string;    // date
+  fechaFin: string; // date
 }

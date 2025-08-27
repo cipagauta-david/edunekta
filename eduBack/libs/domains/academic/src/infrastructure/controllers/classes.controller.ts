@@ -1,5 +1,17 @@
-import { Controller, Get, Post, Body, Param, ParseIntPipe, Patch, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { ClassesService } from '../services/classes.service';
+import { CreateClaseDto } from '../dto/create-clase.dto';
+import { UpdateClaseDto } from '../dto/update-clase.dto';
 
 @Controller('classes')
 export class ClassesController {
@@ -7,7 +19,9 @@ export class ClassesController {
 
   @Get()
   findAll(@Query('institucionId') institucionId?: string) {
-    return this.service.findAll(institucionId ? Number(institucionId) : undefined);
+    return this.service.findAll(
+      institucionId ? Number(institucionId) : undefined,
+    );
   }
 
   @Get(':id')
@@ -16,12 +30,12 @@ export class ClassesController {
   }
 
   @Post()
-  create(@Body() dto: any) {
+  create(@Body() dto: CreateClaseDto) {
     return this.service.create(dto);
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: any) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateClaseDto) {
     return this.service.update(id, dto);
   }
 

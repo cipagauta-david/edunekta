@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { Grado } from './grado.entity';
 import { PeriodoAcademico } from './periodo-academico.entity';
@@ -30,11 +37,15 @@ export class Grupo {
   @JoinColumn({ name: 'institucion_id' })
   institucion?: Institucion;
 
-  @ManyToOne(() => Grado, (g) => g.grupos, { createForeignKeyConstraints: false })
+  @ManyToOne(() => Grado, (g) => g.grupos, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'grado_id' })
   grado?: Grado;
 
-  @ManyToOne(() => PeriodoAcademico, (p) => p.grupos, { createForeignKeyConstraints: false })
+  @ManyToOne(() => PeriodoAcademico, (p) => p.grupos, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'periodo_academico_id' })
   periodoAcademico?: PeriodoAcademico;
 

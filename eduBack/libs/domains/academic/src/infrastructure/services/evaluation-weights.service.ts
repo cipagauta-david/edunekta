@@ -1,35 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { PonderacionEvaluacion } from '../../entities/ponderacion-evaluacion.entity';
+import { Injectable } from '@nestjs/common';
+import { PonderacionEvaluacionDao } from '../daos/ponderacion-evaluacion.dao';
+import { CreatePonderacionEvaluacionDto } from '../dto/create-ponderacion-evaluacion.dto';
+import { UpdatePonderacionEvaluacionDto } from '../dto/update-ponderacion-evaluacion.dto';
 
 @Injectable()
 export class EvaluationWeightsService {
-  constructor(@InjectRepository(PonderacionEvaluacion) private readonly repo: Repository<PonderacionEvaluacion>) {}
+  constructor(private readonly dao: PonderacionEvaluacionDao) {}
 
   findAll(institucionId?: number) {
-    return this.repo.find({ where: (institucionId ? { institucionId } : {}) as any });
+    return this.dao.findAll(institucionId);
   }
 
-  async findOne(id: number) {
-    const entity = await this.repo.findOne({ where: { id } });
-    if (!entity) throw new NotFoundException('Ponderación de evaluación no encontrada');
-    return entity;
+  findOne(id: number) {
+    return this.dao.findOne(id);
   }
 
-  create(dto: Partial<PonderacionEvaluacion>) {
-    const entity = this.repo.create(dto);
-    return this.repo.save(entity);
+  create(dto: CreatePonderacionEvaluacionDto) {
+    return this.dao.create(dto);
   }
 
-  async update(id: number, dto: Partial<PonderacionEvaluacion>) {
-    const entity = await this.findOne(id);
-    Object.assign(entity, dto);
-    return this.repo.save(entity);
+  update(id: number, dto: UpdatePonderacionEvaluacionDto) {
+    return this.dao.update(id, dto);
   }
 
-  async remove(id: number) {
-    const entity = await this.findOne(id);
-    await this.repo.remove(entity);
+  remove(id: number) {
+    return this.dao.remove(id);
   }
 }

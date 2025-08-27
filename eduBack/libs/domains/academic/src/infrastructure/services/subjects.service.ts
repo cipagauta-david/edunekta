@@ -1,35 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Asignatura } from '../../entities/asignatura.entity';
+import { Injectable } from '@nestjs/common';
+import { AsignaturaDao } from '../daos/asignatura.dao';
+import { CreateAsignaturaDto } from '../dto/create-asignatura.dto';
+import { UpdateAsignaturaDto } from '../dto/update-asignatura.dto';
 
 @Injectable()
 export class SubjectsService {
-  constructor(@InjectRepository(Asignatura) private readonly repo: Repository<Asignatura>) {}
+  constructor(private readonly dao: AsignaturaDao) {}
 
   findAll(institucionId?: number) {
-    return this.repo.find({ where: (institucionId ? { institucionId } : {}) as any });
+    return this.dao.findAll(institucionId);
   }
 
-  async findOne(id: number) {
-    const entity = await this.repo.findOne({ where: { id } });
-    if (!entity) throw new NotFoundException('Asignatura no encontrada');
-    return entity;
+  findOne(id: number) {
+    return this.dao.findOne(id);
   }
 
-  create(dto: Partial<Asignatura>) {
-    const entity = this.repo.create(dto);
-    return this.repo.save(entity);
+  create(dto: CreateAsignaturaDto) {
+    return this.dao.create(dto);
   }
 
-  async update(id: number, dto: Partial<Asignatura>) {
-    const entity = await this.findOne(id);
-    Object.assign(entity, dto);
-    return this.repo.save(entity);
+  update(id: number, dto: UpdateAsignaturaDto) {
+    return this.dao.update(id, dto);
   }
 
-  async remove(id: number) {
-    const entity = await this.findOne(id);
-    await this.repo.remove(entity);
+  remove(id: number) {
+    return this.dao.remove(id);
   }
 }
