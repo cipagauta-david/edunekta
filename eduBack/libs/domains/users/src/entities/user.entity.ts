@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn, Index, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  Index,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { EstudianteAcudiente } from './estudiante-acudiente.entity';
 
@@ -7,7 +15,9 @@ export type Genero = 'M' | 'F' | 'O';
 export type TipoDocumento = 'CC' | 'TI' | 'CE' | 'PP';
 
 @Entity('usuario')
-@Index('uq_usuario_institucion_email', ['institucionId', 'email'], { unique: true })
+@Index('uq_usuario_institucion_email', ['institucionId', 'email'], {
+  unique: true,
+})
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -27,13 +37,23 @@ export class User {
   @Column({ name: 'password_hash', length: 255 })
   passwordHash: string;
 
-  @Column({ name: 'tipo_documento', type: 'enum', enum: ['CC', 'TI', 'CE', 'PP'], nullable: true })
+  @Column({
+    name: 'tipo_documento',
+    type: 'enum',
+    enum: ['CC', 'TI', 'CE', 'PP'],
+    nullable: true,
+  })
   tipoDocumento?: TipoDocumento;
 
   @Column({ name: 'documento', type: 'varchar', length: 30, nullable: true })
   documento?: string;
 
-  @Column({ name: 'genero', type: 'enum', enum: ['M', 'F', 'O'], nullable: true })
+  @Column({
+    name: 'genero',
+    type: 'enum',
+    enum: ['M', 'F', 'O'],
+    nullable: true,
+  })
   genero?: Genero;
 
   @Column({ name: 'fecha_nacimiento', type: 'date', nullable: true })
@@ -45,7 +65,11 @@ export class User {
   @Column({ name: 'direccion', type: 'varchar', length: 200, nullable: true })
   direccion?: string | null;
 
-  @Column({ name: 'rol', type: 'enum', enum: ['ESTUDIANTE', 'PROFESOR', 'ACUDIENTE', 'ADMIN'] })
+  @Column({
+    name: 'rol',
+    type: 'enum',
+    enum: ['ESTUDIANTE', 'PROFESOR', 'ACUDIENTE', 'ADMIN'],
+  })
   rol: Rol;
 
   @Column({ name: 'foto_perfil', type: 'varchar', length: 255, nullable: true })
@@ -60,10 +84,19 @@ export class User {
   @Column({ name: 'email_verificado', type: 'boolean', default: false })
   emailVerificado: boolean;
 
-  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'created_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
-  @Column({ name: 'updated_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'updated_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 
   // Relations

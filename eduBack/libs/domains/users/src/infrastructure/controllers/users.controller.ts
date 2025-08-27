@@ -1,13 +1,16 @@
-import { Controller, Get, Post, Body, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Delete,
+} from '@nestjs/common';
 import { Roles, Role, AuthUser } from '@app/auth';
 import { UsersService } from '../services/users.service';
-
-class CreateUserDto {
-  nombre: string;
-  apellido: string;
-  email: string;
-  password: string;
-}
+import { CreateUserDto, UpdateUserDto } from '../../dto';
 
 @Controller('users')
 export class UsersController {
@@ -16,7 +19,7 @@ export class UsersController {
   @Roles('ADMIN' as Role)
   @Post()
   create(@Body() dto: CreateUserDto, @AuthUser() user: any) {
-    return this.usersService.create(dto as any, user?.tenantId);
+    return this.usersService.create(dto, user?.institucionId);
   }
 
   @Get()
@@ -27,5 +30,21 @@ export class UsersController {
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number, @AuthUser() user: any) {
     return this.usersService.findOne(id, user?.institucionId);
+  }
+
+  @Roles('ADMIN' as Role)
+  @Patch(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateUserDto,
+    @AuthUser() user: any,
+  ) {
+    return this.usersService.update(id, dto, user?.institucionId);
+  }
+
+  @Roles('ADMIN' as Role)
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number, @AuthUser() user: any) {
+    return this.usersService.remove(id, user?.institucionId);
   }
 }
