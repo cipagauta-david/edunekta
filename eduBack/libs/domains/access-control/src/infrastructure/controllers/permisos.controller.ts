@@ -1,22 +1,43 @@
-import { Controller, Get, Post, Body, Param, ParseIntPipe, Patch, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Delete,
+} from '@nestjs/common';
 import { PermisosService } from '../services/permisos.service';
+import { CreatePermisoDto } from '../dto/create-permiso.dto';
+import { UpdatePermisoDto } from '../dto/update-permiso.dto';
 
 @Controller('access-control/permisos')
 export class PermisosController {
   constructor(private readonly service: PermisosService) {}
 
   @Get()
-  findAll() { return this.service.findAll(); }
+  findAll() {
+    return this.service.findAll();
+  }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) { return this.service.findOne(id); }
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.service.findOne(id);
+  }
 
   @Post()
-  create(@Body() dto: any) { return this.service.create(dto); }
+  create(@Body() dto: CreatePermisoDto) {
+    return this.service.create(dto);
+  }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: any) { return this.service.update(id, dto); }
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdatePermisoDto) {
+    return this.service.update(id, dto);
+  }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) { return this.service.remove(id); }
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.service.remove(id);
+  }
 }
