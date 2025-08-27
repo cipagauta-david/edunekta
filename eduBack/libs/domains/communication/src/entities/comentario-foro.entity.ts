@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { Foro } from './foro.entity';
 import { User } from '@app/domains/users';
@@ -25,7 +31,11 @@ export class ComentarioForo {
   @Column({ name: 'parent_id', type: 'int', nullable: true })
   parentId?: number | null;
 
-  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'created_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
   // Relations
@@ -33,7 +43,9 @@ export class ComentarioForo {
   @JoinColumn({ name: 'institucion_id' })
   institucion?: Institucion;
 
-  @ManyToOne(() => Foro, (f) => f.comentarios, { createForeignKeyConstraints: false })
+  @ManyToOne(() => Foro, (f) => f.comentarios, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'foro_id' })
   foro?: Foro;
 
@@ -41,7 +53,10 @@ export class ComentarioForo {
   @JoinColumn({ name: 'usuario_id_autor' })
   autor?: User;
 
-  @ManyToOne(() => ComentarioForo, { createForeignKeyConstraints: false, nullable: true })
+  @ManyToOne(() => ComentarioForo, {
+    createForeignKeyConstraints: false,
+    nullable: true,
+  })
   @JoinColumn({ name: 'parent_id' })
   parent?: ComentarioForo | null;
 }

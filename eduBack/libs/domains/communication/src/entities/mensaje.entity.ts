@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { Conversacion } from './conversacion.entity';
 import { User } from '@app/domains/users';
@@ -20,7 +26,11 @@ export class Mensaje {
   @Column({ name: 'contenido', type: 'text' })
   contenido: string;
 
-  @Column({ name: 'fecha_envio', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'fecha_envio',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   fechaEnvio: Date;
 
   // Relations
@@ -28,7 +38,9 @@ export class Mensaje {
   @JoinColumn({ name: 'institucion_id' })
   institucion?: Institucion;
 
-  @ManyToOne(() => Conversacion, (c) => c.mensajes, { createForeignKeyConstraints: false })
+  @ManyToOne(() => Conversacion, (c) => c.mensajes, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'conversacion_id' })
   conversacion?: Conversacion;
 

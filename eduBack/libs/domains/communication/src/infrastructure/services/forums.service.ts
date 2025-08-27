@@ -1,37 +1,28 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Foro } from '../../entities/foro.entity';
+import { Injectable } from '@nestjs/common';
+import { CreateForoDto, UpdateForoDto } from '../../application/dtos';
+import { ForoDAO } from '../dao';
 
 @Injectable()
 export class ForumsService {
-  constructor(@InjectRepository(Foro) private readonly repo: Repository<Foro>) {}
+  constructor(private readonly dao: ForoDAO) {}
 
   findAll(institucionId?: number) {
-    const where: any = {};
-    if (institucionId) where.institucionId = institucionId;
-    return this.repo.find({ where, relations: ['autor'] });
+    return this.dao.findAll(institucionId);
   }
 
-  async findOne(id: number) {
-    const foro = await this.repo.findOne({ where: { id }, relations: ['autor', 'comentarios'] });
-    if (!foro) throw new NotFoundException('Foro no encontrado');
-    return foro;
+  findOne(id: number) {
+    return this.dao.findOne(id);
   }
 
-  create(dto: Partial<Foro>) {
-    const entity = this.repo.create(dto);
-    return this.repo.save(entity);
+  create(dto: CreateForoDto) {
+    return this.dao.create(dto);
   }
 
-  async update(id: number, dto: Partial<Foro>) {
-    const entity = await this.findOne(id);
-    Object.assign(entity, dto);
-    return this.repo.save(entity);
+  update(id: number, dto: UpdateForoDto) {
+    return this.dao.update(id, dto);
   }
 
-  async remove(id: number) {
-    const entity = await this.findOne(id);
-    await this.repo.remove(entity);
+  remove(id: number) {
+    return this.dao.remove(id);
   }
 }

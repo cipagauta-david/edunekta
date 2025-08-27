@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { Conversacion } from './conversacion.entity';
 import { User } from '@app/domains/users';
@@ -25,7 +31,9 @@ export class UsuarioConversacion {
   @JoinColumn({ name: 'institucion_id' })
   institucion?: Institucion;
 
-  @ManyToOne(() => Conversacion, (c) => c.usuarios, { createForeignKeyConstraints: false })
+  @ManyToOne(() => Conversacion, (c) => c.usuarios, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'conversacion_id' })
   conversacion?: Conversacion;
 

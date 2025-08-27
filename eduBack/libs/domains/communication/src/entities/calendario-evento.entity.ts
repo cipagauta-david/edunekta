@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 
 @Entity('calendario_evento')
@@ -21,10 +27,18 @@ export class CalendarioEvento {
   @Column({ name: 'fecha_fin', type: 'datetime' })
   fechaFin: Date;
 
-  @Column({ name: 'tipo', type: 'enum', enum: ['FERIADO','REUNION','ACADEMICO','CIVICO'] })
-  tipo: 'FERIADO'|'REUNION'|'ACADEMICO'|'CIVICO';
+  @Column({
+    name: 'tipo',
+    type: 'enum',
+    enum: ['FERIADO', 'REUNION', 'ACADEMICO', 'CIVICO'],
+  })
+  tipo: 'FERIADO' | 'REUNION' | 'ACADEMICO' | 'CIVICO';
 
-  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'created_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
   // Relations

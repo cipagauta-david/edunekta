@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { User } from '@app/domains/users';
 import { ComentarioForo } from './comentario-foro.entity';
@@ -20,7 +27,11 @@ export class Foro {
   @Column({ name: 'usuario_id_autor', type: 'int' })
   usuarioIdAutor: number;
 
-  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'created_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
   // Relations
@@ -33,7 +44,9 @@ export class Foro {
   autor?: User;
 
   // Force TS to know the property exists on inverse side
-  private static _rel(_: ComentarioForo) { return (_ as any).foro; }
+  private static _rel(_: ComentarioForo) {
+    return (_ as any).foro;
+  }
   @OneToMany(() => ComentarioForo, (c) => Foro._rel(c))
   comentarios?: ComentarioForo[];
 }
