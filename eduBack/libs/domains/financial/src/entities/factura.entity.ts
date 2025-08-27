@@ -1,8 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
-import { Institucion } from '@app/domains/institutions';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { User } from '@app/domains/users';
 import { DetalleFactura } from './detalle-factura.entity';
 import { Pago } from './pago.entity';
+import { Institucion } from '../../../institutions/src/entities/institucion.entity';
 
 @Entity('factura')
 export class Factura {
@@ -24,16 +31,36 @@ export class Factura {
   @Column({ name: 'total', type: 'decimal', precision: 12, scale: 2 })
   total: string;
 
-  @Column({ name: 'estado', type: 'enum', enum: ['PENDIENTE','PARCIAL','PAGADA','VENCIDA','ANULADA'], default: 'PENDIENTE' })
-  estado: 'PENDIENTE'|'PARCIAL'|'PAGADA'|'VENCIDA'|'ANULADA';
+  @Column({
+    name: 'estado',
+    type: 'enum',
+    enum: ['PENDIENTE', 'PARCIAL', 'PAGADA', 'VENCIDA', 'ANULADA'],
+    default: 'PENDIENTE',
+  })
+  estado: 'PENDIENTE' | 'PARCIAL' | 'PAGADA' | 'VENCIDA' | 'ANULADA';
 
-  @Column({ name: 'saldo_cache', type: 'decimal', precision: 13, scale: 2, default: 0 })
+  @Column({
+    name: 'saldo_cache',
+    type: 'decimal',
+    precision: 13,
+    scale: 2,
+    default: 0,
+  })
   saldoCache: string;
 
-  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'created_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
-  @Column({ name: 'updated_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'updated_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 
   // Relations

@@ -1,6 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { Institucion } from '@app/domains/institutions';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Factura } from './factura.entity';
+import { Institucion } from '../../../institutions/src/entities/institucion.entity';
 
 @Entity('pago')
 export class Pago {
@@ -19,13 +25,21 @@ export class Pago {
   @Column({ name: 'fecha_pago', type: 'datetime' })
   fechaPago: Date;
 
-  @Column({ name: 'metodo', type: 'enum', enum: ['EFECTIVO','TRANSFERENCIA','TARJETA','PSE'] })
-  metodo: 'EFECTIVO'|'TRANSFERENCIA'|'TARJETA'|'PSE';
+  @Column({
+    name: 'metodo',
+    type: 'enum',
+    enum: ['EFECTIVO', 'TRANSFERENCIA', 'TARJETA', 'PSE'],
+  })
+  metodo: 'EFECTIVO' | 'TRANSFERENCIA' | 'TARJETA' | 'PSE';
 
   @Column({ name: 'referencia', type: 'varchar', length: 100, nullable: true })
   referencia?: string | null;
 
-  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'created_at',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
   // Relations
@@ -33,7 +47,10 @@ export class Pago {
   @JoinColumn({ name: 'institucion_id' })
   institucion?: Institucion;
 
-  @ManyToOne(() => Factura, (f) => f.pagos, { onDelete: 'CASCADE', createForeignKeyConstraints: false })
+  @ManyToOne(() => Factura, (f) => f.pagos, {
+    onDelete: 'CASCADE',
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn({ name: 'factura_id' })
   factura?: Factura;
 }
