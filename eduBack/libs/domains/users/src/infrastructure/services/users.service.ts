@@ -14,7 +14,7 @@ export class UsersService {
     }
     const hashedPassword = await bcrypt.hash(dto.password, 10);
     const { password, ...userDto } = dto;
-    const [user] = await this.dao.create(
+    const user = await this.dao.create(
       { ...userDto, passwordHash: hashedPassword },
       tenantId,
     );

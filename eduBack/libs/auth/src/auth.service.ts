@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 export class AuthService {
   constructor(private readonly jwt: JwtService) {}
 
-  issueToken(payload: string) {
+  issueToken(payload: any) {
     return {
       access_token: this.jwt.sign(payload),
     };

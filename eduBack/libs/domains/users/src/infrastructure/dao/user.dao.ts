@@ -11,7 +11,7 @@ export class UserDAO {
   ) {}
 
   create(dto: any, institucionId?: number) {
-    const entity = this.repository.create(dto);
+    const [entity] = this.repository.create(dto);
     entity.institucionId = institucionId ?? null;
     return this.repository.save(entity);
   }
