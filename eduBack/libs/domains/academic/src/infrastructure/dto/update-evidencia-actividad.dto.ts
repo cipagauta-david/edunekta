@@ -19,5 +19,5 @@ export class UpdateEvidenciaActividadDto {
 
   @IsNumber()
   @IsOptional()
-  calificacion?: number;
+  calificacion?: string;
 }

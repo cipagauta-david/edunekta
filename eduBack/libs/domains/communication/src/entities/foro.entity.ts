@@ -1,52 +1,57 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
+  Index,
+  JoinColumn,
   ManyToOne,
   OneToMany,
-  JoinColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Institucion } from '@app/domains/institutions';
-import { User } from '@app/domains/users';
+// IMPORTANT: Use relative import to avoid circular dependency via barrel
 import { ComentarioForo } from './comentario-foro.entity';
+import { Usuario } from '@app/domains/users';
+import { Institucion } from '@app/domains/institutions';
 
-@Entity('foro')
+@Index('fk_foro_autor', ['usuarioIdAutor'], {})
+@Index('fk_foro_inst', ['institucionId'], {})
+@Entity('foro', { schema: 'edunekta3' })
 export class Foro {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ name: 'institucion_id', type: 'int' })
+  @Column('int', { name: 'institucion_id' })
   institucionId: number;
 
-  @Column({ name: 'titulo', type: 'varchar', length: 255 })
+  @Column('varchar', { name: 'titulo', length: 255 })
   titulo: string;
 
-  @Column({ name: 'descripcion', type: 'text', nullable: true })
-  descripcion?: string | null;
+  @Column('text', { name: 'descripcion', nullable: true })
+  descripcion: string | null;
 
-  @Column({ name: 'usuario_id_autor', type: 'int' })
+  @Column('int', { name: 'usuario_id_autor' })
   usuarioIdAutor: number;
 
-  @Column({
+  @Column('datetime', {
     name: 'created_at',
-    type: 'datetime',
+    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createdAt: Date;
+  createdAt: Date | null;
 
-  // Relations
-  @ManyToOne(() => Institucion, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'institucion_id' })
-  institucion?: Institucion;
+  @OneToMany(() => ComentarioForo, (comentarioForo) => comentarioForo.foro)
+  comentarioForos: ComentarioForo[];
 
-  @ManyToOne(() => User, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'usuario_id_autor' })
-  autor?: User;
+  @ManyToOne(() => Usuario, (usuario) => usuario.foros, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'usuario_id_autor', referencedColumnName: 'id' }])
+  usuarioIdAutor2: Usuario;
 
-  // Force TS to know the property exists on inverse side
-  private static _rel(_: ComentarioForo) {
-    return (_ as any).foro;
-  }
-  @OneToMany(() => ComentarioForo, (c) => Foro._rel(c))
-  comentarios?: ComentarioForo[];
+  @ManyToOne(() => Institucion, (institucion) => institucion.foros, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'institucion_id', referencedColumnName: 'id' }])
+  institucion: Institucion;
 }

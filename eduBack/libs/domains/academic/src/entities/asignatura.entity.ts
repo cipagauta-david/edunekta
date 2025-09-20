@@ -1,37 +1,43 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
+  Index,
+  JoinColumn,
   ManyToOne,
   OneToMany,
-  JoinColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
-import { Clase } from './clase.entity';
-import { CalificacionPeriodo } from './calificacion-periodo.entity';
+import { CalificacionPeriodo, Clase } from '@app/domains/academic';
 
-@Entity('asignatura')
+@Index('uq_asignatura_nombre', ['institucionId', 'nombre'], { unique: true })
+@Entity('asignatura', { schema: 'edunekta3' })
 export class Asignatura {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ name: 'institucion_id', type: 'int' })
+  @Column('int', { name: 'institucion_id' })
   institucionId: number;
 
-  @Column({ name: 'nombre', type: 'varchar', length: 150 })
+  @Column('varchar', { name: 'nombre', length: 150 })
   nombre: string;
 
-  @Column({ name: 'descripcion', type: 'text', nullable: true })
-  descripcion?: string | null;
+  @Column('text', { name: 'descripcion', nullable: true })
+  descripcion: string | null;
 
-  // Relations
-  @ManyToOne(() => Institucion, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'institucion_id' })
-  institucion?: Institucion;
+  @ManyToOne(() => Institucion, (institucion) => institucion.asignaturas, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'institucion_id', referencedColumnName: 'id' }])
+  institucion: Institucion;
 
-  @OneToMany(() => Clase, (c) => c.asignatura)
-  clases?: Clase[];
+  @OneToMany(
+    () => CalificacionPeriodo,
+    (calificacionPeriodo) => calificacionPeriodo.asignatura,
+  )
+  calificacionPeriodos: CalificacionPeriodo[];
 
-  @OneToMany(() => CalificacionPeriodo, (c) => c.asignatura)
-  calificaciones?: CalificacionPeriodo[];
+  @OneToMany(() => Clase, (clase) => clase.asignatura)
+  clases: Clase[];
 }

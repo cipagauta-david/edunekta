@@ -1,0 +1,1 @@
+ npx typeorm-model-generator -h edunekta-edunekta.i.aivencloud.com -d edunekta3 -u testing -x [password] -p 10536 -e mysql -o ./generated-entities

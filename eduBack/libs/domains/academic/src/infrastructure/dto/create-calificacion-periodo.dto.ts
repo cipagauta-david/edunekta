@@ -19,7 +19,7 @@ export class CreateCalificacionPeriodoDto {
 
   @IsNumber()
   @IsNotEmpty()
-  notaFinal: number;
+  notaFinal: string;
 
   @IsString()
   @IsOptional()

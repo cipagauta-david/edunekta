@@ -19,5 +19,5 @@ export class CreateEvidenciaActividadDto {
 
   @IsNumber()
   @IsOptional()
-  calificacion?: number;
+  calificacion?: string;
 }

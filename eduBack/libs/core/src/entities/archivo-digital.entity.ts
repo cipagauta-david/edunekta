@@ -5,7 +5,10 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+// Use direct import to avoid barrel circulars
 import { Institucion } from '@app/domains/institutions';
+// Use direct import to avoid barrel circulars
+import { Usuario } from '@app/domains/users';
 
 @Entity('archivo_digital')
 export class ArchivoDigital {
@@ -42,7 +45,15 @@ export class ArchivoDigital {
   createdAt: Date;
 
   // Relations
-  @ManyToOne(() => Institucion, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'institucion_id' })
+  @ManyToOne(() => Institucion, (institucion) => institucion.archivoDigitals, {
+    createForeignKeyConstraints: false,
+  })
+  @JoinColumn({ name: 'institucion_id', referencedColumnName: 'id' })
   institucion?: Institucion;
+
+  @ManyToOne(() => Usuario, (usuario) => usuario.archivoDigitals, {
+    createForeignKeyConstraints: false,
+  })
+  @JoinColumn({ name: 'propietario_id', referencedColumnName: 'id' })
+  propietario?: Usuario;
 }

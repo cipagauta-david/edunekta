@@ -16,7 +16,7 @@ export class DetalleFacturaService {
   }
 
   create(dto: CreateDetalleFacturaDto) {
-    return this.dao.create(dto);
+    return this.dao.create([dto]);
   }
 
   update(id: number, dto: UpdateDetalleFacturaDto) {

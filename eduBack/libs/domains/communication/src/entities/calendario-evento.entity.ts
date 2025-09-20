@@ -1,48 +1,52 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
-  ManyToOne,
+  Index,
   JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 
-@Entity('calendario_evento')
+@Index('idx_calendario_rango', ['institucionId', 'fechaInicio', 'fechaFin'], {})
+@Entity('calendario_evento', { schema: 'edunekta3' })
 export class CalendarioEvento {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ name: 'institucion_id', type: 'int' })
+  @Column('int', { name: 'institucion_id' })
   institucionId: number;
 
-  @Column({ name: 'titulo', type: 'varchar', length: 255 })
+  @Column('varchar', { name: 'titulo', length: 255 })
   titulo: string;
 
-  @Column({ name: 'descripcion', type: 'text', nullable: true })
-  descripcion?: string | null;
+  @Column('text', { name: 'descripcion', nullable: true })
+  descripcion: string | null;
 
-  @Column({ name: 'fecha_inicio', type: 'datetime' })
+  @Column('datetime', { name: 'fecha_inicio' })
   fechaInicio: Date;
 
-  @Column({ name: 'fecha_fin', type: 'datetime' })
+  @Column('datetime', { name: 'fecha_fin' })
   fechaFin: Date;
 
-  @Column({
+  @Column('enum', {
     name: 'tipo',
-    type: 'enum',
     enum: ['FERIADO', 'REUNION', 'ACADEMICO', 'CIVICO'],
   })
   tipo: 'FERIADO' | 'REUNION' | 'ACADEMICO' | 'CIVICO';
 
-  @Column({
+  @Column('datetime', {
     name: 'created_at',
-    type: 'datetime',
+    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createdAt: Date;
+  createdAt: Date | null;
 
-  // Relations
-  @ManyToOne(() => Institucion, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'institucion_id' })
-  institucion?: Institucion;
+  @ManyToOne(
+    () => Institucion,
+    (institucion) => institucion.calendarioEventos,
+    { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
+  )
+  @JoinColumn([{ name: 'institucion_id', referencedColumnName: 'id' }])
+  institucion: Institucion;
 }

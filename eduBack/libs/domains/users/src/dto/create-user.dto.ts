@@ -4,10 +4,10 @@ import {
   IsOptional,
   IsEmail,
   IsDateString,
-  IsEnum,
   IsInt,
 } from 'class-validator';
-import { Rol, TipoDocumento, Genero } from '../entities/user.entity';
+import { IsIn } from 'class-validator';
+import type { TipoDocumento, Genero } from '../entities/usuario.entity';
 
 export class CreateUserDto {
   @IsInt()
@@ -30,7 +30,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   password: string;
 
-  @IsEnum(['CC', 'TI', 'CE', 'PP'])
+  @IsIn(['CC', 'TI', 'CE', 'PP'])
   @IsOptional()
   tipoDocumento?: TipoDocumento;
 
@@ -38,7 +38,7 @@ export class CreateUserDto {
   @IsOptional()
   documento?: string;
 
-  @IsEnum(['M', 'F', 'O'])
+  @IsIn(['M', 'F', 'O'])
   @IsOptional()
   genero?: Genero;
 
@@ -53,10 +53,6 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   direccion?: string;
-
-  @IsEnum(['ESTUDIANTE', 'PROFESOR', 'ACUDIENTE', 'ADMIN'])
-  @IsNotEmpty()
-  rol: Rol;
 
   @IsString()
   @IsOptional()

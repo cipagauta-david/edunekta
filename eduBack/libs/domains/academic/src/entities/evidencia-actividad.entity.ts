@@ -1,59 +1,71 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
-  ManyToOne,
+  Index,
   JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Actividad } from '@app/domains/academic';
+import { Usuario } from '@app/domains/users';
 import { Institucion } from '@app/domains/institutions';
-import { Actividad } from './actividad.entity';
-import { User } from '@app/domains/users';
 
-@Entity('evidencia_actividad')
+@Index('fk_evidencia_actividad', ['actividadId'], {})
+@Index('fk_evidencia_est', ['estudianteId'], {})
+@Index('uq_evidencia', ['institucionId', 'actividadId', 'estudianteId'], {
+  unique: true,
+})
+@Entity('evidencia_actividad', { schema: 'edunekta3' })
 export class EvidenciaActividad {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ name: 'institucion_id', type: 'int' })
+  @Column('int', { name: 'institucion_id' })
   institucionId: number;
 
-  @Column({ name: 'actividad_id', type: 'int' })
+  @Column('int', { name: 'actividad_id' })
   actividadId: number;
 
-  @Column({ name: 'estudiante_id', type: 'int' })
+  @Column('int', { name: 'estudiante_id' })
   estudianteId: number;
 
-  @Column({ name: 'descripcion', type: 'text', nullable: true })
-  descripcion?: string | null;
+  @Column('text', { name: 'descripcion', nullable: true })
+  descripcion: string | null;
 
-  @Column({
+  @Column('datetime', {
     name: 'fecha_subida',
-    type: 'datetime',
+    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
   })
-  fechaSubida: Date;
+  fechaSubida: Date | null;
 
-  @Column({
+  @Column('decimal', {
     name: 'calificacion',
-    type: 'decimal',
+    nullable: true,
     precision: 5,
     scale: 2,
-    nullable: true,
   })
-  calificacion?: string | null;
+  calificacion: string | null;
 
-  // Relations
-  @ManyToOne(() => Institucion, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'institucion_id' })
-  institucion?: Institucion;
-
-  @ManyToOne(() => Actividad, (a) => a.evidencias, {
-    createForeignKeyConstraints: false,
+  @ManyToOne(() => Actividad, (actividad) => actividad.evidenciaActividads, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
   })
-  @JoinColumn({ name: 'actividad_id' })
-  actividad?: Actividad;
+  @JoinColumn([{ name: 'actividad_id', referencedColumnName: 'id' }])
+  actividad: Actividad;
 
-  @ManyToOne(() => User, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'estudiante_id' })
-  estudiante?: User;
+  @ManyToOne(() => Usuario, (usuario) => usuario.evidenciaActividads, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'estudiante_id', referencedColumnName: 'id' }])
+  estudiante: Usuario;
+
+  @ManyToOne(
+    () => Institucion,
+    (institucion) => institucion.evidenciaActividads,
+    { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
+  )
+  @JoinColumn([{ name: 'institucion_id', referencedColumnName: 'id' }])
+  institucion: Institucion;
 }

@@ -15,5 +15,5 @@ export class CreatePonderacionEvaluacionDto {
 
   @IsNumber()
   @IsNotEmpty()
-  porcentaje: number;
+  porcentaje: string;
 }

@@ -1,76 +1,82 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
+  Index,
+  JoinColumn,
   ManyToOne,
   OneToMany,
-  JoinColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Institucion } from '@app/domains/institutions';
 import { Clase } from './clase.entity';
 import { EvidenciaActividad } from './evidencia-actividad.entity';
+import { Institucion } from '@app/domains/institutions';
 
-@Entity('actividad')
+@Index('fk_actividad_clase', ['claseId'], {})
+@Index('fk_actividad_inst', ['institucionId'], {})
+@Entity('actividad', { schema: 'edunekta3' })
 export class Actividad {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ name: 'institucion_id', type: 'int' })
+  @Column('int', { name: 'institucion_id' })
   institucionId: number;
 
-  @Column({ name: 'titulo', type: 'varchar', length: 255 })
+  @Column('varchar', { name: 'titulo', length: 255 })
   titulo: string;
 
-  @Column({ name: 'descripcion', type: 'text', nullable: true })
-  descripcion?: string | null;
+  @Column('text', { name: 'descripcion', nullable: true })
+  descripcion: string | null;
 
-  @Column({ name: 'fecha_entrega', type: 'datetime', nullable: true })
-  fechaEntrega?: Date | null;
+  @Column('datetime', { name: 'fecha_entrega', nullable: true })
+  fechaEntrega: Date | null;
 
-  @Column({ name: 'clase_id', type: 'int' })
+  @Column('int', { name: 'clase_id' })
   claseId: number;
 
-  @Column({
+  @Column('enum', {
     name: 'estado',
-    type: 'enum',
     enum: ['PUBLICADA', 'CERRADA', 'CALIFICADA'],
-    default: 'PUBLICADA',
+    default: () => "'PUBLICADA'",
   })
   estado: 'PUBLICADA' | 'CERRADA' | 'CALIFICADA';
 
-  @Column({
+  @Column('enum', {
     name: 'categoria',
-    type: 'enum',
     enum: ['TAREA', 'EXAMEN', 'PROYECTO', 'PARTICIPACION'],
   })
   categoria: 'TAREA' | 'EXAMEN' | 'PROYECTO' | 'PARTICIPACION';
 
-  @Column({
+  @Column('datetime', {
     name: 'created_at',
-    type: 'datetime',
+    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createdAt: Date;
+  createdAt: Date | null;
 
-  @Column({
+  @Column('datetime', {
     name: 'updated_at',
-    type: 'datetime',
+    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
   })
-  updatedAt: Date;
+  updatedAt: Date | null;
 
-  // Relations
-  @ManyToOne(() => Institucion, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'institucion_id' })
-  institucion?: Institucion;
-
-  @ManyToOne(() => Clase, (c) => c.actividades, {
-    createForeignKeyConstraints: false,
+  @ManyToOne(() => Clase, (clase) => clase.actividads, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
   })
-  @JoinColumn({ name: 'clase_id' })
-  clase?: Clase;
+  @JoinColumn([{ name: 'clase_id', referencedColumnName: 'id' }])
+  clase: Clase;
 
-  @OneToMany(() => EvidenciaActividad, (e) => e.actividad)
-  evidencias?: EvidenciaActividad[];
+  @ManyToOne(() => Institucion, (institucion) => institucion.actividads, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'institucion_id', referencedColumnName: 'id' }])
+  institucion: Institucion;
+
+  @OneToMany(
+    () => EvidenciaActividad,
+    (evidenciaActividad) => evidenciaActividad.actividad,
+  )
+  evidenciaActividads: EvidenciaActividad[];
 }

@@ -24,7 +24,7 @@ export class PonderacionEvaluacionDao {
   }
 
   create(dto: CreatePonderacionEvaluacionDto) {
-    const entity = this.repo.create(dto);
+    const entity = this.repo.create([dto]);
     return this.repo.save(entity);
   }
 

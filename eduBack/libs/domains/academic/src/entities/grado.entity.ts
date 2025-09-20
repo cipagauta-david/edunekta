@@ -1,43 +1,53 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
+  Index,
+  JoinColumn,
   ManyToOne,
   OneToMany,
-  JoinColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
 import { NivelAcademico } from './nivel-academico.entity';
 import { Grupo } from './grupo.entity';
+import { Matricula } from './matricula.entity';
 
-@Entity('grado')
+@Index('fk_grado_nivel', ['nivelAcademicoId'], {})
+@Index('uq_grado_nombre', ['institucionId', 'nombre'], { unique: true })
+@Entity('grado', { schema: 'edunekta3' })
 export class Grado {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ name: 'institucion_id', type: 'int' })
+  @Column('int', { name: 'institucion_id' })
   institucionId: number;
 
-  @Column({ name: 'nivel_academico_id', type: 'int' })
+  @Column('int', { name: 'nivel_academico_id' })
   nivelAcademicoId: number;
 
-  @Column({ name: 'nombre', type: 'varchar', length: 100 })
+  @Column('varchar', { name: 'nombre', length: 100 })
   nombre: string;
 
-  @Column({ name: 'descripcion', type: 'text', nullable: true })
-  descripcion?: string | null;
+  @Column('text', { name: 'descripcion', nullable: true })
+  descripcion: string | null;
 
-  // Relations
-  @ManyToOne(() => Institucion, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'institucion_id' })
-  institucion?: Institucion;
-
-  @ManyToOne(() => NivelAcademico, (n) => n.grados, {
-    createForeignKeyConstraints: false,
+  @ManyToOne(() => Institucion, (institucion) => institucion.grados, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
   })
-  @JoinColumn({ name: 'nivel_academico_id' })
-  nivelAcademico?: NivelAcademico;
+  @JoinColumn([{ name: 'institucion_id', referencedColumnName: 'id' }])
+  institucion: Institucion;
 
-  @OneToMany(() => Grupo, (g) => g.grado)
-  grupos?: Grupo[];
+  @ManyToOne(() => NivelAcademico, (nivelAcademico) => nivelAcademico.grados, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'nivel_academico_id', referencedColumnName: 'id' }])
+  nivelAcademico: NivelAcademico;
+
+  @OneToMany(() => Grupo, (grupo) => grupo.grado)
+  grupos: Grupo[];
+
+  @OneToMany(() => Matricula, (matricula) => matricula.grado)
+  matriculas: Matricula[];
 }

@@ -1,70 +1,75 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
-  ManyToOne,
+  Index,
   JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
-import { User } from '@app/domains/users';
+import { Usuario } from '@app/domains/users';
 
-@Entity('notificacion')
+@Index('fk_notif_inst', ['institucionId'], {})
+@Index('fk_notif_usr', ['usuarioId'], {})
+@Entity('notificacion', { schema: 'edunekta3' })
 export class Notificacion {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ name: 'institucion_id', type: 'int' })
+  @Column('int', { name: 'institucion_id' })
   institucionId: number;
 
-  @Column({ name: 'usuario_id', type: 'int' })
+  @Column('int', { name: 'usuario_id' })
   usuarioId: number;
 
-  @Column({ name: 'titulo', type: 'varchar', length: 255 })
+  @Column('varchar', { name: 'titulo', length: 255 })
   titulo: string;
 
-  @Column({ name: 'mensaje', type: 'text' })
+  @Column('text', { name: 'mensaje' })
   mensaje: string;
 
-  @Column({
+  @Column('enum', {
     name: 'canal',
-    type: 'enum',
     enum: ['APP', 'EMAIL', 'SMS'],
-    default: 'APP',
+    default: () => "'APP'",
   })
   canal: 'APP' | 'EMAIL' | 'SMS';
 
-  @Column({
+  @Column('enum', {
     name: 'prioridad',
-    type: 'enum',
     enum: ['BAJA', 'MEDIA', 'ALTA'],
-    default: 'MEDIA',
+    default: () => "'MEDIA'",
   })
   prioridad: 'BAJA' | 'MEDIA' | 'ALTA';
 
-  @Column({
+  @Column('enum', {
     name: 'estado',
-    type: 'enum',
     enum: ['NO_LEIDA', 'LEIDA'],
-    default: 'NO_LEIDA',
+    default: () => "'NO_LEIDA'",
   })
   estado: 'NO_LEIDA' | 'LEIDA';
 
-  @Column({ name: 'url_destino', type: 'text', nullable: true })
-  urlDestino?: string | null;
+  @Column('text', { name: 'url_destino', nullable: true })
+  urlDestino: string | null;
 
-  @Column({
+  @Column('datetime', {
     name: 'fecha',
-    type: 'datetime',
+    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
   })
-  fecha: Date;
+  fecha: Date | null;
 
-  // Relations
-  @ManyToOne(() => Institucion, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'institucion_id' })
-  institucion?: Institucion;
+  @ManyToOne(() => Institucion, (institucion) => institucion.notificacions, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'institucion_id', referencedColumnName: 'id' }])
+  institucion: Institucion;
 
-  @ManyToOne(() => User, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'usuario_id' })
-  usuario?: User;
+  @ManyToOne(() => Usuario, (usuario) => usuario.notificacions, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'usuario_id', referencedColumnName: 'id' }])
+  usuario: Usuario;
 }

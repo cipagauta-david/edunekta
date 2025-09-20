@@ -24,6 +24,8 @@ Nota de diseño: Esta versión prioriza que el equipo pueda construir y entender
   - updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   - Descripción: Tenancy. Todo dato “propio” de un colegio se ancla a esta tabla.
 
+
+
 - usuario:
   - id INT PK AI
   - institucion_id INT NULL FK -> institucion(id) [NULL reservado para un Super Admin global si lo necesitas; si no, hazlo NOT NULL]

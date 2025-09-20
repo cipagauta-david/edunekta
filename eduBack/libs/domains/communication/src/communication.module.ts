@@ -14,9 +14,23 @@ import { ComentarioForoService } from './infrastructure/services/comentario-foro
 import { Conversacion } from './entities/conversacion.entity';
 import { ConversacionController } from './infrastructure/controllers/conversacion.controller';
 import { ConversacionService } from './infrastructure/services/conversacion.service';
+import { Mensaje } from './entities/mensaje.entity';
+import { UsuarioConversacion } from './entities/usuario-conversacion.entity';
+import { Notificacion } from './entities/notificacion.entity';
+import { CalendarioEvento } from './entities/calendario-evento.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Foro, ComentarioForo, Conversacion])],
+  imports: [
+    TypeOrmModule.forFeature([
+      Foro,
+      ComentarioForo,
+      Conversacion,
+      Mensaje,
+      UsuarioConversacion,
+      Notificacion,
+      CalendarioEvento,
+    ]),
+  ],
   controllers: [
     ForumsController,
     ComentarioForoController,

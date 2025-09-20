@@ -1,22 +1,52 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Institucion } from '@app/domains/institutions';
+import { DetalleFactura } from './detalle-factura.entity';
 
-@Entity('concepto_facturacion')
+@Index('uq_concepto_nombre', ['institucionId', 'nombre'], { unique: true })
+@Entity('concepto_facturacion', { schema: 'edunekta3' })
 export class ConceptoFacturacion {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ name: 'institucion_id', type: 'int' })
+  @Column('int', { name: 'institucion_id' })
   institucionId: number;
 
-  @Column({ name: 'nombre', type: 'varchar', length: 255 })
+  @Column('varchar', { name: 'nombre', length: 255 })
   nombre: string;
 
-  @Column({ name: 'descripcion', type: 'text', nullable: true })
-  descripcion?: string | null;
+  @Column('text', { name: 'descripcion', nullable: true })
+  descripcion: string | null;
 
-  @Column({ name: 'costo_base', type: 'decimal', precision: 12, scale: 2 })
+  @Column('decimal', { name: 'costo_base', precision: 12, scale: 2 })
   costoBase: string;
 
-  @Column({ name: 'activo', type: 'boolean', default: true })
-  activo: boolean;
+  @Column('tinyint', {
+    name: 'activo',
+    nullable: true,
+    width: 1,
+    default: () => "'1'",
+  })
+  activo: boolean | null;
+
+  @ManyToOne(
+    () => Institucion,
+    (institucion) => institucion.conceptoFacturacions,
+    { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
+  )
+  @JoinColumn([{ name: 'institucion_id', referencedColumnName: 'id' }])
+  institucion: Institucion;
+
+  @OneToMany(
+    () => DetalleFactura,
+    (detalleFactura) => detalleFactura.conceptoFacturacion,
+  )
+  detalleFacturas: DetalleFactura[];
 }

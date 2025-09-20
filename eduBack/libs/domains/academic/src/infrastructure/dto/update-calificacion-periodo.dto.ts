@@ -19,7 +19,7 @@ export class UpdateCalificacionPeriodoDto {
 
   @IsNumber()
   @IsOptional()
-  notaFinal?: number;
+  notaFinal?: string;
 
   @IsString()
   @IsOptional()

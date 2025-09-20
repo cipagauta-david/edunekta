@@ -1,44 +1,63 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
+  Index,
+  JoinColumn,
   ManyToOne,
   OneToMany,
-  JoinColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Institucion } from '@app/domains/institutions';
+import { CalificacionPeriodo } from './calificacion-periodo.entity';
+import { Clase } from './clase.entity';
 import { Grupo } from './grupo.entity';
+import { Matricula } from './matricula.entity';
+import { Institucion } from '@app/domains/institutions';
 
-@Entity('periodo_academico')
+@Index('uq_periodo_nombre', ['institucionId', 'nombre'], { unique: true })
+@Entity('periodo_academico', { schema: 'edunekta3' })
 export class PeriodoAcademico {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ name: 'institucion_id', type: 'int' })
+  @Column('int', { name: 'institucion_id' })
   institucionId: number;
 
-  @Column({ name: 'nombre', type: 'varchar', length: 50 })
+  @Column('varchar', { name: 'nombre', length: 50 })
   nombre: string;
 
-  @Column({
+  @Column('enum', {
     name: 'estado',
-    type: 'enum',
     enum: ['PLANIFICADO', 'EN_CURSO', 'FINALIZADO', 'ARCHIVADO'],
-    default: 'PLANIFICADO',
+    default: () => "'PLANIFICADO'",
   })
   estado: 'PLANIFICADO' | 'EN_CURSO' | 'FINALIZADO' | 'ARCHIVADO';
 
-  @Column({ name: 'fecha_inicio', type: 'date' })
+  @Column('date', { name: 'fecha_inicio' })
   fechaInicio: string;
 
-  @Column({ name: 'fecha_fin', type: 'date' })
+  @Column('date', { name: 'fecha_fin' })
   fechaFin: string;
 
-  // Relations
-  @ManyToOne(() => Institucion, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'institucion_id' })
-  institucion?: Institucion;
+  @OneToMany(
+    () => CalificacionPeriodo,
+    (calificacionPeriodo) => calificacionPeriodo.periodoAcademico,
+  )
+  calificacionPeriodos: CalificacionPeriodo[];
 
-  @OneToMany(() => Grupo, (g) => g.periodoAcademico)
-  grupos?: Grupo[];
+  @OneToMany(() => Clase, (clase) => clase.periodoAcademico)
+  clases: Clase[];
+
+  @OneToMany(() => Grupo, (grupo) => grupo.periodoAcademico)
+  grupos: Grupo[];
+
+  @OneToMany(() => Matricula, (matricula) => matricula.periodoAcademico)
+  matriculas: Matricula[];
+
+  @ManyToOne(
+    () => Institucion,
+    (institucion) => institucion.periodoAcademicos,
+    { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
+  )
+  @JoinColumn([{ name: 'institucion_id', referencedColumnName: 'id' }])
+  institucion: Institucion;
 }

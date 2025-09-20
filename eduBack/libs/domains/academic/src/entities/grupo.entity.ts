@@ -1,57 +1,70 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
+  Index,
+  JoinColumn,
   ManyToOne,
   OneToMany,
-  JoinColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Institucion } from '@app/domains/institutions';
-import { Grado } from './grado.entity';
-import { PeriodoAcademico } from './periodo-academico.entity';
 import { Clase } from './clase.entity';
+import { Grado } from './grado.entity';
+import { Institucion } from '@app/domains/institutions';
+import { PeriodoAcademico } from './periodo-academico.entity';
 import { Matricula } from './matricula.entity';
 
-@Entity('grupo')
+@Index('fk_grupo_grado', ['gradoId'], {})
+@Index('fk_grupo_periodo', ['periodoAcademicoId'], {})
+@Index(
+  'uq_grupo',
+  ['institucionId', 'gradoId', 'periodoAcademicoId', 'nombre'],
+  { unique: true },
+)
+@Entity('grupo', { schema: 'edunekta3' })
 export class Grupo {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ name: 'institucion_id', type: 'int' })
+  @Column('int', { name: 'institucion_id' })
   institucionId: number;
 
-  @Column({ name: 'grado_id', type: 'int' })
+  @Column('int', { name: 'grado_id' })
   gradoId: number;
 
-  @Column({ name: 'periodo_academico_id', type: 'int' })
+  @Column('int', { name: 'periodo_academico_id' })
   periodoAcademicoId: number;
 
-  @Column({ name: 'nombre', type: 'varchar', length: 50 })
+  @Column('varchar', { name: 'nombre', length: 50 })
   nombre: string;
 
-  @Column({ name: 'descripcion', type: 'text', nullable: true })
-  descripcion?: string | null;
+  @Column('text', { name: 'descripcion', nullable: true })
+  descripcion: string | null;
 
-  // Relations
-  @ManyToOne(() => Institucion, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'institucion_id' })
-  institucion?: Institucion;
+  @OneToMany(() => Clase, (clase) => clase.grupo)
+  clases: Clase[];
 
-  @ManyToOne(() => Grado, (g) => g.grupos, {
-    createForeignKeyConstraints: false,
+  @ManyToOne(() => Grado, (grado) => grado.grupos, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
   })
-  @JoinColumn({ name: 'grado_id' })
-  grado?: Grado;
+  @JoinColumn([{ name: 'grado_id', referencedColumnName: 'id' }])
+  grado: Grado;
 
-  @ManyToOne(() => PeriodoAcademico, (p) => p.grupos, {
-    createForeignKeyConstraints: false,
+  @ManyToOne(() => Institucion, (institucion) => institucion.grupos, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
   })
-  @JoinColumn({ name: 'periodo_academico_id' })
-  periodoAcademico?: PeriodoAcademico;
+  @JoinColumn([{ name: 'institucion_id', referencedColumnName: 'id' }])
+  institucion: Institucion;
 
-  @OneToMany(() => Clase, (c) => c.grupo)
-  clases?: Clase[];
+  @ManyToOne(
+    () => PeriodoAcademico,
+    (periodoAcademico) => periodoAcademico.grupos,
+    { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
+  )
+  @JoinColumn([{ name: 'periodo_academico_id', referencedColumnName: 'id' }])
+  periodoAcademico: PeriodoAcademico;
 
-  @OneToMany(() => Matricula, (m) => m.grupo)
-  matriculas?: Matricula[];
+  @OneToMany(() => Matricula, (matricula) => matricula.grupo)
+  matriculas: Matricula[];
 }

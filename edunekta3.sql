@@ -39,7 +39,6 @@ CREATE TABLE usuario (
   fecha_nacimiento DATE NULL,
   telefono VARCHAR(20) NULL,
   direccion VARCHAR(200) NULL,
-  rol ENUM('ESTUDIANTE','PROFESOR','ACUDIENTE','ADMIN') NOT NULL,
   foto_perfil VARCHAR(255) NULL,
   ultimo_acceso DATETIME NULL,
   activo BOOLEAN DEFAULT TRUE,
@@ -50,6 +49,60 @@ CREATE TABLE usuario (
   KEY idx_usuario_institucion (institucion_id),
   CONSTRAINT fk_usuario_institucion FOREIGN KEY (institucion_id) REFERENCES institucion(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- 1) Tabla de roles
+CREATE TABLE rol (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(100) NOT NULL,
+  slug VARCHAR(100) NOT NULL,
+  descripcion VARCHAR(255) DEFAULT NULL,
+  activo BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_rol_nombre (nombre),
+  UNIQUE KEY uq_rol_slug (slug)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- 2) Tabla de permisos
+CREATE TABLE permiso (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(150) NOT NULL,
+  slug VARCHAR(150) NOT NULL,
+  descripcion VARCHAR(255) DEFAULT NULL,
+  recurso VARCHAR(100) DEFAULT NULL, -- opcional: por ejemplo "usuario", "curso"
+  accion VARCHAR(50) DEFAULT NULL,    -- opcional: por ejemplo "create", "update"
+  activo BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_permiso_slug (slug)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- 3) Pivot: usuarios ⇄ roles
+CREATE TABLE usuario_rol (
+  usuario_id INT NOT NULL,
+  rol_id INT NOT NULL,
+  asignado_por INT DEFAULT NULL, -- opcional: quién asignó el rol
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (usuario_id, rol_id),
+  KEY idx_usuario_rol_rol_id (rol_id),
+  CONSTRAINT fk_usuariorol_usuario FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_usuariorol_rol FOREIGN KEY (rol_id) REFERENCES rol(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_usuariorol_asignado_por FOREIGN KEY (asignado_por) REFERENCES usuario(id) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- 4) Pivot: roles ⇄ permisos
+CREATE TABLE rol_permiso (
+  rol_id INT NOT NULL,
+  permiso_id INT NOT NULL,
+  creado_por INT DEFAULT NULL, -- opcional: quién creó la asignación
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (rol_id, permiso_id),
+  KEY idx_rolpermiso_permiso_id (permiso_id),
+  CONSTRAINT fk_rolpermiso_rol FOREIGN KEY (rol_id) REFERENCES rol(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_rolpermiso_permiso FOREIGN KEY (permiso_id) REFERENCES permiso(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_rolpermiso_creado_por FOREIGN KEY (creado_por) REFERENCES usuario(id) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 CREATE TABLE estudiante_acudiente (
   id INT PRIMARY KEY AUTO_INCREMENT,

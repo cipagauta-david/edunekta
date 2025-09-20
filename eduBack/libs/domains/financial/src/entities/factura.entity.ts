@@ -1,80 +1,85 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
+  Index,
+  JoinColumn,
   ManyToOne,
   OneToMany,
-  JoinColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from '@app/domains/users';
-import { DetalleFactura } from './detalle-factura.entity';
+import { Institucion } from '@app/domains/institutions';
 import { Pago } from './pago.entity';
-import { Institucion } from '../../../institutions/src/entities/institucion.entity';
+import { DetalleFactura } from './detalle-factura.entity';
+import { Usuario } from '@app/domains/users';
 
-@Entity('factura')
+@Index('fk_factura_acud', ['acudienteId'], {})
+@Index('fk_factura_inst', ['institucionId'], {})
+@Entity('factura', { schema: 'edunekta3' })
 export class Factura {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ name: 'institucion_id', type: 'int' })
+  @Column('int', { name: 'institucion_id' })
   institucionId: number;
 
-  @Column({ name: 'acudiente_id', type: 'int' })
+  @Column('int', { name: 'acudiente_id' })
   acudienteId: number;
 
-  @Column({ name: 'fecha_emision', type: 'date' })
+  @Column('date', { name: 'fecha_emision' })
   fechaEmision: string;
 
-  @Column({ name: 'fecha_vencimiento', type: 'date' })
+  @Column('date', { name: 'fecha_vencimiento' })
   fechaVencimiento: string;
 
-  @Column({ name: 'total', type: 'decimal', precision: 12, scale: 2 })
+  @Column('decimal', { name: 'total', precision: 12, scale: 2 })
   total: string;
 
-  @Column({
+  @Column('enum', {
     name: 'estado',
-    type: 'enum',
     enum: ['PENDIENTE', 'PARCIAL', 'PAGADA', 'VENCIDA', 'ANULADA'],
-    default: 'PENDIENTE',
+    default: () => "'PENDIENTE'",
   })
   estado: 'PENDIENTE' | 'PARCIAL' | 'PAGADA' | 'VENCIDA' | 'ANULADA';
 
-  @Column({
+  @Column('decimal', {
     name: 'saldo_cache',
-    type: 'decimal',
     precision: 13,
     scale: 2,
-    default: 0,
+    default: () => "'0.00'",
   })
   saldoCache: string;
 
-  @Column({
+  @Column('datetime', {
     name: 'created_at',
-    type: 'datetime',
+    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createdAt: Date;
+  createdAt: Date | null;
 
-  @Column({
+  @Column('datetime', {
     name: 'updated_at',
-    type: 'datetime',
+    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
   })
-  updatedAt: Date;
+  updatedAt: Date | null;
 
-  // Relations
-  @ManyToOne(() => Institucion, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'institucion_id' })
-  institucion?: Institucion;
+  @OneToMany(() => DetalleFactura, (detalleFactura) => detalleFactura.factura)
+  detalleFacturas: DetalleFactura[];
 
-  @ManyToOne(() => User, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'acudiente_id' })
-  acudiente?: User;
+  @ManyToOne(() => Usuario, (usuario) => usuario.facturas, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'acudiente_id', referencedColumnName: 'id' }])
+  acudiente: Usuario;
 
-  @OneToMany(() => DetalleFactura, (detalle) => detalle.factura)
-  detalles?: DetalleFactura[];
+  @ManyToOne(() => Institucion, (institucion) => institucion.facturas, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'institucion_id', referencedColumnName: 'id' }])
+  institucion: Institucion;
 
-  @OneToMany(() => Pago, (p) => p.factura)
-  pagos?: Pago[];
+  @OneToMany(() => Pago, (pago) => pago.factura)
+  pagos: Pago[];
 }

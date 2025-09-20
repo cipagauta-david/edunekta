@@ -15,5 +15,5 @@ export class UpdatePonderacionEvaluacionDto {
 
   @IsNumber()
   @IsOptional()
-  porcentaje?: number;
+  porcentaje?: string;
 }

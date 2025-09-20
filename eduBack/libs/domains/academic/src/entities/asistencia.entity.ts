@@ -1,53 +1,64 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
-  ManyToOne,
+  Index,
   JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Clase } from '@app/domains/academic';
+import { Usuario } from '@app/domains/users';
 import { Institucion } from '@app/domains/institutions';
-import { Clase } from './clase.entity';
-import { User } from '@app/domains/users';
 
-@Entity('asistencia')
+@Index('fk_asistencia_clase', ['claseId'], {})
+@Index('fk_asistencia_est', ['estudianteId'], {})
+@Index('uq_asistencia', ['institucionId', 'claseId', 'estudianteId', 'fecha'], {
+  unique: true,
+})
+@Entity('asistencia', { schema: 'edunekta3' })
 export class Asistencia {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ name: 'institucion_id', type: 'int' })
+  @Column('int', { name: 'institucion_id' })
   institucionId: number;
 
-  @Column({ name: 'clase_id', type: 'int' })
+  @Column('int', { name: 'clase_id' })
   claseId: number;
 
-  @Column({ name: 'estudiante_id', type: 'int' })
+  @Column('int', { name: 'estudiante_id' })
   estudianteId: number;
 
-  @Column({ name: 'fecha', type: 'date' })
+  @Column('date', { name: 'fecha' })
   fecha: string;
 
-  @Column({
+  @Column('enum', {
     name: 'estado',
-    type: 'enum',
     enum: ['PRESENTE', 'AUSENTE', 'TARDE', 'JUSTIFICADA'],
   })
   estado: 'PRESENTE' | 'AUSENTE' | 'TARDE' | 'JUSTIFICADA';
 
-  @Column({ name: 'observacion', type: 'varchar', length: 255, nullable: true })
-  observacion?: string | null;
+  @Column('varchar', { name: 'observacion', nullable: true, length: 255 })
+  observacion: string | null;
 
-  // Relations
-  @ManyToOne(() => Institucion, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'institucion_id' })
-  institucion?: Institucion;
-
-  @ManyToOne(() => Clase, (c) => c.asistencias, {
-    createForeignKeyConstraints: false,
+  @ManyToOne(() => Clase, (clase) => clase.asistencias, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
   })
-  @JoinColumn({ name: 'clase_id' })
-  clase?: Clase;
+  @JoinColumn([{ name: 'clase_id', referencedColumnName: 'id' }])
+  clase: Clase;
 
-  @ManyToOne(() => User, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'estudiante_id' })
-  estudiante?: User;
+  @ManyToOne(() => Usuario, (usuario) => usuario.asistencias, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'estudiante_id', referencedColumnName: 'id' }])
+  estudiante: Usuario;
+
+  @ManyToOne(() => Institucion, (institucion) => institucion.asistencias, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'institucion_id', referencedColumnName: 'id' }])
+  institucion: Institucion;
 }

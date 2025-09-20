@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Institucion } from './entities/institucion.entity';
+import { ArchivoDigital } from '@app/core';
 import { InstitutionsController } from './infrastructure/controllers/institutions.controller';
 import { InstitutionsService } from './infrastructure/services/institutions.service';
 import { InstitutionDAO } from './infrastructure/dao';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Institucion])],
+  imports: [TypeOrmModule.forFeature([Institucion, ArchivoDigital])],
   controllers: [InstitutionsController],
   providers: [InstitutionsService, InstitutionDAO],
   exports: [InstitutionsService, InstitutionDAO],

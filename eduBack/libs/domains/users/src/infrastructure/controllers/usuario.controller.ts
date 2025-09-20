@@ -13,22 +13,25 @@ import { UsersService } from '../services/users.service';
 import { CreateUserDto, UpdateUserDto } from '../../dto';
 
 @Controller('users')
-export class UsersController {
+export class UsuarioController {
   constructor(private readonly usersService: UsersService) {}
 
   @Roles('ADMIN' as Role)
   @Post()
-  create(@Body() dto: CreateUserDto, @AuthUser() user: any) {
+  create(@Body() dto: CreateUserDto, @AuthUser() user: CreateUserDto) {
     return this.usersService.create(dto, user?.institucionId);
   }
 
   @Get()
-  findAll(@AuthUser() user: any) {
+  findAll(@AuthUser() user: CreateUserDto) {
     return this.usersService.findAll(user?.institucionId);
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number, @AuthUser() user: any) {
+  findOne(
+    @Param('id', ParseIntPipe) id: number,
+    @AuthUser() user: CreateUserDto,
+  ) {
     return this.usersService.findOne(id, user?.institucionId);
   }
 
@@ -37,14 +40,17 @@ export class UsersController {
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateUserDto,
-    @AuthUser() user: any,
+    @AuthUser() user: CreateUserDto,
   ) {
     return this.usersService.update(id, dto, user?.institucionId);
   }
 
   @Roles('ADMIN' as Role)
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number, @AuthUser() user: any) {
+  remove(
+    @Param('id', ParseIntPipe) id: number,
+    @AuthUser() user: CreateUserDto,
+  ) {
     return this.usersService.remove(id, user?.institucionId);
   }
 }

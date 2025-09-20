@@ -1,46 +1,52 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
+  Index,
+  JoinColumn,
   ManyToOne,
   OneToMany,
-  JoinColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Institucion } from '@app/domains/institutions';
-import { UsuarioConversacion } from './usuario-conversacion.entity';
 import { Mensaje } from './mensaje.entity';
+import { UsuarioConversacion } from './usuario-conversacion.entity';
 
-@Entity('conversacion')
+@Index('fk_conv_inst', ['institucionId'], {})
+@Entity('conversacion', { schema: 'edunekta3' })
 export class Conversacion {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ name: 'institucion_id', type: 'int' })
+  @Column('int', { name: 'institucion_id' })
   institucionId: number;
 
-  @Column({
+  @Column('enum', {
     name: 'estado',
-    type: 'enum',
     enum: ['ACTIVA', 'ARCHIVADA'],
-    default: 'ACTIVA',
+    default: () => "'ACTIVA'",
   })
   estado: 'ACTIVA' | 'ARCHIVADA';
 
-  @Column({
+  @Column('datetime', {
     name: 'created_at',
-    type: 'datetime',
+    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createdAt: Date;
+  createdAt: Date | null;
 
-  // Relations
-  @ManyToOne(() => Institucion, { createForeignKeyConstraints: false })
-  @JoinColumn({ name: 'institucion_id' })
-  institucion?: Institucion;
+  @ManyToOne(() => Institucion, (institucion) => institucion.conversacions, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'institucion_id', referencedColumnName: 'id' }])
+  institucion: Institucion;
 
-  @OneToMany(() => UsuarioConversacion, (uc) => uc.conversacion)
-  usuarios?: UsuarioConversacion[];
+  @OneToMany(() => Mensaje, (mensaje) => mensaje.conversacion)
+  mensajes: Mensaje[];
 
-  @OneToMany(() => Mensaje, (m) => m.conversacion)
-  mensajes?: Mensaje[];
+  @OneToMany(
+    () => UsuarioConversacion,
+    (usuarioConversacion) => usuarioConversacion.conversacion,
+  )
+  usuarioConversacions: UsuarioConversacion[];
 }

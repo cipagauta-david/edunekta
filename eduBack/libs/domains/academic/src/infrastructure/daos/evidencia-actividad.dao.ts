@@ -24,7 +24,7 @@ export class EvidenciaActividadDao {
   }
 
   create(dto: CreateEvidenciaActividadDto) {
-    const entity = this.repo.create(dto);
+    const entity = this.repo.create([dto]);
     return this.repo.save(entity);
   }
 

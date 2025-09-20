@@ -1,11 +1,11 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
-import { UserDAO } from '../dao';
+import { UsuarioDao } from '../dao';
 import { CreateUserDto, UpdateUserDto } from '../../dto';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly dao: UserDAO) {}
+  constructor(private readonly dao: UsuarioDao) {}
 
   async create(dto: CreateUserDto, tenantId?: number) {
     const existingUser = await this.dao.findByEmail(dto.email, tenantId);
