@@ -5,5 +5,31 @@
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "^@apps/(.*)$": "<rootDir>/../apps/$1",
+    "^@libs/(.*)$": "<rootDir>/../libs/$1",
+    "^@app/auth$": "<rootDir>/../libs/auth/src",
+    "^@app/auth/(.*)$": "<rootDir>/../libs/auth/src/$1",
+    "^@app/common$": "<rootDir>/../libs/common/src",
+    "^@app/common/(.*)$": "<rootDir>/../libs/common/src/$1",
+    "^@app/config$": "<rootDir>/../libs/config/src",
+    "^@app/config/(.*)$": "<rootDir>/../libs/config/src/$1",
+    "^@app/core$": "<rootDir>/../libs/core/src",
+    "^@app/core/(.*)$": "<rootDir>/../libs/core/src/$1",
+    "^@app/database$": "<rootDir>/../libs/database/src",
+    "^@app/database/(.*)$": "<rootDir>/../libs/database/src/$1",
+    "^@app/domains/academic$": "<rootDir>/../libs/domains/academic/src",
+    "^@app/domains/academic/(.*)$": "<rootDir>/../libs/domains/academic/src/$1",
+    "^@app/domains/communication$": "<rootDir>/../libs/domains/communication/src",
+    "^@app/domains/communication/(.*)$": "<rootDir>/../libs/domains/communication/src/$1",
+    "^@app/domains/financial$": "<rootDir>/../libs/domains/financial/src",
+    "^@app/domains/financial/(.*)$": "<rootDir>/../libs/domains/financial/src/$1",
+    "^@app/domains/institutions$": "<rootDir>/../libs/domains/institutions/src",
+    "^@app/domains/institutions/(.*)$": "<rootDir>/../libs/domains/institutions/src/$1",
+    "^@app/domains/users$": "<rootDir>/../libs/domains/users/src",
+    "^@app/domains/users/(.*)$": "<rootDir>/../libs/domains/users/src/$1",
+    "^@app/integrations$": "<rootDir>/../libs/integrations/src",
+    "^@app/integrations/(.*)$": "<rootDir>/../libs/integrations/src/$1"
   }
 }

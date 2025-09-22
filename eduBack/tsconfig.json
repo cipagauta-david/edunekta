@@ -5,7 +5,7 @@
     "moduleResolution": "nodenext",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "types": ["node"],
+    "types": ["node", "jest"],
     "skipLibCheck": true
   },
   "include": ["apps/**/*.ts", "libs/**/*.ts"],

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Factura } from './entities/factura.entity';
 import { ConceptoFacturacion } from './entities/concepto-facturacion.entity';
@@ -16,7 +16,7 @@ import { DetalleFacturaDao } from './infrastructure/daos/detalle-factura.dao';
 import { PagoDao } from './infrastructure/daos/pago.dao';
 import { FacturasController } from './infrastructure/controllers';
 import { FacturasService } from './infrastructure/services';
-import { InstitutionsModule } from 'libs/domains/institutions/src/institutions.module';
+import { InstitutionsModule } from '@app/domains/institutions';
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import { InstitutionsModule } from 'libs/domains/institutions/src/institutions.m
       DetalleFactura,
       Pago,
     ]),
-    InstitutionsModule,
+    forwardRef(() => InstitutionsModule),
   ],
   controllers: [
     FacturasController,
