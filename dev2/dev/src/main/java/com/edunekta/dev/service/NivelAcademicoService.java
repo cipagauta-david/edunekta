@@ -6,8 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -32,12 +35,17 @@ public class NivelAcademicoService {
     }
 
     /**
-     * Reemplaza el método findAll() del Facade.
-     * La llamada a la NamedQuery ahora es una simple llamada a un método.
+     * Reemplaza el método listarTodos y la lógica de búsqueda del controlador.
+     * Acepta un término de búsqueda y un objeto Pageable para manejar la
+     * paginación.
+     * ¡Toda la lógica de paginación y filtrado ahora vive aquí!
      */
     @Transactional(readOnly = true)
-    public List<NivelAcademico> listarTodos() {
-        return nivelAcademicoRepository.findAll();
+    public Page<NivelAcademico> listarPaginadoYBuscando(String searchTerm, Pageable pageable) {
+        if (StringUtils.hasText(searchTerm)) {
+            return nivelAcademicoRepository.searchByTerm(searchTerm, pageable);
+        }
+        return nivelAcademicoRepository.findAll(pageable);
     }
 
     /**

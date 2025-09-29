@@ -24,14 +24,15 @@ public class NivelAcademicoController {
     private final NivelAcademicoService nivelAcademicoService;
 
     /**
-     * Muestra la lista paginada y filtrada. Reemplaza getPaginatedItems() y search().
+     * Muestra la lista paginada y filtrada. Reemplaza getPaginatedItems() y
+     * search().
      * El estado (página, tamaño, búsqueda) viene en la URL.
      */
     @GetMapping
     public String listar(Model model,
-                         @RequestParam(defaultValue = "0") int page,
-                         @RequestParam(defaultValue = "10") int size,
-                         @RequestParam(required = false) String searchTerm) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String searchTerm) {
         Pageable pageable = PageRequest.of(page, size);
         Page<NivelAcademico> paginaNiveles = nivelAcademicoService.listarPaginadoYBuscando(searchTerm, pageable);
 
@@ -41,7 +42,8 @@ public class NivelAcademicoController {
     }
 
     /**
-     * Muestra el formulario para crear un nuevo nivel. Reemplaza mostrarFormulario().
+     * Muestra el formulario para crear un nuevo nivel. Reemplaza
+     * mostrarFormulario().
      */
     @GetMapping("/nuevo")
     @PreAuthorize("hasAuthority('PERM_NIVELES_ACADEMICOS_CREATE')")
@@ -56,10 +58,12 @@ public class NivelAcademicoController {
      */
     @GetMapping("/editar/{id}")
     @PreAuthorize("hasAuthority('PERM_NIVELES_ACADEMICOS_UPDATE')")
-    public String mostrarFormularioEditar(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
+    public String mostrarFormularioEditar(@PathVariable Integer id, Model model,
+            RedirectAttributes redirectAttributes) {
         return nivelAcademicoService.buscarPorId(id)
                 .map(nivel -> {
-                    NivelAcademicoDTO dto = new NivelAcademicoDTO(nivel.getIdNivelAcademico(), nivel.getNombre(), nivel.getDescripcion());
+                    NivelAcademicoDTO dto = new NivelAcademicoDTO(nivel.getIdNivelAcademico(), nivel.getNombre(),
+                            nivel.getDescripcion());
                     model.addAttribute("nivelAcademico", dto);
                     model.addAttribute("isEditing", true);
                     return "nivelAcademico/form";
@@ -71,12 +75,13 @@ public class NivelAcademicoController {
     }
 
     /**
-     * Procesa el envío del formulario para guardar (crear o actualizar). Reemplaza guardar().
+     * Procesa el envío del formulario para guardar (crear o actualizar). Reemplaza
+     * guardar().
      */
     @PostMapping("/guardar")
     @PreAuthorize("hasAuthority('PERM_NIVELES_ACADEMICOS_CREATE') or hasAuthority('PERM_NIVELES_ACADEMICOS_UPDATE')")
     public String guardar(@Valid @ModelAttribute("nivelAcademico") NivelAcademicoDTO dto,
-                          BindingResult result, RedirectAttributes redirectAttributes, Model model) {
+            BindingResult result, RedirectAttributes redirectAttributes, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("isEditing", dto.getIdNivelAcademico() != null);
             return "nivelAcademico/form"; // Vuelve al formulario si hay errores
@@ -89,7 +94,8 @@ public class NivelAcademicoController {
 
         nivelAcademicoService.guardar(nivel);
 
-        String mensaje = (dto.getIdNivelAcademico() == null) ? "Nivel académico creado exitosamente." : "Nivel académico actualizado exitosamente.";
+        String mensaje = (dto.getIdNivelAcademico() == null) ? "Nivel académico creado exitosamente."
+                : "Nivel académico actualizado exitosamente.";
         redirectAttributes.addFlashAttribute("success", mensaje);
         return "redirect:/niveles-academicos"; // Redirige a la lista
     }

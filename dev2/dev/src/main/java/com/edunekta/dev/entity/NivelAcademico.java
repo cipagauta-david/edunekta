@@ -35,15 +35,14 @@ public class NivelAcademico implements Serializable {
     @Column(name = "nombre") // Es buena práctica siempre especificar el nombre de la columna
     private String nombre;
 
-    @Lob // Para textos largos, @Lob es más estándar que depender del tamaño de la
-         // columna
-    @Column(name = "descripcion", columnDefinition = "TEXT")
+
+    @Size(max = 65535)
+    @Column(name = "descripcion")
     private String descripcion;
 
-    // El mapeo de la relación no cambia, solo la sintaxis del import
-    // Buena práctica: Renombrar 'gradoCollection' a 'grados' para mayor claridad.
+
     @OneToMany(mappedBy = "nivelAcademico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Grado> grados;
+    private Set<Grado> gradoCollection;
 
     // --- ¡TODOS los getters, setters y el constructor vacío han sido eliminados!
     // ---

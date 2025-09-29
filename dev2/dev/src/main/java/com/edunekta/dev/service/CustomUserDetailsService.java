@@ -29,13 +29,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByCorreo(username) // Asumiendo que el login es por correo
+        Usuario usuario = usuarioRepository.findByEmail(username) // Asumiendo que el login es por correo
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con correo: " + username));
 
         return new User(
-                usuario.getCorreo(),
-                usuario.getContrasena(),
-                usuario.getEstado().equalsIgnoreCase("ACTIVO"), // enabled
+                usuario.getEmail(),
+                usuario.getPassword(),
+                true, // enabled
                 true, // accountNonExpired
                 true, // credentialsNonExpired
                 true, // accountNonLocked
@@ -45,29 +45,30 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     /**
      * Reemplaza la lógica de SecurityUtil.getUserPermissions.
-     * Convierte los Roles y Permisos de la entidad en GrantedAuthority de Spring Security.
+     * Convierte los Roles y Permisos de la entidad en GrantedAuthority de Spring
+     * Security.
      */
     private Collection<? extends GrantedAuthority> getAuthorities(Usuario usuario) {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        
+
         // Agregar roles como autoridades, con el prefijo "ROLE_" por convención
         if (usuario.getUsuarioRolCollection() != null) {
             for (UsuarioRol usuarioRol : usuario.getUsuarioRolCollection()) {
                 Rol rol = usuarioRol.getRolIdRol();
                 if (rol != null && rol.getEstado().equalsIgnoreCase("ACTIVO")) {
                     authorities.add(new SimpleGrantedAuthority("ROLE_" + rol.getNombreRol()));
-                    
+
                     // Agregar permisos asociados al rol
                     if (rol.getRolPermisoCollection() != null) {
                         rol.getRolPermisoCollection().stream()
-                           .map(rolPermiso -> rolPermiso.getPermisoIdPermiso())
-                           .filter(permiso -> permiso != null && permiso.getEstado().equalsIgnoreCase("ACTIVO"))
-                           .forEach(permiso -> {
-                               // Creamos autoridades específicas por módulo y acción
-                               // Ej: PERM_USUARIOS_CREATE, PERM_NIVELES_ACADEMICOS_READ
-                               String authorityString = "PERM_" + permiso.getModulo() + "_" + permiso.getAccion();
-                               authorities.add(new SimpleGrantedAuthority(authorityString.toUpperCase()));
-                           });
+                                .map(rolPermiso -> rolPermiso.getPermisoIdPermiso())
+                                .filter(permiso -> permiso != null && permiso.getEstado().equalsIgnoreCase("ACTIVO"))
+                                .forEach(permiso -> {
+                                    // Creamos autoridades específicas por módulo y acción
+                                    // Ej: PERM_USUARIOS_CREATE, PERM_NIVELES_ACADEMICOS_READ
+                                    String authorityString = "PERM_" + permiso.getModulo() + "_" + permiso.getAccion();
+                                    authorities.add(new SimpleGrantedAuthority(authorityString.toUpperCase()));
+                                });
                     }
                 }
             }
