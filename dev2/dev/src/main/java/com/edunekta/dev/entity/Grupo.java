@@ -31,10 +31,6 @@ public class Grupo implements Serializable {
     @Column(name = "descripcion")
     private String descripcion;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_grado")
-    private Grado grado;
-
     @OneToMany(mappedBy = "grupoIdGrupo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Usuario> usuarioCollection;
 

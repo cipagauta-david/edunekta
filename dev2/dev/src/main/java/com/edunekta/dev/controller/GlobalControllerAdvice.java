@@ -52,7 +52,8 @@ public class GlobalControllerAdvice {
      * #{login.emailUsuario}, etc.
      */
     @ModelAttribute("currentUser")
-    public Usuario populateCurrentUser(Authentication authentication) {
+    public Usuario populateCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             Object principal = authentication.getPrincipal();
             String email;
@@ -61,9 +62,11 @@ public class GlobalControllerAdvice {
             } else {
                 email = principal.toString();
             }
+            System.out.println(email);
             // Usamos el repositorio para obtener la entidad completa y fresca.
             return usuarioRepository.findByEmail(email).orElse(null);
         }
+        System.out.println(authentication.getName());
         return null;
     }
 }
