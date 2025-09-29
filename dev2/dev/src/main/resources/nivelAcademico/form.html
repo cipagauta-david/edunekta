@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <!-- Mismos encabezados que index.html -->
+  <title th:text="${isEditing ? 'Editar' : 'Nuevo'} + ' Nivel Académico'"></title>
+</head>
+
+<body class="bg-light">
+  <div th:replace="~{layout/header :: header}"></div>
+
+  <div class="container mt-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-info text-white">
+        <h3 class="mb-0" th:text="${isEditing ? 'Editar Nivel Académico' : 'Nuevo Nivel Académico'}"></h3>
+      </div>
+      <div class="card-body">
+        <!-- 1. El formulario ahora apunta a una URL de 'guardar' y usa el DTO con th:object -->
+        <form th:action="@{/niveles-academicos/guardar}" th:object="${nivelAcademico}" method="post"
+          class="needs-validation" novalidate>
+          <!-- 2. Se incluye un campo oculto para el ID en modo edición -->
+          <input type="hidden" th:if="${isEditing}" th:field="*{idNivelAcademico}" />
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="nombre" class="form-label">Nombre *</label>
+              <!-- 3. Se usa th:field para enlazar al DTO. Maneja id, name y value. -->
+              <input type="text" class="form-control" th:field="*{nombre}" required />
+              <!-- 4. Se muestran los errores de validación de Spring -->
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="descripcion" class="form-label">Descripción</label>
+              <textarea rows="3" class="form-control" th:field="*{descripcion}"></textarea>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <!-- El botón 'Cancelar' es un simple enlace de vuelta a la lista -->
+            <a th:href="@{/niveles-academicos}" class="btn btn-outline-secondary">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Scripts -->
+</body>
+
+</html>

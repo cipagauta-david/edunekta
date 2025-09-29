@@ -1,6 +1,8 @@
 package com.edunekta.dev.controller;
 
 import com.edunekta.dev.dto.MenuItemDTO;
+import com.edunekta.dev.entity.Usuario;
+import com.edunekta.dev.repository.UsuarioRepository;
 import com.edunekta.dev.service.NavigationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -16,6 +18,7 @@ import java.util.List;
 public class GlobalControllerAdvice {
 
     private final NavigationService navigationService;
+    private final UsuarioRepository usuarioRepository;
 
     /**
      * Este método se ejecuta antes de CUALQUIER método de controlador.
@@ -25,12 +28,13 @@ public class GlobalControllerAdvice {
     @ModelAttribute("menuItems")
     public List<MenuItemDTO> populateMenuItems() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getPrincipal())) {
+        if (authentication != null && authentication.isAuthenticated()
+                && !"anonymousUser".equals(authentication.getPrincipal())) {
             return navigationService.getMenuItems(authentication);
         }
         return Collections.emptyList(); // Menú vacío para usuarios no autenticados
     }
-    
+
     /**
      * Añade el objeto de autenticación completo al modelo.
      * Esto permite a Thymeleaf acceder al nombre de usuario, roles, etc.
@@ -39,5 +43,27 @@ public class GlobalControllerAdvice {
     @ModelAttribute("authentication")
     public Authentication populateAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    /**
+     * Añade la entidad del usuario actual al modelo para un acceso fácil en las
+     * vistas.
+     * Reemplaza todas las llamadas a #{login.nombreCompleto},
+     * #{login.emailUsuario}, etc.
+     */
+    @ModelAttribute("currentUser")
+    public Usuario populateCurrentUser(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+            String email;
+            if (principal instanceof Usuario) {
+                email = ((Usuario) principal).getEmail();
+            } else {
+                email = principal.toString();
+            }
+            // Usamos el repositorio para obtener la entidad completa y fresca.
+            return usuarioRepository.findByEmail(email).orElse(null);
+        }
+        return null;
     }
 }

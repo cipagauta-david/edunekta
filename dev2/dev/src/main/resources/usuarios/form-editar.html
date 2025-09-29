@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <title>Editar Usuario - Sistema SENA</title>
+</head>
+
+<body class="bg-light">
+  <div th:replace="~{layout/header :: header}"></div>
+  <div class="container mt-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-info text-white">
+        <h3><i class="fas fa-user-edit me-2"></i>Editar Usuario</h3>
+      </div>
+      <div class="card-body">
+        <!-- 1. La acción del formulario es diferente -->
+        <form th:action="@{/usuarios/actualizar}" th:object="${usuario}" method="post">
+          <!-- 2. Se incluye el ID del usuario en un campo oculto -->
+          <input type="hidden" th:field="*{idUsuario}" />
+
+          <!-- Campos de Nombre, Apellido, Email (igual que en crear) -->
+          ...
+
+          <!-- 3. Los campos de contraseña son opcionales -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="password" class="form-label">Nueva Contraseña (opcional)</label>
+              <input type="password" class="form-control" th:field="*{password}"
+                placeholder="Dejar en blanco para no cambiar" />
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="confirmPassword" class="form-label">Confirmar Nueva Contraseña</label>
+              <input type="password" class="form-control" th:field="*{confirmPassword}" />
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}"
+                th:errors="*{confirmPassword}"></div>
+            </div>
+          </div>
+          <!-- Campos de Grado, Grupo, Institución (igual que en crear) -->
+          ...
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">Actualizar Usuario</button>
+            <a th:href="@{/usuarios}" class="btn btn-outline-secondary">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

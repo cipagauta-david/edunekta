@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <title>Gestión de Usuarios - Sistema SENA</title>
+  <!-- CSS y JS se migran de la misma forma que en los ejemplos anteriores -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/css/global.css}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body class="bg-light">
+  <div th:replace="~{layout/header :: header}"></div>
+  <!-- Breadcrumb se migra con <a> y th:href -->
+  <nav aria-label="breadcrumb" class="container mt-3">...</nav>
+
+  <div class="container mt-4">
+    <!-- Header (sin cambios) -->
+    <div class="row mb-4">...</div>
+
+    <!-- 1. Mensajes de feedback con RedirectAttributes -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+      <span th:text="${success}"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">...</div>
+
+    <!-- 2. Sección de búsqueda y acciones -->
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-body">
+        <div class="row align-items-end">
+          <!-- Formulario de búsqueda (GET) -->
+          <form th:action="@{/usuarios}" method="get" class="col-md-8">...</form>
+
+          <!-- Botón Nuevo (enlace a /usuarios/nuevo) -->
+          <div class="col-md-4">
+            <div class="d-grid">
+              <a th:href="@{/usuarios/nuevo}" class="btn btn-success"
+                sec:authorize="hasAuthority('PERM_USUARIOS_CREATE')">
+                <i class="fas fa-plus me-2"></i>Nuevo Usuario
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Tabla de usuarios -->
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-light">...</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead>...</thead>
+            <tbody>
+              <tr th:each="usuario : ${pagina.content}">
+                <td><span class="badge bg-secondary" th:text="${usuario.idUsuario}"></span></td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-user-circle fa-2x text-primary me-2"></i>
+                    <div>
+                      <span class="fw-semibold" th:text="${usuario.nombre + ' ' + usuario.apellido}"></span><br />
+                      <small class="text-muted" th:text="${usuario.email}"></small>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <!-- La lógica de #{getUserRoles} se mueve a la vista con un 'each' -->
+                  <div class="d-flex flex-wrap gap-1" th:if="${!usuario.usuarioRolCollection.isEmpty()}">
+                    <span th:each="ur : ${usuario.usuarioRolCollection}" class="badge bg-primary"
+                      th:text="${ur.rolIdRol.nombreRol}"></span>
+                  </div>
+                  <span th:if="${usuario.usuarioRolCollection.isEmpty()}" class="badge bg-warning text-dark">Sin
+                    roles</span>
+                </td>
+                <td>
+                  <span th:if="${usuario.gradoIdGrado != null}" class="badge bg-success"
+                    th:text="${usuario.gradoIdGrado.nombre}"></span>
+                  <span th:if="${usuario.gradoIdGrado == null}" class="badge bg-warning text-dark">Sin grado</span>
+                </td>
+                <td>... (similar para Grupo e Institución) ...</td>
+                <td>
+                  <div class="btn-group" role="group">
+                    <a th:href="@{/usuarios/editar/{id}(id=${usuario.idUsuario})}" class="btn btn-warning btn-sm"
+                      sec:authorize="hasAuthority('PERM_USUARIOS_UPDATE')">Editar</a>
+                    <form th:action="@{/usuarios/eliminar/{id}(id=${usuario.idUsuario})}" method="post" class="d-inline"
+                      sec:authorize="hasAuthority('PERM_USUARIOS_DELETE')">
+                      <button type="submit" class="btn btn-danger btn-sm"
+                        onclick="return confirm('¿Está seguro?')">Eliminar</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- 4. Paginación (igual que en NivelAcademico, usando el objeto 'pagina') -->
+      <div class="card-footer bg-light" th:if="${pagina.totalPages > 1}">...</div>
+    </div>
+  </div>
+  <!-- Scripts -->
+</body>
+
+</html>

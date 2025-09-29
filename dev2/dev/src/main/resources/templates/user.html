@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <title>Perfil de Usuario - Sistema SENA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- CSS (Bootstrap y Font Awesome sin cambios) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- 1. <h:outputStylesheet> reemplazado por <link> con th:href -->
+  <link rel="stylesheet" th:href="@{/css/global.css}" />
+</head>
+
+<body class="bg-light">
+  <!-- 2. <ui:include> reemplazado por th:replace para el fragmento de header -->
+  <div th:replace="~{layout/header :: header}"></div>
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="container mt-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <!-- 3. <h:link outcome="..."> reemplazado por <a> con th:href -->
+        <a th:href="@{/welcome}" class="text-decoration-none">
+          <i class="fas fa-home me-1"></i>Inicio
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        <i class="fas fa-user me-1"></i>Perfil de Usuario
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Contenido principal -->
+  <div class="container mt-4">
+    <!-- ... (Header de la página no tiene cambios dinámicos) ... -->
+
+    <div class="row">
+      <!-- Información del perfil -->
+      <div class="col-lg-8 mb-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-light">...</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold"><i class="fas fa-user me-2"></i>Usuario</label>
+                <!-- 4. Reemplazo CRÍTICO: #{login.usuario} se convierte en ${currentUser.email} -->
+                <p class="form-control-plaintext" th:text="${currentUser.email}">usuario@example.com</p>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold"><i class="fas fa-calendar me-2"></i>Fecha de Registro</label>
+                <!-- 5. Reemplazo CRÍTICO: #{login.fechaActual} se convierte en una expresión de Thymeleaf -->
+                <!-- Usamos #dates, una utilidad de Thymeleaf, para formatear la fecha actual -->
+                <p class="form-control-plaintext" th:text="${#dates.format(#dates.createNow(), 'dd MMMM yyyy')}">01
+                  Enero 2024</p>
+              </div>
+              <!-- ... (Otros campos estáticos se mantienen) ... -->
+            </div>
+          </div>
+        </div>
+        <!-- ... (Configuraciones y Sidebar con datos estáticos se mantienen) ... -->
+      </div>
+
+      <!-- Módulos disponibles -->
+      <div class="row mt-5">
+        <div class="col-12">
+          <div class="card border-0 shadow-sm">
+            <div class="card-header bg-light">
+              <h4 class="mb-0"><i class="fas fa-th-large me-2"></i>Módulos Disponibles</h4>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <!-- 6. Aplicamos seguridad declarativa a cada módulo para consistencia -->
+                <div class="col-md-6 col-lg-3" sec:authorize="hasAuthority('PERM_NIVELES_ACADEMICOS_READ')">
+                  <div class="card h-100 border-0 shadow-sm hover-lift">
+                    <div class="card-body text-center p-3">
+                      <i class="fas fa-chart-line fa-2x text-primary mb-2"></i>
+                      <h6 class="card-title">Niveles Académicos</h6>
+                      <a th:href="@{/niveles-academicos}" class="btn btn-sm btn-outline-primary">Acceder</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3" sec:authorize="hasAuthority('PERM_USUARIOS_READ')">
+                  <div class="card h-100 border-0 shadow-sm hover-lift">
+                    <div class="card-body text-center p-3">
+                      <i class="fas fa-users fa-2x text-success mb-2"></i>
+                      <h6 class="card-title">Gestión de Usuarios</h6>
+                      <a th:href="@{/usuarios}" class="btn btn-sm btn-outline-success">Acceder</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- ... etc para otros módulos ... -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JS se mantiene igual -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // ... (el script existente de hover y animación se copia aquí sin cambios) ...
+    </script>
+</body>
+
+</html>

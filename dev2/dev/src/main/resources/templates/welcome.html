@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <title>Bienvenido - Sistema SENA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body class="bg-light">
+    <!-- 1. Se incluye el fragmento del header. Reemplaza <ui:include> -->
+    <div th:replace="~{layout/header :: header}"></div>
+
+    <div class="container mt-5">
+        <div class="card shadow-lg border-0 fade-in">
+            <div class="card-header bg-success text-white text-center py-4">
+                <h1 class="mb-0">¡Bienvenido al Sistema!</h1>
+            </div>
+            <div class="card-body p-5">
+                <h3 class="text-center mb-4">Módulos Disponibles</h3>
+
+                <!-- 2. ¡EL SCRIPT DE SONDEO HA SIDO ELIMINADO! -->
+                <!-- La lógica ahora es del lado del servidor usando sec:authorize -->
+
+                <div class="row g-4">
+                    <!-- Módulo Niveles Académicos -->
+                    <!-- 3. Este div solo se renderiza si el usuario tiene el permiso -->
+                    <div class="col-md-6" sec:authorize="hasAuthority('PERM_NIVELES_ACADEMICOS_READ')">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                                <h5 class="card-title">Niveles Académicos</h5>
+                                <!-- 4. <h:link> se convierte en <a> con th:href -->
+                                <a th:href="@{/niveles-academicos}" class="btn btn-primary">
+                                    <i class="fas fa-arrow-right me-2"></i>Acceder
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Módulo Usuarios -->
+                    <div class="col-md-6" sec:authorize="hasAuthority('PERM_USUARIOS_READ')">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-users fa-3x text-success mb-3"></i>
+                                <h5 class="card-title">Gestión de Usuarios</h5>
+                                <a th:href="@{/usuarios}" class="btn btn-success">
+                                    <i class="fas fa-arrow-right me-2"></i>Acceder
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Módulo Administración (ejemplo con rol) -->
+                    <div class="col-md-6" sec:authorize="hasRole('ADMIN')">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-tools fa-3x text-warning mb-3"></i>
+                                <h5 class="card-title">Administración</h5>
+                                <a th:href="@{/admin}" class="btn btn-warning">
+                                    <i class="fas fa-arrow-right me-2"></i>Acceder
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Perfil de Usuario (visible para todos los autenticados) -->
+                    <div class="col-md-6" sec:authorize="isAuthenticated()">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-user-cog fa-3x text-info mb-3"></i>
+                                <h5 class="card-title">Perfil de Usuario</h5>
+                                <a th:href="@{/perfil}" class="btn btn-info">
+                                    <i class="fas fa-arrow-right me-2"></i>Acceder
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ... y así para los demás módulos ... -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 5. El único JS que queda es para efectos visuales (opcional) -->
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = document.querySelectorAll('.hover-lift');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+
+                card.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
