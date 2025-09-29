@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
  * @author david
  */
 public abstract class BaseEnhancedController<T> implements Serializable {
-    
+
     protected T selected;
     protected boolean isEditing = false;
     protected String searchTerm = "";
@@ -21,56 +21,56 @@ public abstract class BaseEnhancedController<T> implements Serializable {
     protected int currentPage = 1;
     protected int pageSize = 10;
     protected int totalPages;
-    
+
     // Cached permissions to avoid repeated checks
     private Boolean canCreate = null;
     private Boolean canRead = null;
     private Boolean canUpdate = null;
     private Boolean canDelete = null;
     private Integer cachedUserId = null;
-    
+
     /**
      * Get the selected entity
      */
     public T getSelected() {
         return selected;
     }
-    
+
     /**
      * Set the selected entity
      */
     public void setSelected(T selected) {
         this.selected = selected;
     }
-    
+
     /**
      * Check if currently editing
      */
     public boolean isIsEditing() {
         return isEditing;
     }
-    
+
     /**
      * Set editing mode
      */
     public void setIsEditing(boolean isEditing) {
         this.isEditing = isEditing;
     }
-    
+
     /**
      * Get search term
      */
     public String getSearchTerm() {
         return searchTerm;
     }
-    
+
     /**
      * Set search term
      */
     public void setSearchTerm(String searchTerm) {
         this.searchTerm = searchTerm;
     }
-    
+
     /**
      * Get filtered items
      */
@@ -80,91 +80,91 @@ public abstract class BaseEnhancedController<T> implements Serializable {
         }
         return filteredItems;
     }
-    
+
     /**
      * Set filtered items
      */
     public void setFilteredItems(List<T> filteredItems) {
         this.filteredItems = filteredItems;
     }
-    
+
     /**
      * Get current page
      */
     public int getCurrentPage() {
         return currentPage;
     }
-    
+
     /**
      * Set current page
      */
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
     }
-    
+
     /**
      * Get page size
      */
     public int getPageSize() {
         return pageSize;
     }
-    
+
     /**
      * Set page size
      */
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
-    
+
     /**
      * Get total pages
      */
     public int getTotalPages() {
         return totalPages;
     }
-    
+
     /**
      * Set total pages
      */
     public void setTotalPages(int totalPages) {
         this.totalPages = totalPages;
     }
-    
+
     /**
      * Get all items from service
      */
     protected abstract List<T> getAllItems();
-    
+
     /**
      * Get the module name for permission checking
      */
     protected abstract String getModuleName();
-    
+
     /**
      * Create new entity instance
      */
     protected abstract T createNewEntity();
-    
+
     /**
      * Save entity (create or update)
      */
     protected abstract void saveEntity(T entity);
-    
+
     /**
      * Delete entity
      */
     protected abstract void deleteEntity(T entity);
-    
+
     /**
      * Get the list page URL
      */
     protected abstract String getListPageUrl();
-    
+
     /**
      * Check if entity matches search term
      */
     protected abstract boolean matchesSearch(T entity, String searchTerm);
-    
+
     /**
      * Search functionality
      */
@@ -180,7 +180,7 @@ public abstract class BaseEnhancedController<T> implements Serializable {
         } else {
             filteredItems = getAllItems();
         }
-        
+
         // Calculate pagination
         if (filteredItems != null) {
             totalPages = (int) Math.ceil((double) filteredItems.size() / pageSize);
@@ -189,7 +189,7 @@ public abstract class BaseEnhancedController<T> implements Serializable {
             }
         }
     }
-    
+
     /**
      * Clear search
      */
@@ -198,7 +198,7 @@ public abstract class BaseEnhancedController<T> implements Serializable {
         filteredItems = null;
         currentPage = 1;
     }
-    
+
     /**
      * Get paginated items
      */
@@ -207,17 +207,17 @@ public abstract class BaseEnhancedController<T> implements Serializable {
         if (items == null || items.isEmpty()) {
             return items;
         }
-        
+
         int startIndex = (currentPage - 1) * pageSize;
         int endIndex = Math.min(startIndex + pageSize, items.size());
-        
+
         if (startIndex >= items.size()) {
             return new ArrayList<>();
         }
-        
+
         return items.subList(startIndex, endIndex);
     }
-    
+
     /**
      * Navigate to next page
      */
@@ -226,7 +226,7 @@ public abstract class BaseEnhancedController<T> implements Serializable {
             currentPage++;
         }
     }
-    
+
     /**
      * Navigate to previous page
      */
@@ -235,21 +235,21 @@ public abstract class BaseEnhancedController<T> implements Serializable {
             currentPage--;
         }
     }
-    
+
     /**
      * Check if there's a next page
      */
     public boolean hasNextPage() {
         return currentPage < totalPages;
     }
-    
+
     /**
      * Check if there's a previous page
      */
     public boolean hasPreviousPage() {
         return currentPage > 1;
     }
-    
+
     /**
      * Get current user from session
      */
@@ -266,7 +266,7 @@ public abstract class BaseEnhancedController<T> implements Serializable {
         }
         return null;
     }
-    
+
     /**
      * Check if permissions need to be refreshed
      */
@@ -277,7 +277,7 @@ public abstract class BaseEnhancedController<T> implements Serializable {
         }
         return !currentUser.getIdUsuario().equals(cachedUserId);
     }
-    
+
     /**
      * Refresh cached permissions (optimized for async preloading)
      */
@@ -285,7 +285,7 @@ public abstract class BaseEnhancedController<T> implements Serializable {
         com.sena.dev.entities.Usuario currentUser = getCurrentUser();
         if (currentUser != null) {
             cachedUserId = currentUser.getIdUsuario();
-            
+
             // Check if permissions are already preloaded
             LoginController loginController = getLoginController();
             if (loginController != null && loginController.isPermissionsPreloaded()) {
@@ -309,7 +309,7 @@ public abstract class BaseEnhancedController<T> implements Serializable {
             canDelete = false;
         }
     }
-    
+
     /**
      * Get LoginController from session
      */
@@ -326,7 +326,7 @@ public abstract class BaseEnhancedController<T> implements Serializable {
         }
         return null;
     }
-    
+
     /**
      * Check if current user can perform a specific operation (cached)
      */
@@ -334,7 +334,7 @@ public abstract class BaseEnhancedController<T> implements Serializable {
         if (needsPermissionRefresh()) {
             refreshPermissions();
         }
-        
+
         if ("CREATE".equals(operation)) {
             return canCreate != null && canCreate;
         } else if ("READ".equals(operation)) {
@@ -344,38 +344,38 @@ public abstract class BaseEnhancedController<T> implements Serializable {
         } else if ("DELETE".equals(operation)) {
             return canDelete != null && canDelete;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Check if user can create
      */
     public boolean canCreate() {
         return canPerformOperation("CREATE");
     }
-    
+
     /**
      * Check if user can read
      */
     public boolean canRead() {
         return canPerformOperation("READ");
     }
-    
+
     /**
      * Check if user can update
      */
     public boolean canUpdate() {
         return canPerformOperation("UPDATE");
     }
-    
+
     /**
      * Check if user can delete
      */
     public boolean canDelete() {
         return canPerformOperation("DELETE");
     }
-    
+
     /**
      * Save entity with permission checking
      */
@@ -386,24 +386,24 @@ public abstract class BaseEnhancedController<T> implements Serializable {
                 addMessage("No tiene permisos para realizar esta operación", FacesMessage.SEVERITY_ERROR);
                 return null;
             }
-            
+
             saveEntity(selected);
-            
+
             String message = isEditing ? "Registro actualizado exitosamente" : "Registro creado exitosamente";
             addMessage(message, FacesMessage.SEVERITY_INFO);
-            
+
             // Reset form
             selected = createNewEntity();
             isEditing = false;
             filteredItems = null; // Refresh the list
-            
+
             return getListPageUrl();
         } catch (Exception e) {
             addMessage("Error al guardar: " + e.getMessage(), FacesMessage.SEVERITY_ERROR);
             return null;
         }
     }
-    
+
     /**
      * Edit entity with permission checking
      */
@@ -413,11 +413,11 @@ public abstract class BaseEnhancedController<T> implements Serializable {
             addMessage("No tiene permisos para editar registros", FacesMessage.SEVERITY_ERROR);
             return;
         }
-        
+
         selected = entity;
         isEditing = true;
     }
-    
+
     /**
      * Delete entity with permission checking
      */
@@ -428,7 +428,7 @@ public abstract class BaseEnhancedController<T> implements Serializable {
                 addMessage("No tiene permisos para eliminar registros", FacesMessage.SEVERITY_ERROR);
                 return null;
             }
-            
+
             deleteEntity(entity);
             addMessage("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
             filteredItems = null; // Refresh the list
@@ -438,7 +438,7 @@ public abstract class BaseEnhancedController<T> implements Serializable {
             return null;
         }
     }
-    
+
     /**
      * Cancel operation
      */
@@ -447,7 +447,7 @@ public abstract class BaseEnhancedController<T> implements Serializable {
         isEditing = false;
         return getListPageUrl();
     }
-    
+
     /**
      * Add message to FacesContext
      */
@@ -455,4 +455,4 @@ public abstract class BaseEnhancedController<T> implements Serializable {
         FacesMessage message = new FacesMessage(severity, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-} 
+}
