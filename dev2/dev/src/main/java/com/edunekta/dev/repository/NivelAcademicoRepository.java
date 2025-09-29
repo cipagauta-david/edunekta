@@ -21,16 +21,16 @@ public interface NivelAcademicoRepository extends JpaRepository<NivelAcademico, 
     // - findAll() -> para findAll()
     // - deleteById(id) -> una forma mejor de hacer remove()
 
+
     @Query("SELECT n FROM NivelAcademico n WHERE LOWER(n.nombre) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(n.descripcion) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     Page<NivelAcademico> searchByTerm(String searchTerm, Pageable pageable);
 
-    @Query("SELECT n FROM NivelAcademico n")
-    Page<NivelAcademico> findAll(String searchTerm, Pageable pageable);
+    // findAll is already provided by JpaRepository, no need to redefine it with parameters
 
     @Query("SELECT n FROM NivelAcademico n WHERE n.idNivelAcademico = :idNivelAcademico")
-    Page<NivelAcademico> findByIdNivelAcademico(String searchTerm, Pageable pageable);
+    NivelAcademico findByIdNivelAcademico(Integer idNivelAcademico);
 
     @Query("SELECT n FROM NivelAcademico n WHERE n.nombre = :nombre")
-    Page<NivelAcademico> findByNombre(String searchTerm, Pageable pageable);
+    Page<NivelAcademico> findByNombre(String nombre, Pageable pageable);
 
 }

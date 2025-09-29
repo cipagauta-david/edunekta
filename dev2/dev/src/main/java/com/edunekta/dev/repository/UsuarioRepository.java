@@ -19,12 +19,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
   Page<Usuario> searchByTerm(String searchTerm, Pageable pageable);
 
   @Query("SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.usuarioRolCollection ur LEFT JOIN FETCH ur.rolIdRol r LEFT JOIN FETCH r.rolPermisoCollection rp LEFT JOIN FETCH rp.permisoIdPermiso p WHERE u.idUsuario = :idUsuario")
-  Page<Usuario> findByIdUsuarioWithRoles(String searchTerm, Pageable pageable);
+  Optional<Usuario> findByIdUsuarioWithRoles(Integer idUsuario);
 
   @Query("SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.usuarioRolCollection ur LEFT JOIN FETCH ur.rolIdRol r LEFT JOIN FETCH r.rolPermisoCollection rp LEFT JOIN FETCH rp.permisoIdPermiso p WHERE u.email = :email")
-  Page<Usuario> findByEmailWithRoles(String searchTerm, Pageable pageable);
+  Optional<Usuario> findByEmailWithRoles(String email);
 
   @Query("SELECT u FROM Usuario u WHERE u.email = :email AND u.password = :password")
-  Page<Usuario> iniciarSesion(String email, String password, Pageable pageable);
+  Optional<Usuario> iniciarSesion(String email, String password);
 
 }
