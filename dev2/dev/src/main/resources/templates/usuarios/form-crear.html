@@ -1,0 +1,67 @@
+<div th:fragment="form">
+  <form th:action="@{/usuarios/crear}" th:object="${usuario}" method="post" class="needs-validation" novalidate>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="nombre" class="form-label">Nombre *</label>
+        <input type="text" class="form-control" th:field="*{nombre}" required />
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="apellido" class="form-label">Apellido *</label>
+        <input type="text" class="form-control" th:field="*{apellido}" required />
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="email" class="form-label">Email *</label>
+        <input type="email" class="form-control" th:field="*{email}" required />
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+      </div>
+      <div class="col-md-6 mb-3"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="password" class="form-label">Contraseña *</label>
+        <input type="password" class="form-control" th:field="*{password}" required />
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="confirmPassword" class="form-label">Confirmar Contraseña *</label>
+        <input type="password" class="form-control" th:field="*{confirmPassword}" required />
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}"
+          th:errors="*{confirmPassword}"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="gradoId" class="form-label">Grado *</label>
+        <select class="form-select" th:field="*{gradoId}" required>
+          <option value="">Seleccione un grado</option>
+          <option th:each="grado : ${grados}" th:value="${grado.idGrado}" th:text="${grado.nombre}"></option>
+        </select>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('gradoId')}" th:errors="*{gradoId}"></div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="grupoId" class="form-label">Grupo *</label>
+        <select class="form-select" th:field="*{grupoId}" required>
+          <option value="">Seleccione un grupo</option>
+          <option th:each="grupo : ${grupos}" th:value="${grupo.idGrupo}" th:text="${grupo.nombreGrupo}"></option>
+        </select>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('grupoId')}" th:errors="*{grupoId}"></div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="institucionId" class="form-label">Institución *</label>
+        <select class="form-select" th:field="*{institucionId}" required>
+          <option value="">Seleccione una institución</option>
+          <option th:each="institucion : ${instituciones}" th:value="${institucion.idInstitucion}" th:text="${institucion.nombre}"></option>
+        </select>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('institucionId')}" th:errors="*{institucionId}"></div>
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-success">Crear Usuario</button>
+      <a th:href="@{/usuarios}" class="btn btn-outline-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>

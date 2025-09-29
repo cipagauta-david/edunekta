@@ -55,18 +55,18 @@ public class GlobalControllerAdvice {
     public Usuario populateCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
-            Object principal = authentication.getPrincipal();
-            String email;
-            if (principal instanceof Usuario) {
-                email = ((Usuario) principal).getEmail();
-            } else {
-                email = principal.toString();
-            }
-            System.out.println(email);
-            // Usamos el repositorio para obtener la entidad completa y fresca.
+            String email = authentication.getName().toString();
+            printAuthenticationDetails();
             return usuarioRepository.findByEmail(email).orElse(null);
         }
         System.out.println(authentication.getName());
         return null;
+    }
+
+    public void printAuthenticationDetails() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Authenticated: " + auth.isAuthenticated());
+        System.out.println("Principal: " + auth.getPrincipal());
+        System.out.println("Name: " + auth.getClass());
     }
 }

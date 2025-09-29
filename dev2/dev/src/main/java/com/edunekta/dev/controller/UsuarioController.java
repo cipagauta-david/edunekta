@@ -85,6 +85,13 @@ public class UsuarioController {
         return "redirect:/usuarios";
     }
 
+    @GetMapping("/form-crear")
+    public String mostrarFormCrearUsuario(Model model) {
+        model.addAttribute("usuario", new UsuarioCreateDTO());
+        // Los atributos 'grados', 'grupos', 'instituciones' ya se agregan por @ModelAttribute
+        return "usuarios/form-crear :: form";
+    }
+
     @GetMapping("/editar/{id}")
     @PreAuthorize("hasAuthority('PERM_USUARIOS_UPDATE')")
     public String mostrarFormularioEditar(@PathVariable Integer id, Model model,
