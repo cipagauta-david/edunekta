@@ -1,11 +1,7 @@
 package com.edunekta.dev.config;
 
-import com.edunekta.dev.service.CustomUserDetailsService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,12 +9,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.edunekta.dev.service.CustomUserDetailsService;
+
+import lombok.RequiredArgsConstructor;
+
 @Configuration
 @EnableWebSecurity // Activa la seguridad web de Spring
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
-    private final CustomUserDetailsService customUserDetailsService;
+    private final CustomUserDetailsService customUserDetailsService = null;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -77,7 +77,7 @@ public class SecurityConfig {
      * Configura Spring Security para que use nuestro CustomUserDetailsService y
      * PasswordEncoder.
      */
-    @Bean
+    /** SE COMENTA PARA ARREGLAR ERRORES*@Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http
                 .getSharedObject(AuthenticationManagerBuilder.class);
@@ -86,4 +86,5 @@ public class SecurityConfig {
                 .passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
     }
+     **/   
 }
