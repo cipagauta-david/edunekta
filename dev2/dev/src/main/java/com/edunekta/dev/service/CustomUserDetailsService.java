@@ -1,6 +1,5 @@
 package com.edunekta.dev.service;
 
-import com.edunekta.dev.entity.Permiso;
 import com.edunekta.dev.entity.Rol;
 import com.edunekta.dev.entity.Usuario;
 import com.edunekta.dev.entity.UsuarioRol;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
