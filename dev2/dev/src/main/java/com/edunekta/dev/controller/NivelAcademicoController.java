@@ -45,28 +45,30 @@ public class NivelAcademicoController {
      * Muestra el formulario para crear un nuevo nivel. Reemplaza
      * mostrarFormulario().
      */
-    @GetMapping("/nuevo")
+
+    // AJAX/modal-friendly endpoint for create form fragment
+    @GetMapping("/form-crear")
     @PreAuthorize("hasAuthority('PERM_NIVELES_ACADEMICOS_CREATE')")
-    public String mostrarFormularioCrear(Model model) {
+    public String mostrarFormCrearNivelAcademico(Model model) {
         model.addAttribute("nivelAcademico", new NivelAcademicoDTO());
         model.addAttribute("isEditing", false);
-        return "nivelAcademico/form"; // Devuelve la vista del formulario
+        return "nivelAcademico/form-crear :: form";
     }
 
     /**
      * Muestra el formulario para editar un nivel existente. Reemplaza editar().
      */
-    @GetMapping("/editar/{id}")
+
+    // AJAX/modal-friendly endpoint for edit form fragment
+    @GetMapping("/form-editar/{id}")
     @PreAuthorize("hasAuthority('PERM_NIVELES_ACADEMICOS_UPDATE')")
-    public String mostrarFormularioEditar(@PathVariable Integer id, Model model,
-            RedirectAttributes redirectAttributes) {
+    public String mostrarFormEditarNivelAcademico(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
         return nivelAcademicoService.buscarPorId(id)
                 .map(nivel -> {
-                    NivelAcademicoDTO dto = new NivelAcademicoDTO(nivel.getIdNivelAcademico(), nivel.getNombre(),
-                            nivel.getDescripcion());
+                    NivelAcademicoDTO dto = new NivelAcademicoDTO(nivel.getIdNivelAcademico(), nivel.getNombre(), nivel.getDescripcion());
                     model.addAttribute("nivelAcademico", dto);
                     model.addAttribute("isEditing", true);
-                    return "nivelAcademico/form";
+                    return "nivelAcademico/form-editar :: form";
                 })
                 .orElseGet(() -> {
                     redirectAttributes.addFlashAttribute("error", "Nivel académico no encontrado.");
@@ -74,30 +76,47 @@ public class NivelAcademicoController {
                 });
     }
 
-    /**
-     * Procesa el envío del formulario para guardar (crear o actualizar). Reemplaza
-     * guardar().
-     */
-    @PostMapping("/guardar")
-    @PreAuthorize("hasAuthority('PERM_NIVELES_ACADEMICOS_CREATE') or hasAuthority('PERM_NIVELES_ACADEMICOS_UPDATE')")
-    public String guardar(@Valid @ModelAttribute("nivelAcademico") NivelAcademicoDTO dto,
-            BindingResult result, RedirectAttributes redirectAttributes, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("isEditing", dto.getIdNivelAcademico() != null);
-            return "nivelAcademico/form"; // Vuelve al formulario si hay errores
-        }
 
+    // AJAX/modal-friendly create
+    @PostMapping("/crear")
+    @PreAuthorize("hasAuthority('PERM_NIVELES_ACADEMICOS_CREATE')")
+    public String crearNivelAcademico(@Valid @ModelAttribute("nivelAcademico") NivelAcademicoDTO dto,
+                                      BindingResult result, RedirectAttributes redirectAttributes, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("isEditing", false);
+            return "nivelAcademico/form-crear :: form";
+        }
         NivelAcademico nivel = new NivelAcademico();
-        nivel.setIdNivelAcademico(dto.getIdNivelAcademico());
+        nivel.setIdNivelAcademico(null); // Always null for create
         nivel.setNombre(dto.getNombre());
         nivel.setDescripcion(dto.getDescripcion());
-
         nivelAcademicoService.guardar(nivel);
+        redirectAttributes.addFlashAttribute("success", "Nivel académico creado exitosamente.");
+        return "redirect:/niveles-academicos";
+    }
 
-        String mensaje = (dto.getIdNivelAcademico() == null) ? "Nivel académico creado exitosamente."
-                : "Nivel académico actualizado exitosamente.";
-        redirectAttributes.addFlashAttribute("success", mensaje);
-        return "redirect:/niveles-academicos"; // Redirige a la lista
+    // AJAX/modal-friendly update
+    @PostMapping("/editar/{id}")
+    @PreAuthorize("hasAuthority('PERM_NIVELES_ACADEMICOS_UPDATE')")
+    public String actualizarNivelAcademico(@PathVariable Integer id,
+                                           @Valid @ModelAttribute("nivelAcademico") NivelAcademicoDTO dto,
+                                           BindingResult result, RedirectAttributes redirectAttributes, Model model,
+                                           @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
+        if (result.hasErrors()) {
+            model.addAttribute("isEditing", true);
+            if ("XMLHttpRequest".equals(requestedWith)) {
+                return "nivelAcademico/form-editar :: form";
+            } else {
+                return "nivelAcademico/form-editar";
+            }
+        }
+        NivelAcademico nivel = new NivelAcademico();
+        nivel.setIdNivelAcademico(id);
+        nivel.setNombre(dto.getNombre());
+        nivel.setDescripcion(dto.getDescripcion());
+        nivelAcademicoService.guardar(nivel);
+        redirectAttributes.addFlashAttribute("success", "Nivel académico actualizado exitosamente.");
+        return "redirect:/niveles-academicos";
     }
 
     /**

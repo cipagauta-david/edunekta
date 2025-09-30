@@ -56,7 +56,7 @@
             <h5 class="mb-0">Carga Masiva de Usuarios desde CSV</h5>
           </div>
           <div class="card-body">
-              <form id="upload-form" enctype="multipart/form-data" autocomplete="off">
+            <form id="upload-form" enctype="multipart/form-data" autocomplete="off">
               <div class="mb-3">
                 <label for="csv-file-input" class="form-label">Selecciona archivo CSV</label>
                 <input type="file" class="form-control" id="csv-file-input" name="file" accept=".csv" required>
@@ -65,7 +65,8 @@
                 <i class="bi bi-upload"></i> Subir archivo
               </button>
               <!-- Spinner de carga -->
-              <div id="upload-spinner" class="spinner-border text-primary ms-3 align-middle" role="status" style="display: none;">
+              <div id="upload-spinner" class="spinner-border text-primary ms-3 align-middle" role="status"
+                style="display: none;">
                 <span class="visually-hidden">Cargando...</span>
               </div>
             </form>
@@ -85,10 +86,10 @@
       <span th:text="${error}"></span>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-      <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
-        <span th:text="${error}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <span th:text="${error}"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 
     <!-- 2. Sección de búsqueda y acciones -->
     <div class="card border-0 shadow-sm mb-4">
@@ -102,7 +103,7 @@
               </label>
               <input id="searchInput" name="searchTerm" th:value="${param.searchTerm}" class="form-control"
                 placeholder="Ingrese nombre, apellido o email" />
-                  <!-- Campo de búsqueda completado -->
+              <!-- Campo de búsqueda completado -->
             </div>
             <div class="col-md-4">
               <label class="form-label">&nbsp;</label>
@@ -117,7 +118,8 @@
           <div class="col-md-4">
             <div class="d-grid">
               <a href="#" id="btnNuevoUsuario" class="btn btn-success"
-                sec:authorize="hasAuthority('PERM_USUARIOS_CREATE')" data-bs-toggle="modal" data-bs-target="#modalNuevoUsuario">
+                sec:authorize="hasAuthority('PERM_USUARIOS_CREATE')" data-bs-toggle="modal"
+                data-bs-target="#usuarioCrearModal">
                 <i class="fas fa-plus me-2"></i>Nuevo Usuario
               </a>
             </div>
@@ -182,12 +184,14 @@
                 <td>
                   <span th:if="${usuario.institucionIdInstitucion != null}" class="badge bg-success"
                     th:text="${usuario.institucionIdInstitucion.nombre}"></span>
-                  <span th:if="${usuario.institucionIdInstitucion == null}" class="badge bg-warning text-dark">Sin grupo</span>
+                  <span th:if="${usuario.institucionIdInstitucion == null}" class="badge bg-warning text-dark">Sin
+                    grupo</span>
                 </td>
                 <td>
                   <div class="btn-group" role="group">
-                    <a th:href="@{/usuarios/editar/{id}(id=${usuario.idUsuario})}" class="btn btn-warning btn-sm"
-                      sec:authorize="hasAuthority('PERM_USUARIOS_UPDATE')">Editar</a>
+                    <a href="#" class="btn btn-warning btn-sm btn-editar-usuario" th:attr="data-id=${usuario.idUsuario}"
+                      sec:authorize="hasAuthority('PERM_USUARIOS_UPDATE')" data-bs-toggle="modal"
+                      data-bs-target="#usuarioEditarModal">Editar</a>
                     <form th:action="@{/usuarios/eliminar/{id}(id=${usuario.idUsuario})}" method="post" class="d-inline"
                       sec:authorize="hasAuthority('PERM_USUARIOS_DELETE')">
                       <button type="submit" class="btn btn-danger btn-sm"
@@ -205,44 +209,68 @@
         <nav>
           <ul class="pagination justify-content-center mb-0">
             <li class="page-item" th:classappend="${pagina.first} ? 'disabled'">
-              <a class="page-link" th:href="@{/usuarios(page=${pagina.number - 1},searchTerm=${param.searchTerm})}">Anterior</a>
+              <a class="page-link"
+                th:href="@{/usuarios(page=${pagina.number - 1},searchTerm=${param.searchTerm})}">Anterior</a>
             </li>
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, pagina.totalPages - 1)}" th:classappend="${pagina.number == i} ? 'active'">
-              <a class="page-link" th:href="@{/usuarios(page=${i},searchTerm=${param.searchTerm})}" th:text="${i + 1}"></a>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, pagina.totalPages - 1)}"
+              th:classappend="${pagina.number == i} ? 'active'">
+              <a class="page-link" th:href="@{/usuarios(page=${i},searchTerm=${param.searchTerm})}"
+                th:text="${i + 1}"></a>
             </li>
             <li class="page-item" th:classappend="${pagina.last} ? 'disabled'">
-              <a class="page-link" th:href="@{/usuarios(page=${pagina.number + 1},searchTerm=${param.searchTerm})}">Siguiente</a>
+              <a class="page-link"
+                th:href="@{/usuarios(page=${pagina.number + 1},searchTerm=${param.searchTerm})}">Siguiente</a>
             </li>
           </ul>
         </nav>
       </div>
-        <div class="card-footer bg-light" th:if="${pagina.totalPages > 1}">
-          <nav>
-            <ul class="pagination justify-content-center mb-0">
-              <li class="page-item" th:classappend="${pagina.first} ? 'disabled'">
-                <a class="page-link" th:href="@{/usuarios(page=${pagina.number - 1},searchTerm=${param.searchTerm})}">Anterior</a>
-              </li>
-              <li class="page-item" th:each="i : ${#numbers.sequence(0, pagina.totalPages - 1)}" th:classappend="${pagina.number == i} ? 'active'">
-                <a class="page-link" th:href="@{/usuarios(page=${i},searchTerm=${param.searchTerm})}" th:text="${i + 1}"></a>
-              </li>
-              <li class="page-item" th:classappend="${pagina.last} ? 'disabled'">
-                <a class="page-link" th:href="@{/usuarios(page=${pagina.number + 1},searchTerm=${param.searchTerm})}">Siguiente</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+      <div class="card-footer bg-light" th:if="${pagina.totalPages > 1}">
+        <nav>
+          <ul class="pagination justify-content-center mb-0">
+            <li class="page-item" th:classappend="${pagina.first} ? 'disabled'">
+              <a class="page-link"
+                th:href="@{/usuarios(page=${pagina.number - 1},searchTerm=${param.searchTerm})}">Anterior</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, pagina.totalPages - 1)}"
+              th:classappend="${pagina.number == i} ? 'active'">
+              <a class="page-link" th:href="@{/usuarios(page=${i},searchTerm=${param.searchTerm})}"
+                th:text="${i + 1}"></a>
+            </li>
+            <li class="page-item" th:classappend="${pagina.last} ? 'disabled'">
+              <a class="page-link"
+                th:href="@{/usuarios(page=${pagina.number + 1},searchTerm=${param.searchTerm})}">Siguiente</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </div>
   <!-- Modal para Nuevo Usuario -->
-  <div class="modal fade" id="modalNuevoUsuario" tabindex="-1" aria-labelledby="modalNuevoUsuarioLabel" aria-hidden="true">
+  <div class="modal fade" id="usuarioCrearModal" tabindex="-1" aria-labelledby="usuarioCrearModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalNuevoUsuarioLabel"><i class="fas fa-user-plus me-2"></i>Nuevo Usuario</h5>
+          <h5 class="modal-title" id="usuarioCrearModalLabel"><i class="fas fa-user-plus me-2"></i>Nuevo Usuario</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body" id="modalNuevoUsuarioBody">
-          <!-- El formulario se cargará aquí -->
+        <div class="modal-body" id="usuarioCrearModalBody">
+          <!-- El formulario se cargará aquí dinámicamente con JS -->
+          <div class="text-center text-muted"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal para Editar Usuario -->
+  <div class="modal fade" id="usuarioEditarModal" tabindex="-1" aria-labelledby="usuarioEditarModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="usuarioEditarModalLabel"><i class="fas fa-user-edit me-2"></i>Editar Usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="usuarioEditarModalBody">
           <!-- El formulario se cargará aquí dinámicamente con JS -->
           <div class="text-center text-muted"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>
         </div>
@@ -252,13 +280,13 @@
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Script para carga masiva de usuarios CSV -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       // Modal Nuevo Usuario (existente)
       var btnNuevo = document.getElementById('btnNuevoUsuario');
-      var modalBody = document.getElementById('modalNuevoUsuarioBody');
-      var modal = document.getElementById('modalNuevoUsuario');
+      var modalBody = document.getElementById('usuarioCrearModalBody');
+      var modal = document.getElementById('usuarioCrearModal');
       if (btnNuevo) {
         btnNuevo.addEventListener('click', function (e) {
           e.preventDefault();
@@ -273,6 +301,94 @@
             });
         });
       }
+
+      // Delegated event for AJAX form submission (user create)
+      $(document).on('submit', '#usuarioCrearForm', function (e) {
+        e.preventDefault();
+        var $form = $(this);
+        $.ajax({
+          url: $form.attr('action'),
+          type: $form.attr('method'),
+          data: $form.serialize(),
+          success: function (fragment) {
+            // Replace modal body with the returned fragment (form with errors or success)
+            $('#usuarioCrearModalBody').html(fragment);
+            // If the response contains a success alert, close the modal and refresh the page or user list
+            if ($('#usuarioCrearModalBody .alert-success').length > 0) {
+              var modalEl = document.getElementById('usuarioCrearModal');
+              var modalInstance = bootstrap.Modal.getInstance(modalEl);
+              if (!modalInstance) {
+                modalInstance = new bootstrap.Modal(modalEl);
+              }
+              modalInstance.hide();
+              // Optionally, refresh the page or user list here
+              location.reload();
+              return;
+            }
+            // Optionally, focus the first error field
+            var $firstError = $('#usuarioCrearModalBody .is-invalid, #usuarioCrearModalBody .invalid-feedback:visible').first();
+            if ($firstError.length) {
+              $firstError.focus();
+            }
+          },
+          error: function () {
+            $('#usuarioCrearModalBody').html('<div class="alert alert-danger">Error al enviar el formulario.</div>');
+          }
+        });
+      });
+
+      // Modal Editar Usuario (nuevo)
+      $(document).on('click', '.btn-editar-usuario', function (e) {
+        e.preventDefault();
+        var userId = $(this).data('id');
+        var $modalBody = $('#usuarioEditarModalBody');
+        $modalBody.html('<div class="text-center text-muted"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>');
+        $('#usuarioEditarModal').modal('show');
+        console.log('/usuarios/form-editar/' + userId)
+        fetch('/usuarios/form-editar/' + userId)
+          .then(function (response) { return response.text(); })
+          .then(function (html) {
+            $modalBody.html(html);
+          })
+          .catch(function () {
+            $modalBody.html('<div class="alert alert-danger">No se pudo cargar el formulario.</div>');
+          });
+      });
+
+      // Delegated event for AJAX form submission (user edit)
+      $(document).on('submit', '#usuarioEditarForm', function (e) {
+        e.preventDefault();
+        var $form = $(this);
+        $.ajax({
+          url: $form.attr('action'),
+          type: $form.attr('method'),
+          data: $form.serialize(),
+          success: function (fragment) {
+            // Replace modal body with the returned fragment (form with errors or success)
+            $('#usuarioEditarModalBody').html(fragment);
+            // If the response contains a success alert, close the modal and refresh the page or user list
+            if ($('#usuarioEditarModalBody .alert-success').length > 0) {
+              var modalEl = document.getElementById('usuarioEditarModal');
+              var modalInstance = bootstrap.Modal.getInstance(modalEl);
+              if (!modalInstance) {
+                modalInstance = new bootstrap.Modal(modalEl);
+              }
+              modalInstance.hide();
+              // Optionally, refresh the page or user list here
+              location.reload();
+              return;
+            }
+            // Optionally, focus the first error field
+            var $firstError = $('#usuarioEditarModalBody .is-invalid, #usuarioEditarModalBody .invalid-feedback:visible').first();
+            if ($firstError.length) {
+              $firstError.focus();
+            }
+          },
+          error: function () {
+            $('#usuarioEditarModalBody').html('<div class="alert alert-danger">Error al enviar el formulario.</div>');
+          }
+        });
+      });
 
       // Carga Masiva de Usuarios CSV
       const form = document.getElementById('upload-form');

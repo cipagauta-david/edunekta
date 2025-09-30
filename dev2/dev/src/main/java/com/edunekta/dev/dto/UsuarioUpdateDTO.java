@@ -23,7 +23,6 @@ public class UsuarioUpdateDTO {
     private String email;
 
     // La contraseña es opcional en la actualización
-    @Size(min = 8, message = "La nueva contraseña debe tener al menos 8 caracteres")
     private String password;
 
     private String confirmPassword;

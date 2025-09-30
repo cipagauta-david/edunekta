@@ -1,80 +1,89 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-<head>
-  <title>Editar Usuario - Sistema SENA</title>
-</head>
-
-<body class="bg-light">
-  <div th:replace="~{layout/header :: header}"></div>
-  <div class="container mt-4">
-    <div class="card border-0 shadow-sm">
-      <div class="card-header bg-info text-white">
-        <h3><i class="fas fa-user-edit me-2"></i>Editar Usuario</h3>
+<div th:fragment="form">
+  <form th:action="@{/usuarios/editar/{id}(id=${usuario.idUsuario})}"  th:object="${usuario}" method="post" class="needs-validation"
+    id="usuarioEditarForm" novalidate>
+    <!-- Global error summary -->
+    <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+      <ul>
+        <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+      </ul>
+    </div>
+    <!-- Field error summary (optional, for debugging) -->
+    <div th:if="${#fields.hasErrors()} and !${#fields.hasGlobalErrors()}" class="alert alert-danger">
+      Por favor corrija los errores en el formulario.
+    </div>
+    <input type="hidden" th:field="*{idUsuario}" />
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="nombre" class="form-label">Nombre *</label>
+        <input type="text" class="form-control" th:field="*{nombre}" required
+          th:classappend="${#fields.hasErrors('nombre')}? 'is-invalid'" />
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
       </div>
-      <div class="card-body">
-        <!-- 1. La acción del formulario es diferente -->
-        <form th:action="@{/usuarios/actualizar}" th:object="${usuario}" method="post">
-          <!-- 2. Se incluye el ID del usuario en un campo oculto -->
-          <input type="hidden" th:field="*{idUsuario}" />
-
-          <!-- Campos de Nombre, Apellido, Email (igual que en crear) -->
-            <div class="row">
-              <div class="col-md-4 mb-3">
-                <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" th:field="*{nombre}" placeholder="Nombre" required />
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
-              </div>
-              <div class="col-md-4 mb-3">
-                <label for="apellido" class="form-label">Apellido</label>
-                <input type="text" class="form-control" th:field="*{apellido}" placeholder="Apellido" required />
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
-              </div>
-              <div class="col-md-4 mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" th:field="*{email}" placeholder="Email" required />
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-              </div>
-            </div>
-
-          <!-- 3. Los campos de contraseña son opcionales -->
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="password" class="form-label">Nueva Contraseña (opcional)</label>
-              <input type="password" class="form-control" th:field="*{password}"
-                placeholder="Dejar en blanco para no cambiar" />
-              <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="confirmPassword" class="form-label">Confirmar Nueva Contraseña</label>
-              <input type="password" class="form-control" th:field="*{confirmPassword}" />
-              <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}"
-                th:errors="*{confirmPassword}"></div>
-            </div>
-          </div>
-          <!-- Campos de Grado, Grupo, Institución (igual que en crear) -->
-            <div class="row">
-              <div class="col-md-4 mb-3">
-                <label for="grado" class="form-label">Grado</label>
-                <input type="text" class="form-control" th:field="*{grado}" placeholder="Grado" />
-              </div>
-              <div class="col-md-4 mb-3">
-                <label for="grupo" class="form-label">Grupo</label>
-                <input type="text" class="form-control" th:field="*{grupo}" placeholder="Grupo" />
-              </div>
-              <div class="col-md-4 mb-3">
-                <label for="institucion" class="form-label">Institución</label>
-                <input type="text" class="form-control" th:field="*{institucion}" placeholder="Institución" />
-              </div>
-            </div>
-          <div class="d-flex gap-2">
-            <button type="submit" class="btn btn-success">Actualizar Usuario</button>
-            <a th:href="@{/usuarios}" class="btn btn-outline-secondary">Cancelar</a>
-          </div>
-        </form>
+      <div class="col-md-6 mb-3">
+        <label for="apellido" class="form-label">Apellido *</label>
+        <input type="text" class="form-control" th:field="*{apellido}" required
+          th:classappend="${#fields.hasErrors('apellido')}? 'is-invalid'" />
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
       </div>
     </div>
-  </div>
-</body>
-
-</html>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="email" class="form-label">Email *</label>
+        <input type="email" class="form-control" th:field="*{email}" required
+          th:classappend="${#fields.hasErrors('email')}? 'is-invalid'" />
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+      </div>
+      <div class="col-md-6 mb-3"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="password" class="form-label">Nueva Contraseña (opcional)</label>
+        <input type="password" class="form-control" th:field="*{password}"
+          th:placeholder="'Dejar en blanco para no cambiar'"
+          th:classappend="${#fields.hasErrors('password')}? 'is-invalid'" />
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="confirmPassword" class="form-label">Confirmar Nueva Contraseña</label>
+        <input type="password" class="form-control" th:field="*{confirmPassword}"
+          th:classappend="${#fields.hasErrors('confirmPassword')}? 'is-invalid'" />
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="gradoId" class="form-label">Grado *</label>
+        <select class="form-select" th:field="*{gradoId}" required
+          th:classappend="${#fields.hasErrors('gradoId')}? 'is-invalid'">
+          <option value="">Seleccione un grado</option>
+          <option th:each="grado : ${grados}" th:value="${grado.idGrado}" th:text="${grado.nombre}"></option>
+        </select>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('gradoId')}" th:errors="*{gradoId}"></div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="grupoId" class="form-label">Grupo *</label>
+        <select class="form-select" th:field="*{grupoId}" required
+          th:classappend="${#fields.hasErrors('grupoId')}? 'is-invalid'">
+          <option value="">Seleccione un grupo</option>
+          <option th:each="grupo : ${grupos}" th:value="${grupo.idGrupo}" th:text="${grupo.nombreGrupo}"></option>
+        </select>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('grupoId')}" th:errors="*{grupoId}"></div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="institucionId" class="form-label">Institución *</label>
+        <select class="form-select" th:field="*{institucionId}" required
+          th:classappend="${#fields.hasErrors('institucionId')}? 'is-invalid'">
+          <option value="">Seleccione una institución</option>
+          <option th:each="institucion : ${instituciones}" th:value="${institucion.idInstitucion}"
+            th:text="${institucion.nombre}"></option>
+        </select>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('institucionId')}" th:errors="*{institucionId}"></div>
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-success">Actualizar Usuario</button>
+  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+    </div>
+  </form>
+</div>

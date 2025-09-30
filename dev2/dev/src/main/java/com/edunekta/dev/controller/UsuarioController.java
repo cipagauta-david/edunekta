@@ -51,12 +51,7 @@ public class UsuarioController {
         return "usuarios/index";
     }
 
-    @GetMapping("/nuevo")
-    @PreAuthorize("hasAuthority('PERM_USUARIOS_CREATE')")
-    public String mostrarFormularioCrear(Model model) {
-        model.addAttribute("usuario", new UsuarioCreateDTO());
-        return "usuarios/form-crear"; // Vista específica para crear
-    }
+    // Removed redundant mostrarFormularioCrear method (GET /usuarios/nuevo)
 
     @PostMapping("/crear")
     @PreAuthorize("hasAuthority('PERM_USUARIOS_CREATE')")
@@ -73,7 +68,8 @@ public class UsuarioController {
         }
 
         if (result.hasErrors()) {
-            return "usuarios/form-crear"; // Vuelve al formulario si hay errores
+            // Si la petición es AJAX, devolver solo el fragmento del modal
+            return "usuarios/form-crear :: form";
         }
 
         try {
@@ -88,17 +84,64 @@ public class UsuarioController {
     @GetMapping("/form-crear")
     public String mostrarFormCrearUsuario(Model model) {
         model.addAttribute("usuario", new UsuarioCreateDTO());
-        // Los atributos 'grados', 'grupos', 'instituciones' ya se agregan por @ModelAttribute
+        // Los atributos 'grados', 'grupos', 'instituciones' ya se agregan por
+        // @ModelAttribute
         return "usuarios/form-crear :: form";
     }
 
-    @GetMapping("/editar/{id}")
+
+    @PostMapping("/editar/{id}")
     @PreAuthorize("hasAuthority('PERM_USUARIOS_UPDATE')")
-    public String mostrarFormularioEditar(@PathVariable Integer id, Model model,
+    public String actualizarUsuario(@PathVariable Integer id,
+            @Valid @ModelAttribute("usuario") UsuarioUpdateDTO dto,
+            BindingResult result,
+            RedirectAttributes redirectAttributes,
+            Model model,
+            @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
+        // Validar contraseña solo si el usuario escribió una nueva
+        if (StringUtils.hasText(dto.getPassword())) {
+            // Mínimo 8 caracteres
+            if (dto.getPassword().length() < 8) {
+                result.rejectValue("password", "error.usuario", "La nueva contraseña debe tener al menos 8 caracteres.");
+            }
+            // Coincidencia
+            if (!dto.getPassword().equals(dto.getConfirmPassword())) {
+                result.rejectValue("confirmPassword", "error.usuario", "Las contraseñas no coinciden.");
+            }
+            // Fortaleza
+            if (!passwordUtil.isPasswordValid(dto.getPassword())) {
+                result.rejectValue("password", "error.usuario", "La contraseña no cumple los requisitos de seguridad.");
+            }
+        }
+
+        if (result.hasErrors()) {
+            // Si la petición es AJAX, devolver solo el fragmento del modal
+            if ("XMLHttpRequest".equals(requestedWith)) {
+                return "usuarios/form-editar :: form";
+            } else {
+                return "usuarios/form-editar";
+            }
+        }
+        try {
+            usuarioService.actualizarUsuario(dto);
+            redirectAttributes.addFlashAttribute("success", "Usuario actualizado exitosamente.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al actualizar el usuario: " + e.getMessage());
+            // Si la petición es AJAX, devolver solo el fragmento del modal
+            if ("XMLHttpRequest".equals(requestedWith)) {
+                return "usuarios/form-editar :: form";
+            } else {
+                return "usuarios/form-editar";
+            }
+        }
+        return "redirect:/usuarios";
+    }
+    @GetMapping("/form-editar/{id}")
+    @PreAuthorize("hasAuthority('PERM_USUARIOS_UPDATE')")
+    public String mostrarFormEditarUsuario(@PathVariable Integer id, Model model,
             RedirectAttributes redirectAttributes) {
         return usuarioService.buscarPorId(id).map(usuario -> {
             UsuarioUpdateDTO dto = new UsuarioUpdateDTO();
-            // Mapear entidad a DTO
             dto.setIdUsuario(usuario.getIdUsuario());
             dto.setNombre(usuario.getNombre());
             dto.setApellido(usuario.getApellido());
@@ -109,33 +152,11 @@ public class UsuarioController {
                 dto.setInstitucionId(usuario.getInstitucionIdInstitucion().getIdInstitucion());
             }
             model.addAttribute("usuario", dto);
-            return "usuarios/form-editar";
+            return "usuarios/form-editar :: form";
         }).orElseGet(() -> {
             redirectAttributes.addFlashAttribute("error", "Usuario no encontrado.");
             return "redirect:/usuarios";
         });
-    }
-
-    @PostMapping("/actualizar")
-    @PreAuthorize("hasAuthority('PERM_USUARIOS_UPDATE')")
-    public String actualizarUsuario(@Valid @ModelAttribute("usuario") UsuarioUpdateDTO dto,
-            BindingResult result, RedirectAttributes redirectAttributes, Model model) {
-        // Validación de contraseñas si se proporcionaron
-        if (StringUtils.hasText(dto.getPassword()) && !dto.getPassword().equals(dto.getConfirmPassword())) {
-            result.rejectValue("confirmPassword", "error.usuario", "Las contraseñas no coinciden.");
-        }
-
-        if (result.hasErrors()) {
-            return "usuarios/form-editar";
-        }
-
-        try {
-            usuarioService.actualizarUsuario(dto);
-            redirectAttributes.addFlashAttribute("success", "Usuario actualizado exitosamente.");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error al actualizar el usuario: " + e.getMessage());
-        }
-        return "redirect:/usuarios";
     }
 
     @PostMapping("/eliminar/{id}")

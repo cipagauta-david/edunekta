@@ -35,6 +35,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.5.4</version>
+		</dependency>
 
 		<!-- Para la persistencia con JPA e Hibernate. -->
 		<!-- Reemplaza: EJB Facades, persistence.xml y EntityManager manual. -->

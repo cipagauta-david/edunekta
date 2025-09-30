@@ -16,8 +16,9 @@
   <!-- Breadcrumb (reemplazando h:link con a y th:href) -->
   <nav aria-label="breadcrumb" class="container mt-3">
     <ol class="breadcrumb">
-  <li class="breadcrumb-item"><a th:href="@{/welcome}" class="text-decoration-none"><i class="fas fa-home me-1"></i>Inicio</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Niveles Académicos</li>
+      <li class="breadcrumb-item"><a th:href="@{/welcome}" class="text-decoration-none"><i
+            class="fas fa-home me-1"></i>Inicio</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Niveles Académicos</li>
     </ol>
   </nav>
 
@@ -35,149 +36,268 @@
           </div>
         </div>
       </div>
-    </div>
-      <div class="row mb-4">
-        <div class="col-12">
-          <div class="card border-0 shadow-sm">
-            <div class="card-header bg-primary text-white">
-              <h1 class="h3 mb-0">
-                <i class="fas fa-chart-line me-2"></i>
-                Niveles Académicos
-              </h1>
-              <p class="mb-0 opacity-75">Gestión de los niveles académicos registrados</p>
-            </div>
-          </div>
-        </div>
+
+      <!-- 2. Reemplazo de h:messages con mensajes flash de RedirectAttributes -->
+      <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
 
-    <!-- 2. Reemplazo de h:messages con mensajes flash de RedirectAttributes -->
-    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
-      <span th:text="${success}"></span>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
-      <span th:text="${error}"></span>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
-    <!-- 3. Sección de búsqueda y acciones (¡CAMBIO CRÍTICO!) -->
-    <div class="card border-0 shadow-sm mb-4">
-      <div class="card-body">
-        <div class="row align-items-end">
-          <!-- El formulario de búsqueda ahora hace un GET, no un POST -->
-          <form th:action="@{/niveles-academicos}" method="get" class="col-md-8">
-            <div class="row g-3">
-              <div class="col-md-8">
-                <label for="searchInput" class="form-label"><i class="fas fa-search me-2"></i>Buscar Nivel Académico</label>
+      <!-- 3. Sección de búsqueda y acciones (¡CAMBIO CRÍTICO!) -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <div class="row align-items-end">
+            <!-- El formulario de búsqueda ahora hace un GET, no un POST -->
+            <form th:action="@{/niveles-academicos}" method="get" class="col-md-8">
+              <div class="row g-3">
+                <div class="col-md-8">
                   <label for="searchInput" class="form-label">
                     <i class="fas fa-search me-2"></i>Buscar Nivel Académico
                   </label>
                   <input type="text" id="searchInput" name="searchTerm" th:value="${searchTerm}" class="form-control"
                     placeholder="Ingrese nombre o descripción..." />
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">&nbsp;</label>
-                <div class="d-grid gap-2 d-md-flex">
-                  <button type="submit" class="btn btn-primary">Buscar</button>
-                  <a th:href="@{/niveles-academicos}" class="btn btn-outline-secondary">Limpiar</a>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">&nbsp;</label>
+                  <div class="d-grid gap-2 d-md-flex">
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                    <a th:href="@{/niveles-academicos}" class="btn btn-outline-secondary">Limpiar</a>
+                  </div>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
 
-          <!-- Botones de acción -->
-          <div class="col-md-4">
-            <div class="d-grid gap-2">
-              <!-- El botón 'Nuevo' es ahora un simple enlace -->
-              <a th:href="@{/niveles-academicos/nuevo}" class="btn btn-success"
-                sec:authorize="hasAuthority('PERM_NIVELES_ACADEMICOS_CREATE')">
-                Nuevo Nivel Académico
-              </a>
-              <!-- ... botones de descarga ... -->
-                <a th:href="@{/niveles-academicos/descargar/csv}" class="btn btn-outline-primary">
+            <!-- Botones de acción -->
+            <div class="col-md-4">
+              <div class="d-grid gap-2">
+                <!-- Botón Nuevo Nivel Académico: abre modal -->
+                <a href="#" id="btnNuevoNivelAcademico" class="btn btn-success"
+                  sec:authorize="hasAuthority('PERM_NIVELES_ACADEMICOS_CREATE')" data-bs-toggle="modal"
+                  data-bs-target="#nivelAcademicoCrearModal">
+                  <i class="fas fa-plus me-2"></i>Nuevo Nivel Académico
+                </a>
+                <!-- ... botones de descarga ... -->
+                <a th:href="@{/generarArchivos/csv(entidad='niveles-academicos', searchTerm=${searchTerm})}" class="btn btn-outline-primary">
                   <i class="fas fa-file-csv me-2"></i>Descargar CSV
                 </a>
-                <a th:href="@{/niveles-academicos/descargar/pdf}" class="btn btn-outline-danger">
+                <a th:href="@{/generarArchivos/pdf(entidad='niveles-academicos', searchTerm=${searchTerm})}" class="btn btn-outline-danger">
                   <i class="fas fa-file-pdf me-2"></i>Descargar PDF
                 </a>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Tabla de niveles académicos (reemplazando h:dataTable) -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">Listado de Niveles Académicos</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Descripción</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Se itera sobre el contenido de la página (Page<T>) -->
+                <tr th:each="nivel : ${pagina.content}">
+                  <td><span class="badge bg-secondary" th:text="${nivel.idNivelAcademico}"></span></td>
+                  <td th:text="${nivel.nombre}"></td>
+                  <td th:text="${nivel.descripcion} ?: 'Sin descripción'"></td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <!-- Botón Editar: abre modal -->
+                      <a href="#" class="btn btn-warning btn-sm btn-editar-nivel-academico"
+                        th:attr="data-id=${nivel.idNivelAcademico}"
+                        sec:authorize="hasAuthority('PERM_NIVELES_ACADEMICOS_UPDATE')" data-bs-toggle="modal"
+                        data-bs-target="#nivelAcademicoEditarModal">Editar</a>
+                      <!-- Botón Eliminar es ahora un formulario que hace POST -->
+                      <form th:action="@{/niveles-academicos/eliminar/{id}(id=${nivel.idNivelAcademico})}" method="post"
+                        class="d-inline" sec:authorize="hasAuthority('PERM_NIVELES_ACADEMICOS_DELETE')">
+                        <button type="submit" class="btn btn-danger btn-sm"
+                          onclick="return confirm('¿Está seguro?')">Eliminar</button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 5. Paginación (usando los datos del objeto Page<T>) -->
+        <div class="card-footer bg-light" th:if="${pagina.totalPages > 1}">
+          <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mb-0">
+              <li class="page-item" th:classappend="${pagina.first} ? 'disabled'">
+                <a class="page-link" th:href="@{/niveles-academicos(page=0, searchTerm=${searchTerm})}">Primera</a>
+              </li>
+              <li class="page-item" th:classappend="${!pagina.hasPrevious()} ? 'disabled'">
+                <a class="page-link"
+                  th:href="@{/niveles-academicos(page=${pagina.number - 1}, searchTerm=${searchTerm})}">Anterior</a>
+              </li>
+              <!-- ... aquí se puede agregar lógica para mostrar números de página ... -->
+              <li class="page-item" th:classappend="${!pagina.hasNext()} ? 'disabled'">
+                <a class="page-link"
+                  th:href="@{/niveles-academicos(page=${pagina.number + 1}, searchTerm=${searchTerm})}">Siguiente</a>
+              </li>
+              <li class="page-item" th:classappend="${pagina.last} ? 'disabled'">
+                <a class="page-link"
+                  th:href="@{/niveles-academicos(page=${pagina.totalPages - 1}, searchTerm=${searchTerm})}">Última</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <!-- Modal para Nuevo Nivel Académico -->
+    <div class="modal fade" id="nivelAcademicoCrearModal" tabindex="-1" aria-labelledby="nivelAcademicoCrearModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="nivelAcademicoCrearModalLabel"><i class="fas fa-plus me-2"></i>Nuevo Nivel
+              Académico</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="nivelAcademicoCrearModalBody">
+            <div class="text-center text-muted"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal para Editar Nivel Académico -->
+    <div class="modal fade" id="nivelAcademicoEditarModal" tabindex="-1"
+      aria-labelledby="nivelAcademicoEditarModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="nivelAcademicoEditarModalLabel"><i class="fas fa-edit me-2"></i>Editar Nivel
+              Académico</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="nivelAcademicoEditarModalBody">
+            <div class="text-center text-muted"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 4. Tabla de niveles académicos (reemplazando h:dataTable) -->
-    <div class="card border-0 shadow-sm">
-      <div class="card-header bg-light">
-        <h5 class="mb-0">Listado de Niveles Académicos</h5>
-      </div>
-        <div class="card-header bg-light">
-          <h5 class="mb-0">Listado de Niveles Académicos</h5>
-        </div>
-      <div class="card-body p-0">
-        <div class="table-responsive">
-          <table class="table table-hover mb-0">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Se itera sobre el contenido de la página (Page<T>) -->
-              <tr th:each="nivel : ${pagina.content}">
-                <td><span class="badge bg-secondary" th:text="${nivel.idNivelAcademico}"></span></td>
-                <td th:text="${nivel.nombre}"></td>
-                <td th:text="${nivel.descripcion} ?: 'Sin descripción'"></td>
-                <td>
-                  <div class="btn-group" role="group">
-                    <!-- Botón Editar ahora es un enlace a la página de edición -->
-                    <a th:href="@{/niveles-academicos/editar/{id}(id=${nivel.idNivelAcademico})}"
-                      class="btn btn-warning btn-sm"
-                      sec:authorize="hasAuthority('PERM_NIVELES_ACADEMICOS_UPDATE')">Editar</a>
-                    <!-- Botón Eliminar es ahora un formulario que hace POST -->
-                    <form th:action="@{/niveles-academicos/eliminar/{id}(id=${nivel.idNivelAcademico})}" method="post"
-                      class="d-inline" sec:authorize="hasAuthority('PERM_NIVELES_ACADEMICOS_DELETE')">
-                      <button type="submit" class="btn btn-danger btn-sm"
-                        onclick="return confirm('¿Está seguro?')">Eliminar</button>
-                    </form>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Modal Nuevo Nivel Académico
+        var btnNuevo = document.getElementById('btnNuevoNivelAcademico');
+        var modalBody = document.getElementById('nivelAcademicoCrearModalBody');
+        var modal = document.getElementById('nivelAcademicoCrearModal');
+        if (btnNuevo) {
+          btnNuevo.addEventListener('click', function (e) {
+            e.preventDefault();
+            modalBody.innerHTML = '<div class="text-center text-muted"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>';
+            fetch('/niveles-academicos/form-crear')
+              .then(function (response) { return response.text(); })
+              .then(function (html) {
+                modalBody.innerHTML = html;
+              })
+              .catch(function () {
+                modalBody.innerHTML = '<div class="alert alert-danger">No se pudo cargar el formulario.</div>';
+              });
+          });
+        }
 
-      <!-- 5. Paginación (usando los datos del objeto Page<T>) -->
-      <div class="card-footer bg-light" th:if="${pagina.totalPages > 1}">
-        <nav aria-label="Page navigation">
-          <ul class="pagination justify-content-center mb-0">
-            <li class="page-item" th:classappend="${pagina.first} ? 'disabled'">
-              <a class="page-link" th:href="@{/niveles-academicos(page=0, searchTerm=${searchTerm})}">Primera</a>
-            </li>
-            <li class="page-item" th:classappend="${!pagina.hasPrevious()} ? 'disabled'">
-              <a class="page-link"
-                th:href="@{/niveles-academicos(page=${pagina.number - 1}, searchTerm=${searchTerm})}">Anterior</a>
-            </li>
-            <!-- ... aquí se puede agregar lógica para mostrar números de página ... -->
-            <li class="page-item" th:classappend="${!pagina.hasNext()} ? 'disabled'">
-              <a class="page-link"
-                th:href="@{/niveles-academicos(page=${pagina.number + 1}, searchTerm=${searchTerm})}">Siguiente</a>
-            </li>
-            <li class="page-item" th:classappend="${pagina.last} ? 'disabled'">
-              <a class="page-link"
-                th:href="@{/niveles-academicos(page=${pagina.totalPages - 1}, searchTerm=${searchTerm})}">Última</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </div>
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        // Delegated event for AJAX form submission (create)
+        $(document).on('submit', '#nivelAcademicoCrearForm', function (e) {
+          e.preventDefault();
+          var $form = $(this);
+          $.ajax({
+            url: $form.attr('action'),
+            type: $form.attr('method'),
+            data: $form.serialize(),
+            success: function (fragment) {
+              $('#nivelAcademicoCrearModalBody').html(fragment);
+              if ($('#nivelAcademicoCrearModalBody .alert-success').length > 0) {
+                var modalEl = document.getElementById('nivelAcademicoCrearModal');
+                var modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (!modalInstance) {
+                  modalInstance = new bootstrap.Modal(modalEl);
+                }
+                modalInstance.hide();
+                location.reload();
+                return;
+              }
+              var $firstError = $('#nivelAcademicoCrearModalBody .is-invalid, #nivelAcademicoCrearModalBody .invalid-feedback:visible').first();
+              if ($firstError.length) {
+                $firstError.focus();
+              }
+            },
+            error: function () {
+              $('#nivelAcademicoCrearModalBody').html('<div class="alert alert-danger">Error al enviar el formulario.</div>');
+            }
+          });
+        });
+
+        // Modal Editar Nivel Académico
+        $(document).on('click', '.btn-editar-nivel-academico', function (e) {
+          e.preventDefault();
+          var nivelId = $(this).data('id');
+          var $modalBody = $('#nivelAcademicoEditarModalBody');
+          $modalBody.html('<div class="text-center text-muted"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>');
+          $('#nivelAcademicoEditarModal').modal('show');
+          fetch('/niveles-academicos/form-editar/' + nivelId)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+              $modalBody.html(html);
+            })
+            .catch(function () {
+              $modalBody.html('<div class="alert alert-danger">No se pudo cargar el formulario.</div>');
+            });
+        });
+
+        // Delegated event for AJAX form submission (edit)
+        $(document).on('submit', '#nivelAcademicoEditarForm', function (e) {
+          e.preventDefault();
+          var $form = $(this);
+          $.ajax({
+            url: $form.attr('action'),
+            type: $form.attr('method'),
+            data: $form.serialize(),
+            success: function (fragment) {
+              $('#nivelAcademicoEditarModalBody').html(fragment);
+              if ($('#nivelAcademicoEditarModalBody .alert-success').length > 0) {
+                var modalEl = document.getElementById('nivelAcademicoEditarModal');
+                var modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (!modalInstance) {
+                  modalInstance = new bootstrap.Modal(modalEl);
+                }
+                modalInstance.hide();
+                location.reload();
+                return;
+              }
+              var $firstError = $('#nivelAcademicoEditarModalBody .is-invalid, #nivelAcademicoEditarModalBody .invalid-feedback:visible').first();
+              if ($firstError.length) {
+                $firstError.focus();
+              }
+            },
+            error: function () {
+              $('#nivelAcademicoEditarModalBody').html('<div class="alert alert-danger">Error al enviar el formulario.</div>');
+            }
+          });
+        });
+      });
+    </script>
 </body>
 
 </html>

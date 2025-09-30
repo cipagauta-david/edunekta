@@ -1,0 +1,16 @@
+<!-- Fragmento de formulario para crear Nivel Académico -->
+<div th:fragment="form">
+    <form id="nivelAcademicoCrearForm" th:action="@{/niveles-academicos/crear}" th:object="${nivelAcademico}" method="post" autocomplete="off">
+        <div class="form-group mb-3">
+            <label for="nombre">Nombre</label>
+            <input type="text" th:field="*{nombre}" class="form-control" id="nombre" required>
+            <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="text-danger"></div>
+        </div>
+        <div class="form-group mb-3">
+            <label for="descripcion">Descripción</label>
+            <textarea th:field="*{descripcion}" class="form-control" id="descripcion"></textarea>
+            <div th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="text-danger"></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Crear</button>
+    </form>
+</div>
