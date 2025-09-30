@@ -32,7 +32,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+        .csrf(csrf -> csrf
+            .ignoringRequestMatchers("/api/data-upload/usuarios-csv")
+        )
         .authorizeHttpRequests(authz -> authz
+            .requestMatchers("/api/data-upload/usuarios-csv").hasAuthority("PERM_USUARIOS_CREATE")
             // Permitir acceso a recursos estáticos (CSS, JS) y páginas de
             // login/error
             .requestMatchers("/css/**", "/js/**", "/login", "/error").permitAll()

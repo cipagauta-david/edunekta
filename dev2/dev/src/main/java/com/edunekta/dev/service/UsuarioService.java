@@ -14,6 +14,18 @@ import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import lombok.extern.slf4j.Slf4j; // No olvides añadir la anotación @Slf4j a tu clase de servicio
+
+@Slf4j
 @Service
 @RequiredArgsConstructor // Inyección por constructor para todas las dependencias finales
 public class UsuarioService {
@@ -126,4 +138,60 @@ public class UsuarioService {
   // porque su lógica está integrada en crearUsuario y actualizarUsuario.
   // El método iniciarSesion tampoco es necesario aquí, ya que Spring Security lo
   // maneja.
+
+  @Transactional // Es importante que todo el proceso sea una única transacción
+  public Map<String, Integer> procesarCsvUsuarios(MultipartFile file) throws Exception {
+    log.info("Iniciando procesamiento de archivo CSV de usuarios: {}", file.getOriginalFilename());
+
+    int usuariosCreados = 0;
+    int errores = 0;
+
+    // Usamos try-with-resources para asegurar que los lectores se cierren
+    try (
+        BufferedReader fileReader = new BufferedReader(
+            new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8));
+        CSVParser csvParser = new CSVParser(fileReader,
+            CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim())) {
+
+      Iterable<CSVRecord> csvRecords = csvParser.getRecords();
+
+      for (CSVRecord csvRecord : csvRecords) {
+        try {
+          // Suponemos que el CSV tiene las columnas: nombre, apellido, email, password,
+          // gradoId, grupoId
+          UsuarioCreateDTO dto = new UsuarioCreateDTO();
+          dto.setNombre(csvRecord.get("nombre"));
+          dto.setApellido(csvRecord.get("apellido"));
+          dto.setEmail(csvRecord.get("email"));
+          dto.setPassword(csvRecord.get("password")); // La contraseña viene en texto plano en el CSV
+          dto.setConfirmPassword(csvRecord.get("password")); // Confirmación es la misma
+
+          // Los IDs de grado y grupo deben ser números
+          dto.setGradoId(Integer.parseInt(csvRecord.get("gradoId")));
+          dto.setGrupoId(Integer.parseInt(csvRecord.get("grupoId")));
+
+          // Si la institución es opcional, manejamos la posibilidad de que esté vacía
+          String institucionIdStr = csvRecord.get("institucionId");
+          if (institucionIdStr != null && !institucionIdStr.trim().isEmpty()) {
+            dto.setInstitucionId(Integer.parseInt(institucionIdStr));
+          }
+
+          // Reutilizamos el método que ya teníamos para crear usuarios
+          crearUsuario(dto);
+          usuariosCreados++;
+        } catch (Exception e) {
+          // Si una fila falla, registramos el error y continuamos con la siguiente
+          log.error("Error al procesar la fila {}: {}", csvParser.getRecordNumber(), e.getMessage());
+          errores++;
+        }
+      }
+    }
+
+    log.info("Procesamiento de CSV finalizado. Creados: {}, Errores: {}", usuariosCreados, errores);
+
+    Map<String, Integer> result = new HashMap<>();
+    result.put("creados", usuariosCreados);
+    result.put("errores", errores);
+    return result;
+  }
 }

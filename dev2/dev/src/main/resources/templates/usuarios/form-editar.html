@@ -19,7 +19,23 @@
           <input type="hidden" th:field="*{idUsuario}" />
 
           <!-- Campos de Nombre, Apellido, Email (igual que en crear) -->
-          ...
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" th:field="*{nombre}" placeholder="Nombre" required />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="apellido" class="form-label">Apellido</label>
+                <input type="text" class="form-control" th:field="*{apellido}" placeholder="Apellido" required />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" th:field="*{email}" placeholder="Email" required />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+              </div>
+            </div>
 
           <!-- 3. Los campos de contraseña son opcionales -->
           <div class="row">
@@ -37,7 +53,20 @@
             </div>
           </div>
           <!-- Campos de Grado, Grupo, Institución (igual que en crear) -->
-          ...
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="grado" class="form-label">Grado</label>
+                <input type="text" class="form-control" th:field="*{grado}" placeholder="Grado" />
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="grupo" class="form-label">Grupo</label>
+                <input type="text" class="form-control" th:field="*{grupo}" placeholder="Grupo" />
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="institucion" class="form-label">Institución</label>
+                <input type="text" class="form-control" th:field="*{institucion}" placeholder="Institución" />
+              </div>
+            </div>
           <div class="d-flex gap-2">
             <button type="submit" class="btn btn-success">Actualizar Usuario</button>
             <a th:href="@{/usuarios}" class="btn btn-outline-secondary">Cancelar</a>
