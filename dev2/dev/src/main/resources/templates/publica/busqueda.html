@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Búsqueda OpenLibrary</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+</head>
+<body class="bg-light">
+    <div th:replace="~{layout/header :: header}"></div>
+    <div class="container mt-5">
+        <div class="card shadow-lg border-0 fade-in">
+            <div class="card-header bg-primary text-white text-center py-4">
+                <h1 class="mb-0">Búsqueda en OpenLibrary</h1>
+            </div>
+            <div class="card-body p-5">
+                <form method="get" action="/publica/busqueda" class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <input type="text" name="q" class="form-control" placeholder="Palabra clave" th:value="${param.q}">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="title" class="form-control" placeholder="Título" th:value="${param.title}">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="author" class="form-control" placeholder="Autor" th:value="${param.author}">
+                    </div>
+                    <div class="col-md-2">
+                        <select name="sort" class="form-select">
+                            <option value="">Ordenar por...</option>
+                            <option value="editions" th:selected="${sort == 'editions'}">Más ediciones</option>
+                            <option value="old" th:selected="${sort == 'old'}">Más antiguo</option>
+                            <option value="new" th:selected="${sort == 'new'}">Más reciente</option>
+                            <option value="rating" th:selected="${sort == 'rating'}">Mejor calificación</option>
+                            <option value="rating asc" th:selected="${sort == 'rating asc'}">Calificación ascendente</option>
+                            <option value="rating desc" th:selected="${sort == 'rating desc'}">Calificación descendente</option>
+                            <option value="readinglog" th:selected="${sort == 'readinglog'}">Más registros de lectura</option>
+                            <option value="want_to_read" th:selected="${sort == 'want_to_read'}">Más "Quieren leer"</option>
+                            <option value="currently_reading" th:selected="${sort == 'currently_reading'}">Más "Leyendo ahora"</option>
+                            <option value="already_read" th:selected="${sort == 'already_read'}">Más "Ya leído"</option>
+                            <option value="title" th:selected="${sort == 'title'}">Título (A-Z)</option>
+                            <option value="scans" th:selected="${sort == 'scans'}">Más escaneos</option>
+                            <option value="lcc_sort" th:selected="${sort == 'lcc_sort'}">Clasificación LCC (A-Z)</option>
+                            <option value="lcc_sort asc" th:selected="${sort == 'lcc_sort asc'}">LCC ascendente</option>
+                            <option value="lcc_sort desc" th:selected="${sort == 'lcc_sort desc'}">LCC descendente</option>
+                            <option value="ddc_sort" th:selected="${sort == 'ddc_sort'}">Clasificación DDC (A-Z)</option>
+                            <option value="ddc_sort asc" th:selected="${sort == 'ddc_sort asc'}">DDC ascendente</option>
+                            <option value="ddc_sort desc" th:selected="${sort == 'ddc_sort desc'}">DDC descendente</option>
+                            <option value="ebook_access" th:selected="${sort == 'ebook_access'}">Acceso ebook</option>
+                            <option value="ebook_access asc" th:selected="${sort == 'ebook_access asc'}">Acceso ebook ascendente</option>
+                            <option value="ebook_access desc" th:selected="${sort == 'ebook_access desc'}">Acceso ebook descendente</option>
+                            <option value="key" th:selected="${sort == 'key'}">Clave (A-Z)</option>
+                            <option value="key asc" th:selected="${sort == 'key asc'}">Clave ascendente</option>
+                            <option value="key desc" th:selected="${sort == 'key desc'}">Clave descendente</option>
+                            <option value="random" th:selected="${sort == 'random'}">Aleatorio</option>
+                            <option value="random asc" th:selected="${sort == 'random asc'}">Aleatorio ascendente</option>
+                            <option value="random desc" th:selected="${sort == 'random desc'}">Aleatorio descendente</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="number" name="page" class="form-control" placeholder="Página" th:value="${param.page}">
+                    </div>
+                    <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search me-2"></i>Buscar</button>
+                    </div>
+                </form>
+                <div th:if="${errorMsg != null}">
+                    <div class="alert alert-danger" th:text="${errorMsg}"></div>
+                </div>
+                <div th:if="${docs != null}">
+                    <div class="mb-3">
+                        <span class="badge bg-primary">Resultados: <span th:text="${numFound}"></span></span>
+                        <span class="badge bg-success">Mostrando desde: <span th:text="${start}"></span></span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Título</th>
+                                    <th>Autor(es)</th>
+                                    <th>Año</th>
+                                    <th>Idioma(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="doc, iter : ${docs}">
+                                    <td th:text="${iter.index + 1}"></td>
+                                    <td th:text="${doc.title}"></td>
+                                    <td>
+                                        <span th:each="a : ${doc.author_name}" th:text="${a}" th:unless="${#lists.isEmpty(doc.author_name)}"></span>
+                                        <span th:if="${#lists.isEmpty(doc.author_name)}">-</span>
+                                    </td>
+                                    <td th:text="${doc.first_publish_year}"></td>
+                                    <td>
+                                        <span th:each="l : ${doc.language}" th:text="${l}" th:unless="${#lists.isEmpty(doc.language)}"></span>
+                                        <span th:if="${#lists.isEmpty(doc.language)}">-</span>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(docs)}">
+                                    <td colspan="6" class="text-center">Sin resultados</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div th:if="${docs == null}">
+                    <div class="alert alert-info">Realiza una búsqueda para ver resultados.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+</body>
+</html>
