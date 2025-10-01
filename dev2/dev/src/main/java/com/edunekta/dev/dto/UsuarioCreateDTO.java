@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter 
+@Setter
 
 @Data
 public class UsuarioCreateDTO {
@@ -25,21 +25,20 @@ public class UsuarioCreateDTO {
 
     @NotBlank(message = "La contraseña es obligatoria")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
-    // Aquí podrías añadir una anotación de validación de contraseña más compleja si
-    // lo deseas
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$", message = "La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número")
     private String password;
 
     @NotBlank(message = "La confirmación de contraseña es obligatoria")
     private String confirmPassword;
 
-    @NotNull(message = "Debe seleccionar un grado")
     private Integer gradoId;
 
-    @NotNull(message = "Debe seleccionar un grupo")
     private Integer grupoId;
 
-    // Institución puede ser opcional
     private Integer institucionId;
+
+    @NotNull(message = "El rol es obligatorio")
+    private Integer rolId;
 
     // Podrías añadir validación de roles aquí si los asignas en la creación
     // private List<Integer> rolesIds;

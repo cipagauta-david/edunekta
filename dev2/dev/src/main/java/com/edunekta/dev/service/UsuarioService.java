@@ -25,9 +25,13 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j; // No olvides añadir la anotación @Slf4j a tu clase de servicio
 
+import com.edunekta.dev.entity.UsuarioRol;
+import com.edunekta.dev.entity.Rol;
+import java.util.HashSet;
+
 @Slf4j
 @Service
-@RequiredArgsConstructor // Inyección por constructor para todas las dependencias finales
+@RequiredArgsConstructor
 public class UsuarioService {
 
   // --- Inyección de dependencias ---
@@ -36,6 +40,8 @@ public class UsuarioService {
   private final GrupoRepository grupoRepository;
   private final InstitucionRepository institucionRepository;
   private final PasswordEncoder passwordEncoder; // ¡Inyecta el Bean, no crees una nueva instancia!
+  private final RolRepository rolRepository;
+  private final UsuarioRolRepository usuarioRolRepository;
 
   /**
    * Crea un nuevo usuario a partir de un DTO.
@@ -57,7 +63,10 @@ public class UsuarioService {
     // Asignar entidades relacionadas
     asignarEntidades(nuevoUsuario, dto.getGradoId(), dto.getGrupoId(), dto.getInstitucionId());
 
-    return usuarioRepository.save(nuevoUsuario);
+    Usuario usuarioGuardado = usuarioRepository.save(nuevoUsuario);
+    // Asignar rol
+    asignarRol(usuarioGuardado, dto.getRolId());
+    return usuarioGuardado;
   }
 
   /**
@@ -85,7 +94,10 @@ public class UsuarioService {
     // Actualizar entidades relacionadas
     asignarEntidades(usuario, dto.getGradoId(), dto.getGrupoId(), dto.getInstitucionId());
 
-    return usuarioRepository.save(usuario);
+    Usuario usuarioActualizado = usuarioRepository.save(usuario);
+    // Actualizar rol (opcional: podrías actualizar roles aquí si lo deseas)
+    asignarRol(usuarioActualizado, dto.getRolId());
+    return usuarioActualizado;
   }
 
   /**
@@ -107,6 +119,28 @@ public class UsuarioService {
     } else {
       usuario.setInstitucionIdInstitucion(null);
     }
+    // El rol se asigna en asignarRol
+  }
+
+  /**
+   * Asigna el rol al usuario (sobrescribe el anterior si existe solo uno).
+   */
+  private void asignarRol(Usuario usuario, Integer rolId) {
+    if (rolId == null)
+      return;
+    Rol rol = rolRepository.findById(rolId)
+        .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con ID: " + rolId));
+    // Si el usuario ya tiene roles, los limpiamos (solo uno por usuario)
+    if (usuario.getUsuarioRolCollection() == null) {
+      usuario.setUsuarioRolCollection(new HashSet<>());
+    } else {
+      usuario.getUsuarioRolCollection().clear();
+    }
+    UsuarioRol usuarioRol = new UsuarioRol();
+    usuarioRol.setUsuarioIdUsuario(usuario);
+    usuarioRol.setRolIdRol(rol);
+    usuario.getUsuarioRolCollection().add(usuarioRol);
+    usuarioRolRepository.save(usuarioRol);
   }
 
   // --- Métodos de consulta y eliminación ---
@@ -151,7 +185,12 @@ public class UsuarioService {
         BufferedReader fileReader = new BufferedReader(
             new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8));
         CSVParser csvParser = new CSVParser(fileReader,
-            CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim())) {
+            CSVFormat.DEFAULT.builder()
+                .setHeader()
+                .setSkipHeaderRecord(true)
+                .setIgnoreHeaderCase(true)
+                .setTrim(true)
+                .build())) {
 
       Iterable<CSVRecord> csvRecords = csvParser.getRecords();
 

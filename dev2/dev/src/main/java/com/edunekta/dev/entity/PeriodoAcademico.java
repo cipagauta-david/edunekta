@@ -26,7 +26,7 @@ public class PeriodoAcademico implements Serializable {
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "nombre_periodo", nullable = false, length = 100)
-    private String nombrePeriodo;
+    private String nombre;
 
     @NotNull
     @Size(min = 1, max = 8)

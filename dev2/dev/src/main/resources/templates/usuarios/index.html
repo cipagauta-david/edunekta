@@ -166,7 +166,7 @@
                   <!-- La lógica de #{getUserRoles} se mueve a la vista con un 'each' -->
                   <div class="d-flex flex-wrap gap-1" th:if="${!usuario.usuarioRolCollection.isEmpty()}">
                     <span th:each="ur : ${usuario.usuarioRolCollection}" class="badge bg-primary"
-                      th:text="${ur.rolIdRol.nombreRol}"></span>
+                      th:text="${ur.rolIdRol.nombre}"></span>
                   </div>
                   <span th:if="${usuario.usuarioRolCollection.isEmpty()}" class="badge bg-warning text-dark">Sin
                     roles</span>
@@ -178,7 +178,7 @@
                 </td>
                 <td>
                   <span th:if="${usuario.grupoIdGrupo != null}" class="badge bg-success"
-                    th:text="${usuario.grupoIdGrupo.nombreGrupo}"></span>
+                    th:text="${usuario.grupoIdGrupo.nombre}"></span>
                   <span th:if="${usuario.grupoIdGrupo == null}" class="badge bg-warning text-dark">Sin grupo</span>
                 </td>
                 <td>
@@ -205,25 +205,6 @@
         </div>
       </div>
       <!-- 4. Paginación (igual que en NivelAcademico, usando el objeto 'pagina') -->
-      <div class="card-footer bg-light" th:if="${pagina.totalPages > 1}">
-        <nav>
-          <ul class="pagination justify-content-center mb-0">
-            <li class="page-item" th:classappend="${pagina.first} ? 'disabled'">
-              <a class="page-link"
-                th:href="@{/usuarios(page=${pagina.number - 1},searchTerm=${param.searchTerm})}">Anterior</a>
-            </li>
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, pagina.totalPages - 1)}"
-              th:classappend="${pagina.number == i} ? 'active'">
-              <a class="page-link" th:href="@{/usuarios(page=${i},searchTerm=${param.searchTerm})}"
-                th:text="${i + 1}"></a>
-            </li>
-            <li class="page-item" th:classappend="${pagina.last} ? 'disabled'">
-              <a class="page-link"
-                th:href="@{/usuarios(page=${pagina.number + 1},searchTerm=${param.searchTerm})}">Siguiente</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
       <div class="card-footer bg-light" th:if="${pagina.totalPages > 1}">
         <nav>
           <ul class="pagination justify-content-center mb-0">

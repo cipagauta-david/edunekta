@@ -9,8 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.edunekta.dev.service.CustomUserDetailsService;
-
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -18,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
-    private final CustomUserDetailsService customUserDetailsService = null;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -76,21 +73,4 @@ public class SecurityConfig {
                 );
         return http.build();
     }
-
-    /**
-     * Configura Spring Security para que use nuestro CustomUserDetailsService y
-     * PasswordEncoder.
-     */
-    /**
-     * SE COMENTA PARA ARREGLAR ERRORES*@Bean
-     * public AuthenticationManager authenticationManager(HttpSecurity http) throws
-     * Exception {
-     * AuthenticationManagerBuilder authenticationManagerBuilder = http
-     * .getSharedObject(AuthenticationManagerBuilder.class);
-     * authenticationManagerBuilder
-     * .userDetailsService(customUserDetailsService)
-     * .passwordEncoder(passwordEncoder());
-     * return authenticationManagerBuilder.build();
-     * }
-     **/
 }

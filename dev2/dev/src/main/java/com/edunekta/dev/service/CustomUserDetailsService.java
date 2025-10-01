@@ -54,7 +54,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             for (UsuarioRol usuarioRol : usuario.getUsuarioRolCollection()) {
                 Rol rol = usuarioRol.getRolIdRol();
                 if (rol != null && rol.getEstado().equalsIgnoreCase("ACTIVO")) {
-                    authorities.add(new SimpleGrantedAuthority("ROLE_" + rol.getNombreRol()));
+                    authorities.add(new SimpleGrantedAuthority("ROLE_" + rol.getNombre()));
 
                     // Agregar permisos asociados al rol
                     if (rol.getRolPermisoCollection() != null) {

@@ -25,7 +25,7 @@ public class Grupo implements Serializable {
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "nombre_grupo", nullable = false, length = 100)
-    private String nombreGrupo;
+    private String nombre;
 
     @Size(max = 65535)
     @Column(name = "descripcion")

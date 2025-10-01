@@ -29,6 +29,7 @@ public class UsuarioController {
     private final GradoService gradoService; // Para poblar dropdowns
     private final GrupoService grupoService; // Para poblar dropdowns
     private final InstitucionService institucionService; // Para poblar dropdowns
+    private final RolService rolService; // Para poblar dropdowns
     private final PasswordUtil passwordUtil; // Inyectamos el PasswordUtil
 
     // Mapeador común para poblar los datos de los dropdowns en el modelo
@@ -37,6 +38,7 @@ public class UsuarioController {
         model.addAttribute("grados", gradoService.listarTodos());
         model.addAttribute("grupos", grupoService.listarTodos());
         model.addAttribute("instituciones", institucionService.listarTodos());
+        model.addAttribute("roles", rolService.listarTodos());
     }
 
     @GetMapping
@@ -89,7 +91,6 @@ public class UsuarioController {
         return "usuarios/form-crear :: form";
     }
 
-
     @PostMapping("/editar/{id}")
     @PreAuthorize("hasAuthority('PERM_USUARIOS_UPDATE')")
     public String actualizarUsuario(@PathVariable Integer id,
@@ -102,7 +103,8 @@ public class UsuarioController {
         if (StringUtils.hasText(dto.getPassword())) {
             // Mínimo 8 caracteres
             if (dto.getPassword().length() < 8) {
-                result.rejectValue("password", "error.usuario", "La nueva contraseña debe tener al menos 8 caracteres.");
+                result.rejectValue("password", "error.usuario",
+                        "La nueva contraseña debe tener al menos 8 caracteres.");
             }
             // Coincidencia
             if (!dto.getPassword().equals(dto.getConfirmPassword())) {
@@ -136,6 +138,7 @@ public class UsuarioController {
         }
         return "redirect:/usuarios";
     }
+
     @GetMapping("/form-editar/{id}")
     @PreAuthorize("hasAuthority('PERM_USUARIOS_UPDATE')")
     public String mostrarFormEditarUsuario(@PathVariable Integer id, Model model,
@@ -148,6 +151,8 @@ public class UsuarioController {
             dto.setEmail(usuario.getEmail());
             dto.setGradoId(usuario.getGradoIdGrado().getIdGrado());
             dto.setGrupoId(usuario.getGrupoIdGrupo().getIdGrupo());
+            usuario.getUsuarioRolCollection().stream().findFirst()
+                    .ifPresent(usuarioRol -> dto.setRolId(usuarioRol.getRolIdRol().getIdRol()));
             if (usuario.getInstitucionIdInstitucion() != null) {
                 dto.setInstitucionId(usuario.getInstitucionIdInstitucion().getIdInstitucion());
             }

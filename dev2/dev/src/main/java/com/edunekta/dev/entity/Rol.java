@@ -25,7 +25,7 @@ public class Rol implements Serializable {
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "nombre_rol", nullable = false, length = 100)
-    private String nombreRol;
+    private String nombre;
 
     @NotNull
     @Size(min = 1, max = 65535)

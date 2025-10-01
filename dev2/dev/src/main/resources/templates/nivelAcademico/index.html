@@ -81,10 +81,12 @@
                   <i class="fas fa-plus me-2"></i>Nuevo Nivel Académico
                 </a>
                 <!-- ... botones de descarga ... -->
-                <a th:href="@{/generarArchivos/csv(entidad='niveles-academicos', searchTerm=${searchTerm})}" class="btn btn-outline-primary">
+                <a th:href="@{/generarArchivos/csv(entidad='niveles-academicos', searchTerm=${searchTerm})}"
+                  class="btn btn-outline-primary">
                   <i class="fas fa-file-csv me-2"></i>Descargar CSV
                 </a>
-                <a th:href="@{/generarArchivos/pdf(entidad='niveles-academicos', searchTerm=${searchTerm})}" class="btn btn-outline-danger">
+                <a th:href="@{/generarArchivos/pdf(entidad='niveles-academicos', searchTerm=${searchTerm})}"
+                  class="btn btn-outline-danger">
                   <i class="fas fa-file-pdf me-2"></i>Descargar PDF
                 </a>
               </div>
@@ -138,23 +140,20 @@
 
         <!-- 5. Paginación (usando los datos del objeto Page<T>) -->
         <div class="card-footer bg-light" th:if="${pagina.totalPages > 1}">
-          <nav aria-label="Page navigation">
+          <nav>
             <ul class="pagination justify-content-center mb-0">
               <li class="page-item" th:classappend="${pagina.first} ? 'disabled'">
-                <a class="page-link" th:href="@{/niveles-academicos(page=0, searchTerm=${searchTerm})}">Primera</a>
-              </li>
-              <li class="page-item" th:classappend="${!pagina.hasPrevious()} ? 'disabled'">
                 <a class="page-link"
-                  th:href="@{/niveles-academicos(page=${pagina.number - 1}, searchTerm=${searchTerm})}">Anterior</a>
+                  th:href="@{/niveles-academicos(page=${pagina.number - 1},searchTerm=${param.searchTerm})}">Anterior</a>
               </li>
-              <!-- ... aquí se puede agregar lógica para mostrar números de página ... -->
-              <li class="page-item" th:classappend="${!pagina.hasNext()} ? 'disabled'">
-                <a class="page-link"
-                  th:href="@{/niveles-academicos(page=${pagina.number + 1}, searchTerm=${searchTerm})}">Siguiente</a>
+              <li class="page-item" th:each="i : ${#numbers.sequence(0, pagina.totalPages - 1)}"
+                th:classappend="${pagina.number == i} ? 'active'">
+                <a class="page-link" th:href="@{/niveles-academicos(page=${i},searchTerm=${param.searchTerm})}"
+                  th:text="${i + 1}"></a>
               </li>
               <li class="page-item" th:classappend="${pagina.last} ? 'disabled'">
                 <a class="page-link"
-                  th:href="@{/niveles-academicos(page=${pagina.totalPages - 1}, searchTerm=${searchTerm})}">Última</a>
+                  th:href="@{/niveles-academicos(page=${pagina.number + 1},searchTerm=${param.searchTerm})}">Siguiente</a>
               </li>
             </ul>
           </nav>

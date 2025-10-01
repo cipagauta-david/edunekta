@@ -70,7 +70,7 @@
                 <div class="d-flex flex-wrap gap-1 justify-content-center"
                   th:if="${currentUser.usuarioRolCollection != null and !currentUser.usuarioRolCollection.isEmpty()}">
                   <span th:each="ur : ${currentUser.usuarioRolCollection}" class="badge bg-primary"
-                    th:text="${ur.rolIdRol.nombreRol}"></span>
+                    th:text="${ur.rolIdRol.nombre}"></span>
                 </div>
                 <span th:if="${currentUser.usuarioRolCollection == null or currentUser.usuarioRolCollection.isEmpty()}"
                   class="badge bg-warning text-dark">Sin roles</span>

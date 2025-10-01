@@ -1,6 +1,6 @@
 <div th:fragment="form">
-  <form th:action="@{/usuarios/editar/{id}(id=${usuario.idUsuario})}"  th:object="${usuario}" method="post" class="needs-validation"
-    id="usuarioEditarForm" novalidate>
+  <form th:action="@{/usuarios/editar/{id}(id=${usuario.idUsuario})}" th:object="${usuario}" method="post"
+    class="needs-validation" id="usuarioEditarForm" novalidate>
     <!-- Global error summary -->
     <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
       <ul>
@@ -14,13 +14,13 @@
     <input type="hidden" th:field="*{idUsuario}" />
     <div class="row">
       <div class="col-md-6 mb-3">
-        <label for="nombre" class="form-label">Nombre *</label>
+        <label for="nombre" class="form-label">Nombre</label>
         <input type="text" class="form-control" th:field="*{nombre}" required
           th:classappend="${#fields.hasErrors('nombre')}? 'is-invalid'" />
         <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
       </div>
       <div class="col-md-6 mb-3">
-        <label for="apellido" class="form-label">Apellido *</label>
+        <label for="apellido" class="form-label">Apellido</label>
         <input type="text" class="form-control" th:field="*{apellido}" required
           th:classappend="${#fields.hasErrors('apellido')}? 'is-invalid'" />
         <div class="invalid-feedback" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
@@ -28,12 +28,20 @@
     </div>
     <div class="row">
       <div class="col-md-6 mb-3">
-        <label for="email" class="form-label">Email *</label>
+        <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control" th:field="*{email}" required
           th:classappend="${#fields.hasErrors('email')}? 'is-invalid'" />
         <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
       </div>
-      <div class="col-md-6 mb-3"></div>
+      <div class="col-md-6 mb-3">
+        <label for="rolId" class="form-label">Rol</label>
+        <select class="form-select" th:field="*{rolId}" required
+          th:classappend="${#fields.hasErrors('rolId')}? 'is-invalid'">
+          <option value="">Seleccione un rol</option>
+          <option th:each="rol : ${roles}" th:value="${rol.idRol}" th:text="${rol.nombre}"></option>
+        </select>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('rolId')}" th:errors="*{rolId}"></div>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-6 mb-3">
@@ -53,7 +61,7 @@
     </div>
     <div class="row">
       <div class="col-md-4 mb-3">
-        <label for="gradoId" class="form-label">Grado *</label>
+        <label for="gradoId" class="form-label">Grado</label>
         <select class="form-select" th:field="*{gradoId}" required
           th:classappend="${#fields.hasErrors('gradoId')}? 'is-invalid'">
           <option value="">Seleccione un grado</option>
@@ -62,16 +70,16 @@
         <div class="invalid-feedback" th:if="${#fields.hasErrors('gradoId')}" th:errors="*{gradoId}"></div>
       </div>
       <div class="col-md-4 mb-3">
-        <label for="grupoId" class="form-label">Grupo *</label>
+        <label for="grupoId" class="form-label">Grupo</label>
         <select class="form-select" th:field="*{grupoId}" required
           th:classappend="${#fields.hasErrors('grupoId')}? 'is-invalid'">
           <option value="">Seleccione un grupo</option>
-          <option th:each="grupo : ${grupos}" th:value="${grupo.idGrupo}" th:text="${grupo.nombreGrupo}"></option>
+          <option th:each="grupo : ${grupos}" th:value="${grupo.idGrupo}" th:text="${grupo.nombre}"></option>
         </select>
         <div class="invalid-feedback" th:if="${#fields.hasErrors('grupoId')}" th:errors="*{grupoId}"></div>
       </div>
       <div class="col-md-4 mb-3">
-        <label for="institucionId" class="form-label">Institución *</label>
+        <label for="institucionId" class="form-label">Institución</label>
         <select class="form-select" th:field="*{institucionId}" required
           th:classappend="${#fields.hasErrors('institucionId')}? 'is-invalid'">
           <option value="">Seleccione una institución</option>
@@ -83,7 +91,7 @@
     </div>
     <div class="d-flex gap-2">
       <button type="submit" class="btn btn-success">Actualizar Usuario</button>
-  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
     </div>
   </form>
 </div>
