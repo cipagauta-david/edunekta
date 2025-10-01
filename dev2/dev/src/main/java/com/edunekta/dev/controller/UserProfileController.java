@@ -15,6 +15,6 @@ public class UserProfileController {
     @GetMapping("/perfil")
     @PreAuthorize("isAuthenticated()") // Asegura que solo usuarios logueados puedan verla
     public String userProfilePage() {
-        return "user"; // Devuelve el nombre de la plantilla: user.html
+    return "usuarios/perfil"; // Devuelve el nombre de la plantilla: usuarios/perfil.html
     }
 }

@@ -1,0 +1,23 @@
+<div th:fragment="correoMasivoForm">
+    <h5 class="mb-3">Enviar Correos Masivos a Usuarios</h5>
+    <form th:action="@{/usuarios/email}" method="post" id="correoMasivoForm" autocomplete="off">
+        <div class="mb-3">
+            <label for="usuarios" class="form-label">Selecciona usuarios:</label>
+            <select id="usuarios" name="usuarioIds" class="form-select" multiple required size="8">
+                <option th:each="usuario : ${usuarios}" th:value="${usuario.idUsuario}" th:text="${usuario.email} + ' - ' + ${usuario.nombre} + ' ' + ${usuario.apellido}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="subject" class="form-label">Asunto:</label>
+            <input type="text" id="subject" name="subject" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label for="body" class="form-label">Mensaje (HTML permitido):</label>
+            <textarea id="body" name="body" class="form-control" rows="6" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar Correos</button>
+        <button type="button" class="btn btn-outline-secondary ms-2" data-bs-dismiss="modal">Cancelar</button>
+    </form>
+    <div th:if="${success}" class="alert alert-success mt-3" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger mt-3" th:text="${error}"></div>
+</div>
