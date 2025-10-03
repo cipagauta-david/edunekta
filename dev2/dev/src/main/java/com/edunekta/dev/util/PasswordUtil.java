@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  */
 @Component // Lo convertimos en un bean para poder inyectarlo si es necesario
 public class PasswordUtil {
-    
+
     // Los métodos hashPassword() y verifyPassword() han sido ELIMINADOS.
     // Esa lógica ahora reside en el PasswordEncoder bean.
 
@@ -29,13 +29,14 @@ public class PasswordUtil {
         boolean hasLowerCase = password.matches(".*[a-z].*");
         boolean hasDigit = password.matches(".*\\d.*");
         boolean hasSpecial = password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*");
-        
+
         return hasUpperCase && hasLowerCase && hasDigit && hasSpecial;
     }
-    
+
     /**
      * Generate a random password.
-     * Lógica mejorada usando SecureRandom y Streams para más seguridad y legibilidad.
+     * Lógica mejorada usando SecureRandom y Streams para más seguridad y
+     * legibilidad.
      */
     public String generateRandomPassword() {
         String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

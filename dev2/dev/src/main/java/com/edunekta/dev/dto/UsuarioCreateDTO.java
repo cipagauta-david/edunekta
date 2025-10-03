@@ -21,6 +21,7 @@ public class UsuarioCreateDTO {
     @NotBlank(message = "El email es obligatorio")
     @Email(message = "Debe ser un formato de email válido")
     @Size(max = 255)
+    @Pattern(regexp = ".+@.+\\.com$", message = "Debe ser un formato de email válido")
     private String email;
 
     @NotBlank(message = "La contraseña es obligatoria")

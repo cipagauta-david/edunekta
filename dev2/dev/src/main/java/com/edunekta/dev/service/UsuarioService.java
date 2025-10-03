@@ -104,22 +104,23 @@ public class UsuarioService {
    * Método helper para asignar Grado, Grupo e Institución.
    */
   private void asignarEntidades(Usuario usuario, Integer gradoId, Integer grupoId, Integer institucionId) {
-    // Asignar Grado
-    usuario.setGradoIdGrado(gradoRepository.findById(gradoId)
-        .orElseThrow(() -> new IllegalArgumentException("Grado no encontrado con ID: " + gradoId)));
+    // Asignar Grado (opcional)
+    if (gradoId != null) {
+      usuario.setGradoIdGrado(gradoRepository.findById(gradoId)
+          .orElseThrow(() -> new IllegalArgumentException("Grado no encontrado con ID: " + gradoId)));
+    }
 
-    // Asignar Grupo
-    usuario.setGrupoIdGrupo(grupoRepository.findById(grupoId)
-        .orElseThrow(() -> new IllegalArgumentException("Grupo no encontrado con ID: " + grupoId)));
+    // Asignar Grupo (opcional)
+    if (grupoId != null) {
+      usuario.setGrupoIdGrupo(grupoRepository.findById(grupoId)
+          .orElseThrow(() -> new IllegalArgumentException("Grupo no encontrado con ID: " + grupoId)));
+    }
 
     // Asignar Institución (opcional)
     if (institucionId != null) {
       usuario.setInstitucionIdInstitucion(institucionRepository.findById(institucionId)
           .orElseThrow(() -> new IllegalArgumentException("Institución no encontrada con ID: " + institucionId)));
-    } else {
-      usuario.setInstitucionIdInstitucion(null);
     }
-    // El rol se asigna en asignarRol
   }
 
   /**
